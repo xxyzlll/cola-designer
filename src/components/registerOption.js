@@ -9,11 +9,12 @@ import cpt_chart_column_option from '@/components/echarts/options/cpt-chart-colu
 import cpt_chart_pie_option from '@/components/echarts/options/cpt-chart-pie-option'
 import cpt_chart_clock_option from '@/components/echarts/options/cpt-chart-clock-option'
 import cpt_dataV_border_option from '@/components/dataV/options/cpt-dataV-border-option'
+import cpt_dataV_scrollTable_option from '@/components/dataV/options/cpt-dataV-scrollTable-option'
 
 let cptOptionsList = [
     cpt_button_option, cpt_text_option, cpt_input_option, cpt_image_option,
     cpt_carousel_option, cpt_chart_column_option,cpt_chart_pie_option,cpt_chart_clock_option,
-    cpt_dataV_border_option
+    cpt_dataV_border_option,cpt_dataV_scrollTable_option
 ]
 let listOptions = [];
 cptOptionsList.forEach(ele => {
