@@ -33,12 +33,12 @@
         </el-popover>
       </el-col>
     </el-row>
-    <div :style="{height: (windowHeight-45)+'px'}">
+    <div :style="{height: (windowHeight-45)+'px'}" @click.self="outBlur">
       <div style="float: left;height: 100%;" :style="{width:cptBarWidth+'px'}">
         <component-bar @dragStart="dragStart"/><!--左侧组件栏-->
       </div>
       <div style="float: left;" :style="{width:(windowWidth-cptBarWidth-10)+'px'}" @click.self="outBlur">
-        <div class="webContainer" @click.self="outBlur" :style="{width:conWidth+'px',height:conHeight+'px',
+        <div class="webContainer" :style="{width:conWidth+'px',height:conHeight+'px',
                   backgroundColor: designData.bgColor}" @dragover="allowDrop" @drop="drop">
           <div v-for="(item,index) in cacheComponents" :key="item.cptTag+index"
                class="cptDiv" :style="{width:Math.round(containerScale*item.cptWidth)+'px',
@@ -162,7 +162,7 @@ export default {
     saveConfigForm(formData){
       this.designData = formData;
     },
-    cancelConfigForm(){
+    cancelConfigForm(){//设置表单关闭
       this.designData = JSON.parse(this.oldDesignData)
     },
     allowDrop(e) {e.preventDefault()},
@@ -170,7 +170,7 @@ export default {
       let config = JSON.parse(this.copyDom.getAttribute('config'));
       let cpt = {
         groupTag: config.group, cptName:config.name, icon: config.icon,
-        cptTag: config.tag, cptZ: 1, option: undefined,
+        cptTag: config.tag, cptZ: 2, option: undefined,
         cptX: Math.round(e.offsetX / this.containerScale),
         cptY: Math.round(e.offsetY / this.containerScale),
         cptWidth: config.initWidth, cptHeight: config.initHeight
@@ -213,6 +213,7 @@ export default {
           //缩放适应不同屏幕，在容器显示时会重新*缩放比例
           that.cacheComponents[cptIndex].cptX = Math.round(cptX/that.containerScale);
           that.cacheComponents[cptIndex].cptY = Math.round(cptY/that.containerScale);
+          that.$refs['configBar'].updateData(that.cacheComponents[cptIndex]);//解决组件移动位置配置栏数据不更新问题
         }
         return false;
       }
@@ -249,7 +250,7 @@ export default {
 <style scoped>
 .top {height: 45px;box-shadow: 0 2px 5px #222 inset;color: #fff;overflow: hidden;
   margin: 0;font-size: 18px;line-height: 48px;background: #353F50}
-.webContainer {border: 1px dashed #ccc;margin: 10px auto;position: relative}
+.webContainer {border: 1px dashed #ccc;margin: 10px auto;position: relative;}
 .cptDiv {position: absolute;border:1px dashed rgba(102, 177, 205, 0.6)}
 .delTag {width: 20px;height: 20px;background: rgba(43, 51, 64, 0.8);border-radius: 2px;color: #ccc;z-index: 2000;
   position: absolute;top: 0;right: 0;text-align: center;display: none
