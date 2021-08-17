@@ -17,7 +17,7 @@
         <el-input-number v-model="option.rowNum" :min="1" :max="60"/>
       </el-form-item>
       <el-form-item label="轮播时间间隔ms">
-        <el-input-number v-model="option.waitTime" :min="200" :max="20000"/>
+        <el-input-number v-model="option.waitTime" :min="200" :max="20000" :step="500"/>
       </el-form-item>
       <el-form-item label="表头高度">
         <el-input-number v-model="option.headerHeight" :min="5" :max="1000"/>
