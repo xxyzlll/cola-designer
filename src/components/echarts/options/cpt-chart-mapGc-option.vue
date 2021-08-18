@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: "cpt-chart-gcMap-option",
+  name: "cpt-chart-mapGc-option",
   props: {option: Object},
 }
 </script>

@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "cpt-chart-gcMap",
+  name: "cpt-chart-mapGc",
   title: "渐变地图",
   icon: 'el-icon-map-location',
   initWidth: 400,

@@ -11,7 +11,7 @@ import cpt_chart_clock_option from '@/components/echarts/options/cpt-chart-clock
 import cpt_dataV_border_option from '@/components/dataV/options/cpt-dataV-border-option'
 import cpt_dataV_scrollTable_option from '@/components/dataV/options/cpt-dataV-scrollTable-option'
 import cpt_dataV_scrollList_option from '@/components/dataV/options/cpt-dataV-scrollList-option'
-import cpt_chart_gcMap_option from '@/components/echarts/options/cpt-chart-gcMap-option'
+import cpt_chart_gcMap_option from '@/components/echarts/options/cpt-chart-mapGc-option'
 
 let cptOptionsList = [
     cpt_button_option, cpt_text_option, cpt_input_option, cpt_image_option,

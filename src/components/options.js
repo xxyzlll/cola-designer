@@ -125,7 +125,7 @@ const cptOptions = {
         icon:'',
         opened:true,
         options:{
-            'cpt-chart-gcMap-option':{
+            'cpt-chart-mapGc-option':{
                 seriesName:'确诊病例',
                 dataList:[
                     {name: "南海诸岛", value: 0},
@@ -164,6 +164,9 @@ const cptOptions = {
                     {name: '香港', value: 5},
                     {name: '澳门', value: 5}
                 ]
+            },
+            'cpt-chart-mapMigrate-option':{
+                titleText:'模拟迁徙'
             }
         }
     }
