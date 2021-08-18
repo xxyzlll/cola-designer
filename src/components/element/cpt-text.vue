@@ -13,7 +13,7 @@ export default {
   icon: 'el-icon-chat-line-square',
   initWidth: 150,
   initHeight: 30,
-  group:'element',
+  group:'basic',
   props: {
     option: Object
   },

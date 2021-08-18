@@ -15,7 +15,7 @@ export default {
   icon: 'el-icon-thumb',
   initWidth: 100,
   initHeight: 30,
-  group:'element',
+  group:'basic',
   props:{option:Object},
   methods:{
     redirect(){

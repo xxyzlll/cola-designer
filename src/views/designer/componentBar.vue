@@ -30,12 +30,12 @@ export default {
   data() {
     return {
       cptGroups,cptOptions,
-      cptGroupKeys:[],
-      openedKey:''
+      cptGroupKeys:[]
     }
   },
   created() {
     for (let key in cptGroups) {
+      console.log(key)
       this.cptGroupKeys.push({
         key:key,
         name:cptOptions[key].name,
@@ -43,7 +43,6 @@ export default {
         opened:cptOptions[key].opened
       })
     }
-    this.openedKey = this.cptGroupKeys[0]
   },
   methods: {
     dragStart(e) {

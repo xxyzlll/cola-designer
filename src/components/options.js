@@ -1,5 +1,5 @@
 const cptOptions = {
-    element:{
+    basic:{
         name:'基础',
         icon:'',
         opened:true,
@@ -49,7 +49,7 @@ const cptOptions = {
             }
         }
     },
-    echarts:{
+    chart:{
         name:'图表',
         icon:'',
         opened:true,
@@ -117,7 +117,14 @@ const cptOptions = {
                 sort:true,//自动排序
                 valueFormatter:undefined,//数值格式化
                 refresh:true//手动刷新标识
-            },
+            }
+        }
+    },
+    map:{
+        name:'地图',
+        icon:'',
+        opened:true,
+        options:{
             'cpt-chart-gcMap-option':{
                 seriesName:'确诊病例',
                 dataList:[

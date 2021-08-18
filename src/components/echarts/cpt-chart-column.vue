@@ -9,7 +9,7 @@ export default {
   icon: 'el-icon-s-data',
   initWidth: 256,
   initHeight: 191,
-  group: 'echarts',
+  group: 'chart',
   props:{
     width:Number,
     option:Object

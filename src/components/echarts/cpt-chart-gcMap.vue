@@ -9,7 +9,7 @@ export default {
   icon: 'el-icon-map-location',
   initWidth: 400,
   initHeight: 400,
-  group: 'echarts',
+  group: 'map',
   props:{
     width:Number,
     option:Object
