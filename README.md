@@ -3,7 +3,7 @@ gitee：[cola-designer-vue](https://gitee.com/colaiven/cola-designer )
 
 github：[~~cola-designer-vue(随缘更新)~~](https://github.com/colaiven/cola-designer )
 
-预览地址：http://colaiven.gitee.io/cola-designer/#/
+预览地址：https://colaiven.gitee.io/cola-designer/#/
 #### Project setup
 ```
 yarn install

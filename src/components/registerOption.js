@@ -11,13 +11,14 @@ import cpt_chart_clock_option from '@/components/echarts/options/cpt-chart-clock
 import cpt_dataV_border_option from '@/components/dataV/options/cpt-dataV-border-option'
 import cpt_dataV_scrollTable_option from '@/components/dataV/options/cpt-dataV-scrollTable-option'
 import cpt_dataV_scrollList_option from '@/components/dataV/options/cpt-dataV-scrollList-option'
-import cpt_chart_gcMap_option from '@/components/echarts/options/cpt-chart-mapGc-option'
+import cpt_chart_mapGc_option from '@/components/echarts/options/cpt-chart-mapGc-option'
+import cpt_chart_mapMigrate_option from '@/components/echarts/options/cpt-chart-mapMigrate-option'
 
 let cptOptionsList = [
     cpt_button_option, cpt_text_option, cpt_input_option, cpt_image_option,
     cpt_carousel_option, cpt_chart_column_option,cpt_chart_pie_option,cpt_chart_clock_option,
     cpt_dataV_border_option,cpt_dataV_scrollTable_option,cpt_dataV_scrollList_option,
-    cpt_chart_gcMap_option
+    cpt_chart_mapGc_option,cpt_chart_mapMigrate_option
 ]
 let listOptions = [];
 cptOptionsList.forEach(ele => {

@@ -126,7 +126,7 @@ const cptOptions = {
         opened:true,
         options:{
             'cpt-chart-mapGc-option':{
-                seriesName:'确诊病例',
+                seriesName:'确诊病例',geoLabelColor:'#555',geoLabelSize:14,
                 dataList:[
                     {name: "南海诸岛", value: 0},
                     {name: '北京', value: 54},
@@ -166,7 +166,8 @@ const cptOptions = {
                 ]
             },
             'cpt-chart-mapMigrate-option':{
-                titleText:'模拟迁徙'
+                titleText:'模拟迁徙',seriesName:'迁徙top10',seriesColor:'#a6c84c',
+                subtext:'数据纯属虚构',backgroundColor:'rgba(0,0,0,0)'
             }
         }
     }

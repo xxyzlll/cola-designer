@@ -7,8 +7,8 @@ export default {
   name: "cpt-chart-mapGc",
   title: "渐变地图",
   icon: 'el-icon-map-location',
-  initWidth: 400,
-  initHeight: 400,
+  initWidth: 350,
+  initHeight: 350,
   group: 'map',
   props:{
     width:Number,
@@ -76,27 +76,17 @@ export default {
         },
         geo: {
           map: "china",
-          roam: !1,
-          scaleLimit: {
-            min: 1,
-            max: 2
-          },
+          roam: true,//允许缩放
+          scaleLimit: { min: 1, max: 2 },//允许缩放级别
           zoom: 1.23,
-          top: 120,
           label: {
             show: true,
-            fontSize: "14",
-            color: "#555"
+            fontSize: option.geoLabelSize,
+            color: option.geoLabelColor
           },
           itemStyle: {
             borderColor: "#777",//边界线颜色
           },
-          emphasis: {
-            areaColor: "#f2d5ad",
-            shadowOffsetX: 0,
-            shadowOffsetY: 0,
-            borderWidth: 0
-          }
         },
         series: [{
           name: option.seriesName,

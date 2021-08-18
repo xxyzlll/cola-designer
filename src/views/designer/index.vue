@@ -170,7 +170,7 @@ export default {
       let config = JSON.parse(this.copyDom.getAttribute('config'));
       let cpt = {
         groupTag: config.group, cptName:config.name, icon: config.icon,
-        cptTag: config.tag, cptZ: 2, option: undefined,
+        cptTag: config.tag, cptZ: 1, option: undefined,
         cptX: Math.round(e.offsetX / this.containerScale),
         cptY: Math.round(e.offsetY / this.containerScale),
         cptWidth: config.initWidth, cptHeight: config.initHeight
