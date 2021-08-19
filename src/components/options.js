@@ -61,19 +61,23 @@ const cptOptions = {
                 yGridLineShow: false, yTickShow: true,
                 barBgShow: false, barBorderRadius: 5, barColor: '#0775eb',
                 barWidth: 24,
-                xData: "Mon,Tue,Wed,Thu,Fri,Sat,Sun",
-                yData: "120,200,150,80,70,110,130"
+                cptDataForm:{dataText:'{"xData":"Mon,Tue,Wed,Thu,Fri,Sat,Sun","yData": "120,200,150,80,70,110,130"}',dataSource: 1},
             },
             'cpt-chart-pie-option': {
                 theme:'light',chartTitle: '标题一', titleX: 40, titleY: 'top', titleTextColor: '#ccc',
                 subtext:'纯属虚构',titleFontSize:18, orient: 'horizontal',legendTextColor:'#ddd',legendX:'center',
-                legendY:'bottom',seriesData:"[{\"value\":1048,\"name\":\"搜索引擎\"},{\"value\":735,\"name\":\"直接访问\"},{\"value\":580,\"name\":\"邮件营销\"},{\"value\":484,\"name\":\"联盟广告\"},{\"value\":300,\"name\":\"视频广告\"}]"
+                legendY:'bottom',
+                cptDataForm:{dataText: '[{"value":1048,"name":"搜索引擎"},{"value":735,"name":"直接访问"},{"value":580,"name":"邮件营销"},{"value":484,"name":"联盟广告"},{"value":300,"name":"视频广告"}]',dataSource: 1},
             },
             'cpt-chart-clock-option':{
                 axisLineWidth: 3,axisLabelSize:16,hourPointerColor:'#C0911F',axisLabelDistance:8,
                 splitLineDistance:4
             },
             'cpt-dataV-scrollTable-option':{
+                cptDataForm:{
+                    dataSource: 1,
+                    dataText: '[["行1列1","行1列2","行1列3"],["行2列1","行2列2","行2列3"],["行3列1","行3列2","行3列3"],["行4列1","行4列2","行4列3"],["行5列1","行5列2","行5列3"],["行6列1","行6列2","行6列3"],["行7列1","行7列2","行7列3"],["行8列1","行8列2","行8列3"],["行9列1","行9列2","行9列3"],["行10列1","行10列2","行10列3"]]'
+                },
                 header: ['列1', '列2', '列3'],//表头数据
                 rowNum: 4,//显示行数
                 headerBGC:'#00BAFF',//表头背景色
@@ -84,33 +88,17 @@ const cptOptions = {
                 indexHeader: '#a',//行号表头
                 carousel:'single',//轮播方式'single'|'page'
                 hoverPause:true,//悬浮暂停轮播
-                data: [
-                    ['行1列1', '行1列2', '行1列3'],
-                    ['行2列1', '行2列2', '行2列3'],
-                    ['行3列1', '行3列2', '行3列3'],
-                    ['行4列1', '行4列2', '行4列3'],
-                    ['行5列1', '行5列2', '行5列3'],
-                    ['行6列1', '行6列2', '行6列3'],
-                    ['行7列1', '行7列2', '行7列3'],
-                    ['行8列1', '行8列2', '行8列3'],
-                    ['行9列1', '行9列2', '行9列3'],
-                    ['行10列1', '行10列2', '行10列3']
-                ],
                 index: true,//开启序号
                 columnWidth: [50],//列宽
                 align: ['center'],//对齐方式
                 refresh: true//手动刷新标识
             },
             'cpt-dataV-scrollList-option':{
-                data:[
-                    {name: '周口', value: 55},
-                    {name: '南阳', value: 120},
-                    {name: '西峡', value: 78},
-                    {name: '驻马店', value: 66},
-                    {name: '新乡', value: 80},
-                    {name: '信阳', value: 45},
-                    {name: '漯河', value: 29}
-                ],//表数据
+                cptDataForm:{
+                    dataSource: 1,
+                    dataText: '[{"name":"周口","value":55},{"name":"南阳","value":120},{"name":"西峡","value":78},{"name":"驻马店","value":66},{"name":"新乡","value":80},{"name":"信阳","value":45},{"name":"漯河","value":29}]'
+                },
+                data:[],//表数据
                 rowNum:5,//表行数
                 waitTime:2000,//轮播时间间隔(ms)
                 carousel:'single',//轮播方式'single'|'page'
@@ -127,44 +115,11 @@ const cptOptions = {
         opened:true,
         options:{
             'cpt-chart-mapGc-option':{
+                cptDataForm:{
+                    dataSource: 1,
+                    dataText:'[{"name":"南海诸岛","value":0},{"name":"北京","value":54},{"name":"天津","value":13},{"name":"上海","value":40},{"name":"重庆","value":75},{"name":"河北","value":13},{"name":"河南","value":83},{"name":"云南","value":11},{"name":"辽宁","value":19},{"name":"黑龙江","value":15},{"name":"湖南","value":69},{"name":"安徽","value":60},{"name":"山东","value":39},{"name":"新疆","value":4},{"name":"江苏","value":31},{"name":"浙江","value":104},{"name":"江西","value":36},{"name":"湖北","value":1052},{"name":"广西","value":33},{"name":"甘肃","value":7},{"name":"山西","value":9},{"name":"内蒙古","value":7},{"name":"陕西","value":22},{"name":"吉林","value":4},{"name":"福建","value":18},{"name":"贵州","value":5},{"name":"广东","value":98},{"name":"青海","value":1},{"name":"西藏","value":0},{"name":"四川","value":44},{"name":"宁夏","value":4},{"name":"海南","value":22},{"name":"台湾","value":3},{"name":"香港","value":5},{"name":"澳门","value":5}]',
+                },
                 seriesName:'确诊病例',geoLabelColor:'#555',geoLabelSize:14,
-                dataList:[
-                    {name: "南海诸岛", value: 0},
-                    {name: '北京', value: 54},
-                    {name: '天津', value: 13},
-                    {name: '上海', value: 40},
-                    {name: '重庆', value: 75},
-                    {name: '河北', value: 13},
-                    {name: '河南', value: 83},
-                    {name: '云南', value: 11},
-                    {name: '辽宁', value: 19},
-                    {name: '黑龙江', value: 15},
-                    {name: '湖南', value: 69},
-                    {name: '安徽', value: 60},
-                    {name: '山东', value: 39},
-                    {name: '新疆', value: 4},
-                    {name: '江苏', value: 31},
-                    {name: '浙江', value: 104},
-                    {name: '江西', value: 36},
-                    {name: '湖北', value: 1052},
-                    {name: '广西', value: 33},
-                    {name: '甘肃', value: 7},
-                    {name: '山西', value: 9},
-                    {name: '内蒙古', value: 7},
-                    {name: '陕西', value: 22},
-                    {name: '吉林', value: 4},
-                    {name: '福建', value: 18},
-                    {name: '贵州', value: 5},
-                    {name: '广东', value: 98},
-                    {name: '青海', value: 1},
-                    {name: '西藏', value: 0},
-                    {name: '四川', value: 44},
-                    {name: '宁夏', value: 4},
-                    {name: '海南', value: 22},
-                    {name: '台湾', value: 3},
-                    {name: '香港', value: 5},
-                    {name: '澳门', value: 5}
-                ]
             },
             'cpt-chart-mapMigrate-option':{
                 titleText:'模拟迁徙',seriesName:'迁徙top10',seriesColor:'#a6c84c',

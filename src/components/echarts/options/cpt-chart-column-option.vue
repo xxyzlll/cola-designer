@@ -44,14 +44,6 @@
         <el-input-number v-model="option.barWidth" :min="10" :max="100"/>
       </el-form-item>
     </el-form>
-    <el-form label-position="top">
-      <el-form-item label="x轴数据">
-        <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model="option.xData"/>
-      </el-form-item>
-      <el-form-item label="y轴数据">
-        <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model="option.yData"/>
-      </el-form-item>
-    </el-form>
   </div>
 </template>
 

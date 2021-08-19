@@ -35,11 +35,6 @@
         <el-color-picker v-model="option.legendTextColor" show-alpha/>
       </el-form-item>
     </el-form>
-    <el-form label-position="top">
-      <el-form-item label="数据">
-        <el-input type="textarea" :rows="4" v-model="option.seriesData"/>
-      </el-form-item>
-    </el-form>
   </div>
 </template>
 

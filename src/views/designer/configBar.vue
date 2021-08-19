@@ -38,8 +38,9 @@
           <comment :is="currentCpt.cptName+'-option'" :option="currentCpt.option"></comment>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="数据" name="data">
-        <div class="customForm" v-if="customOptionShow">
+<!--      展示数据表单需在option.js初始化cptDataForm-->
+      <el-tab-pane label="数据" name="data" v-if="cptDataFormShow">
+        <div class="customForm">
           <el-form size="mini">
             <el-form-item label="数据类型">
               <el-radio-group v-model="currentCpt.option.cptDataForm.dataSource">
@@ -70,16 +71,18 @@ export default {
   },
   watch:{
     currentCpt(newVal) {
-      if(!this.currentCpt.option.cptDataForm){
-        this.currentCpt.option.cptDataForm={dataText:'',dataSource:1}
-      }
+      this.cptDataFormShow = false
       for (let i = 0; i < listOptions.length; i++) {
         if(newVal.cptName+'-option' === listOptions[i]){
           this.customOptionShow = true;
+          if(this.currentCpt.option.cptDataForm){
+            this.cptDataFormShow = true
+          }else{
+            this.configTab = 'custom'//解決上一組件沒有数据表单导致tab栏未选中bug
+          }
           return;
         }
       }
-
       this.$message.warning('组件属性表单未注册')
       this.customOptionShow = false;
     },
@@ -87,6 +90,7 @@ export default {
   data(){
     return{
       customOptionShow:false,
+      cptDataFormShow:false,
       configTab: 'custom',
       currentPosition:{
         cptWidth:30,cptHeight:30,cptX:0,cptY:0,cptZ:0

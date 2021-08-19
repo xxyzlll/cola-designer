@@ -21,17 +21,24 @@ export default {
   },
   data(){
     return {
-      config: JSON.parse(JSON.stringify(this.option))
+      config: []
     }
   },
   watch: {
     'option.refresh': function() {
-      this.config = JSON.parse(JSON.stringify(this.option))
+      this.refreshCptData()
     }
   },
+  created() {
+    this.refreshCptData();
+  },
   methods:{
-    refreshCptData(cptDataForm){
-      console.log(cptDataForm)
+    refreshCptData(){
+      this.config = JSON.parse(JSON.stringify(this.option))
+      this.config.data = JSON.parse(this.option.cptDataForm.dataText)
+      if(this.option.cptDataForm.dataSource === 2){//调接口
+        this.$message.warning('接口还未实现')
+      }
     }
   }
 }
