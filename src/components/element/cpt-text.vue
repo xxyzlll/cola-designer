@@ -2,7 +2,7 @@
   <div :style="{textAlign:option.textAlign,color:option.textColor,fontSize: option.textSize+'px',fontStyle:option.fontStyle,
     fontWeight:option.fontWeight,lineHeight:option.textLineHeight+'px',fontFamily:option.textFamily,
     textDecoration:option.textDecoration}" @click="redirect">
-    {{option.text}}
+    {{cptData}}
   </div>
 </template>
 
@@ -18,9 +18,20 @@ export default {
     option: Object
   },
   data() {
-    return {}
+    return {
+      cptData: ''
+    }
+  },
+  created() {
+    this.refreshCptData();
   },
   methods: {
+    refreshCptData(){
+      this.cptData = this.option.cptDataForm.dataText
+      if(this.option.cptDataForm.dataSource === 2){//调接口
+        this.$message.warning('接口还未实现')
+      }
+    },
     redirect(){
       if (this.option.url){
         window.open(this.option.url)

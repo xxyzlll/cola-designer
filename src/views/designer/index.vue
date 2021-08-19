@@ -22,9 +22,9 @@
         <el-popover style="float: right;margin: 1px 10px;"
                     placement="bottom" title="已选图层" width="200" trigger="click">
           <div style="overflow: auto" :style="{maxHeight:(conHeight-30)+'px'}">
-            <el-row v-for="(item,index) in cacheComponents" :key="item.cptTag+index+'x'" class="selectedItem">
+            <el-row v-for="(item,index) in cacheComponents" :key="item.cptName+index+'x'" class="selectedItem">
               <el-col :span="4" style="text-align: center"><i :class="item.icon"></i></el-col>
-              <el-col :span="17" @click.native="showConfigBar(item,index)">{{item.cptName}}</el-col>
+              <el-col :span="17" @click.native="showConfigBar(item,index)">{{item.cptTitle}}</el-col>
               <el-col :span="3" style="text-align: center" @click.native="delCpt(item,index)"><i class="el-icon-delete"></i></el-col>
             </el-row>
           </div>
@@ -40,7 +40,7 @@
       <div style="float: left;" :style="{width:(windowWidth-cptBarWidth-10)+'px'}" @click.self="outBlur">
         <div class="webContainer" :style="{width:conWidth+'px',height:conHeight+'px',
                   backgroundColor: designData.bgColor}" @dragover="allowDrop" @drop="drop">
-          <div v-for="(item,index) in cacheComponents" :key="item.cptTag+index"
+          <div v-for="(item,index) in cacheComponents" :key="item.cptName+index"
                class="cptDiv" :style="{width:Math.round(containerScale*item.cptWidth)+'px',
                   height:Math.round(containerScale*item.cptHeight)+'px',
                   top:Math.round(containerScale*item.cptY)+'px',left:Math.round(containerScale*item.cptX)+'px',
@@ -48,7 +48,7 @@
                   backgroundColor:currentCptIndex === index ? 'rgba(140, 197, 255, 0.4)':'#0000'}"
                @mousedown="showConfigBar(item,index)" :cptIndex="index">
             <div v-dragParent style="width: 100%;height: 100%;overflow: auto;">
-              <comment :is="item.cptTag" :width="Math.round(containerScale*item.cptWidth)"
+              <comment :is="item.cptName" :ref="item.cptName+index" :width="Math.round(containerScale*item.cptWidth)"
                        :height="Math.round(containerScale*item.cptHeight)" :option="item.option"/>
             </div>
             <div class="delTag" @click.stop="delCpt(item,index)"><i class="el-icon-delete"/></div>
@@ -58,7 +58,7 @@
       </div>
     </div>
     <config-bar v-show="configBarShow" ref="configBar" @change="changeCpt" @close="closeConfigBar"
-                :currentCpt="currentCpt"/><!--右侧属性栏-->
+                :currentCpt="currentCpt" @refreshCptData="refreshCptData"/><!--右侧属性栏-->
     <config-form ref="configForm" :formData="designData" @saveConfigForm="saveConfigForm" @cancel="cancelConfigForm"/>
   </div>
 </template>
@@ -95,6 +95,14 @@ export default {
     this.initContainerSize();
   },
   methods: {
+    refreshCptData(){
+      const refName = this.currentCpt.cptName + this.currentCptIndex;
+      if(!this.$refs[refName][0].refreshCptData){
+        this.$message.warning('当前图层还未实现refreshCptData方法')
+      }else {
+        this.$refs[refName][0].refreshCptData();//刷新子组件数据，refs为组建名加index
+      }
+    },
     outBlur(){//取消聚焦组件
       this.currentCptIndex = -1;
       this.configBarShow = false;
@@ -126,7 +134,7 @@ export default {
     delCpt(cpt,index) {
       this.cacheComponents.splice(index, 1);
       this.configBarShow = false;
-      /*this.$confirm('删除'+cpt.cptName+'组件?', '提示', {
+      /*this.$confirm('删除'+cpt.cptTitle+'组件?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -136,7 +144,7 @@ export default {
       }).catch(() => {});*/
     },
     changeCpt(position) {//基础属性修改
-      position.cptTag = this.cacheComponents[this.currentCptIndex].cptTag;
+      position.cptName = this.cacheComponents[this.currentCptIndex].cptName;
       position.option = this.cacheComponents[this.currentCptIndex].option;//这俩句突然搞忘了为啥存在，空了再来看看
       this.cacheComponents[this.currentCptIndex] = position
       this.cacheComponents.splice(0, 1, this.cacheComponents[0])
@@ -145,7 +153,7 @@ export default {
       this.currentCpt = item;
       this.currentCptIndex = index;
       let currentCptPosition = {
-        groupTag:item.groupTag, cptName:item.cptName, icon:item.icon,
+        groupTag:item.groupTag, cptTitle:item.cptTitle, icon:item.icon,
         cptWidth: item.cptWidth,
         cptHeight: item.cptHeight,
         cptX: item.cptX, cptY: item.cptY, cptZ: item.cptZ
@@ -169,18 +177,18 @@ export default {
     drop(e) {//从组件栏丢下组件
       let config = JSON.parse(this.copyDom.getAttribute('config'));
       let cpt = {
-        groupTag: config.group, cptName:config.name, icon: config.icon,
-        cptTag: config.tag, cptZ: 1, option: undefined,
+        groupTag: config.group, cptTitle:config.title, icon: config.icon,
+        cptName: config.name, cptZ: 1, option: undefined,
         cptX: Math.round(e.offsetX / this.containerScale),
         cptY: Math.round(e.offsetY / this.containerScale),
         cptWidth: config.initWidth, cptHeight: config.initHeight
       }
       const group = cptOptions[config.group];
-      if (group && group.options[config.tag + '-option']) {
-        const option = group.options[config.tag + '-option']
+      if (group && group.options[config.name + '-option']) {
+        const option = group.options[config.name + '-option']
         cpt.option = JSON.parse(JSON.stringify(option))
       }else {
-        this.$message.error("未再options.js中查找到"+config.group+"."+config.tag+"-option的自定义属性")
+        this.$message.error("未再options.js中查找到"+config.group+"."+config.name+"-option的自定义属性")
         return;
       }
       this.cacheComponents.push(cpt);

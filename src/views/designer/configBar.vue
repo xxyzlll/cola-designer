@@ -8,7 +8,7 @@
       </el-col>
     </el-row>
     <el-tabs v-model="configTab" :stretch="true">
-      <el-tab-pane label="基础属性" name="basic">
+      <el-tab-pane label="坐标" name="basic">
         <div style="width: 200px;margin:0 auto">
           <el-row style="padding: 10px 6px 0 6px;">
             宽度：<el-input-number :min="20" :max="2000"
@@ -32,10 +32,29 @@
           </el-row>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="自定义属性" name="custom">
+      <el-tab-pane label="属性" name="custom">
         <div v-show="!customOptionShow" style="text-align: center">未注册自定义组件属性</div>
         <div v-if="customOptionShow" class="customForm">
-          <comment :is="currentCpt.cptTag+'-option'" :option="currentCpt.option"></comment>
+          <comment :is="currentCpt.cptName+'-option'" :option="currentCpt.option"></comment>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="数据" name="data">
+        <div class="customForm" v-if="customOptionShow">
+          <el-form size="mini">
+            <el-form-item label="数据类型">
+              <el-radio-group v-model="currentCpt.option.cptDataForm.dataSource">
+                <el-radio :label="1">静态数据</el-radio>
+                <el-radio :label="2">接口</el-radio>
+                <el-radio :label="3">sql</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="数据">
+              <el-input type="textarea" :rows="5" v-model="currentCpt.option.cptDataForm.dataText"/>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" style="width: 100%" @click="refreshCptData">刷新数据</el-button>
+            </el-form-item>
+          </el-form>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -51,12 +70,16 @@ export default {
   },
   watch:{
     currentCpt(newVal) {
+      if(!this.currentCpt.option.cptDataForm){
+        this.currentCpt.option.cptDataForm={dataText:'',dataSource:1}
+      }
       for (let i = 0; i < listOptions.length; i++) {
-        if(newVal.cptTag+'-option' === listOptions[i]){
+        if(newVal.cptName+'-option' === listOptions[i]){
           this.customOptionShow = true;
           return;
         }
       }
+
       this.$message.warning('组件属性表单未注册')
       this.customOptionShow = false;
     },
@@ -64,13 +87,19 @@ export default {
   data(){
     return{
       customOptionShow:false,
-      configTab:'basic',
+      configTab: 'custom',
       currentPosition:{
         cptWidth:30,cptHeight:30,cptX:0,cptY:0,cptZ:0
-      }
+      },
     }
   },
   methods:{
+    // 刷新数据，调用父组件(index)中refreshCptData方法
+    // 在父组件中再调用选中图层中的refreshCptData方法
+    // 图层中的refreshCptData方法再自行调后端接口渲染数据，文本框的内容和数据类型组装在option.cptDataForm中
+    refreshCptData(){
+      this.$emit('refreshCptData');
+    },
     updateData(currentPosition){
       this.currentPosition = currentPosition
     },

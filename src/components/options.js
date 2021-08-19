@@ -11,16 +11,17 @@ const cptOptions = {
                 dur:3, reverse:false//样式8特殊配置
             },
             'cpt-button-option': {
-                text: '按钮1', url: '', bgColor: '#409eff', textColor: '#fff',
+                cptDataForm:{dataText:'按钮2',dataSource: 1},
+                url: '', bgColor: '#409eff', textColor: '#fff',
                 radius: 6,
             },
             'cpt-text-option': {
-                text: '普通文本',
+                cptDataForm:{dataText:'普通文本',dataSource: 1},
                 url: '',
                 textColor: '#4BB344',
-                textSize: 25,
+                textSize: 16,
                 fontWeight: 'bold',
-                textLineHeight: 40,
+                textLineHeight: 30,
                 textFamily: '微软雅黑',
                 textAlign: 'center',
                 fontStyle:'normal',

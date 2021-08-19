@@ -29,6 +29,11 @@ export default {
       this.config = JSON.parse(JSON.stringify(this.option))
     }
   },
+  methods:{
+    refreshCptData(cptDataForm){
+      console.log(cptDataForm)
+    }
+  }
 }
 </script>
 
