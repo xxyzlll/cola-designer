@@ -23,9 +23,12 @@
                     placement="bottom" title="已选图层" width="200" trigger="click">
           <div style="overflow: auto" :style="{maxHeight:(conHeight-30)+'px'}">
             <el-row v-for="(item,index) in cacheComponents" :key="item.cptName+index+'x'" class="selectedItem">
-              <el-col :span="4" style="text-align: center"><i :class="item.icon"></i></el-col>
-              <el-col :span="17" @click.native="showConfigBar(item,index)">{{item.cptTitle}}</el-col>
-              <el-col :span="3" style="text-align: center" @click.native="delCpt(item,index)"><i class="el-icon-delete"></i></el-col>
+              <el-col :span="4" style="text-align: center"><i :class="item.icon"/></el-col>
+              <el-col :span="15" @click.native="showConfigBar(item,index)">{{item.cptTitle}}</el-col>
+              <el-col :span="5" style="text-align: center">
+                <i class="el-icon-copy-document" @click="copyCpt(item)"/>
+                <i class="el-icon-delete" @click="delCpt(item,index)"/>
+              </el-col>
             </el-row>
           </div>
 
@@ -41,18 +44,21 @@
         <div class="webContainer" :style="{width:conWidth+'px',height:conHeight+'px',
                   backgroundColor: designData.bgColor}" @dragover="allowDrop" @drop="drop">
           <div v-for="(item,index) in cacheComponents" :key="item.cptName+index"
-               class="cptDiv" :style="{width:Math.round(containerScale*item.cptWidth)+'px',
+               :class="currentCptIndex === index ? {'focusCptClass':true}:{'cptDiv':true}"
+               :style="{width:Math.round(containerScale*item.cptWidth)+'px',
                   height:Math.round(containerScale*item.cptHeight)+'px',
                   top:Math.round(containerScale*item.cptY)+'px',left:Math.round(containerScale*item.cptX)+'px',
-                  zIndex:item.cptZ,
-                  backgroundColor:currentCptIndex === index ? 'rgba(140, 197, 255, 0.4)':'#0000'}"
+                  zIndex:item.cptZ}"
                @mousedown="showConfigBar(item,index)" :cptIndex="index">
             <div v-dragParent style="width: 100%;height: 100%;overflow: auto;">
               <comment :is="item.cptName" :ref="item.cptName+index" :width="Math.round(containerScale*item.cptWidth)"
                        :height="Math.round(containerScale*item.cptHeight)" :option="item.option"/>
             </div>
-            <div class="delTag" @click.stop="delCpt(item,index)"><i class="el-icon-delete"/></div>
-            <div class="resizeTag" v-resize></div>
+            <div class="delTag">
+              <i class="el-icon-copy-document" @click.stop="copyCpt(item)"/>
+              <i class="el-icon-delete" @click.stop="delCpt(item,index)"/>
+            </div>
+            <div v-show="currentCptIndex === index" class="resizeTag" v-resize></div>
           </div>
         </div>
       </div>
@@ -88,13 +94,20 @@ export default {
       configBarShow: false,
       currentCptIndex: -1,
       currentCpt: {option: undefined},
-      containerScale:1,
+      containerScale:1
     }
   },
   created() {
     this.initContainerSize();
   },
   methods: {
+    copyCpt(item){
+      let copyItem = JSON.parse(JSON.stringify(item))
+      copyItem.cptX = item.cptX+30
+      copyItem.cptY = item.cptY+30
+      this.cacheComponents.push(copyItem);
+      this.currentCptIndex = this.cacheComponents.length - 1
+    },
     refreshCptData(){
       const refName = this.currentCpt.cptName + this.currentCptIndex;
       if(!this.$refs[refName][0].refreshCptData){
@@ -132,16 +145,14 @@ export default {
       window.open(routeUrl.href, '_blank');
     },
     delCpt(cpt,index) {
-      this.cacheComponents.splice(index, 1);
-      this.configBarShow = false;
-      /*this.$confirm('删除'+cpt.cptTitle+'组件?', '提示', {
+      this.$confirm('删除'+cpt.cptTitle+'组件?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         this.cacheComponents.splice(index, 1);
         this.configBarShow = false;
-      }).catch(() => {});*/
+      }).catch(() => {});
     },
     changeCpt(position) {//基础属性修改
       position.cptName = this.cacheComponents[this.currentCptIndex].cptName;
@@ -259,12 +270,18 @@ export default {
 .top {height: 45px;box-shadow: 0 2px 5px #222 inset;color: #fff;overflow: hidden;
   margin: 0;font-size: 18px;line-height: 48px;background: #353F50}
 .webContainer {border: 1px dashed #ccc;margin: 10px auto;position: relative;}
-.cptDiv {position: absolute;border:1px dashed rgba(102, 177, 205, 0.6)}
-.delTag {width: 20px;height: 20px;background: rgba(43, 51, 64, 0.8);border-radius: 2px;color: #ccc;z-index: 2000;
+.cptDiv {position: absolute;}
+.focusCptClass {
+  position: absolute;
+  border: 1px dashed rgba(102, 177, 205, 0.6);
+  background-color: rgba(140, 197, 255, 0.4)
+}
+.delTag {width: 40px;height: 22px;background: rgba(43, 51, 64, 0.8);border-radius: 2px;color: #ccc;z-index: 2000;
   position: absolute;top: 0;right: 0;text-align: center;display: none
 }
 .delTag:hover {cursor: pointer}
 .cptDiv:hover .delTag {display: block}
+.focusCptClass:hover .delTag {display: block}
 .resizeTag{width: 10px;height: 10px;position: absolute;bottom: -5px;right: -5px;background-color: #49586e;z-index: 2600;border-radius: 50%}
 .resizeTag:hover{cursor: nwse-resize}
 .configBtn:hover{cursor: pointer;color: #B6BFCE}
