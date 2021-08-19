@@ -94,7 +94,7 @@ export default {
             color: "#aaa"
           },
           zoom: 1.23,
-          roam: true,//允许缩放
+          roam: option.roam,//允许缩放
           itemStyle: {
             areaColor: '#323c48',
             borderColor: '#404a59',

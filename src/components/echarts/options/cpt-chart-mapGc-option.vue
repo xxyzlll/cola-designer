@@ -9,6 +9,9 @@
     <el-form-item label="字体大小">
       <el-input-number v-model="option.geoLabelSize" :min="12" :max="100"/>
     </el-form-item>
+    <el-form-item label="缩放">
+      <el-switch v-model="option.roam" active-text="开" inactive-text="关"/>
+    </el-form-item>
   </el-form>
 </template>
 

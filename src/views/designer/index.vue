@@ -103,10 +103,10 @@ export default {
   methods: {
     copyCpt(item){
       let copyItem = JSON.parse(JSON.stringify(item))
-      copyItem.cptX = item.cptX+30
+      copyItem.cptX = item.cptX+30//复制的组件向右下偏移
       copyItem.cptY = item.cptY+30
       this.cacheComponents.push(copyItem);
-      this.currentCptIndex = this.cacheComponents.length - 1
+      this.currentCptIndex = this.cacheComponents.length - 1//聚焦到复制的组件
     },
     refreshCptData(){
       const refName = this.currentCpt.cptName + this.currentCptIndex;

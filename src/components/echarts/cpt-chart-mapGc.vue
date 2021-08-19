@@ -84,8 +84,8 @@ export default {
         },
         geo: {
           map: "china",
-          roam: true,//允许缩放
-          scaleLimit: { min: 1, max: 2 },//允许缩放级别
+          roam: option.roam,//允许缩放
+          //scaleLimit: { min: 1, max: 2 },//允许缩放级别
           zoom: 1.23,
           label: {
             show: true,
