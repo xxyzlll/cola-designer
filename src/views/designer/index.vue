@@ -27,7 +27,7 @@
               <el-col :span="15" @click.native="showConfigBar(item,index)">{{item.cptTitle}}</el-col>
               <el-col :span="5" style="text-align: center">
                 <i class="el-icon-copy-document" @click="copyCpt(item)"/>
-                <i class="el-icon-delete" @click="delCpt(item,index)"/>
+                <i style="margin-left: 4px;" class="el-icon-delete" @click="delCpt(item,index)"/>
               </el-col>
             </el-row>
           </div>
@@ -56,7 +56,7 @@
             </div>
             <div class="delTag">
               <i class="el-icon-copy-document" @click.stop="copyCpt(item)"/>
-              <i class="el-icon-delete" @click.stop="delCpt(item,index)"/>
+              <i style="margin-left: 4px" class="el-icon-delete" @click.stop="delCpt(item,index)"/>
             </div>
             <div v-show="currentCptIndex === index" class="resizeTag" v-resize></div>
           </div>
@@ -276,7 +276,7 @@ export default {
   border: 1px dashed rgba(102, 177, 205, 0.6);
   background-color: rgba(140, 197, 255, 0.4)
 }
-.delTag {width: 40px;height: 22px;background: rgba(43, 51, 64, 0.8);border-radius: 2px;color: #ccc;z-index: 2000;
+.delTag {width: 45px;height: 22px;background: rgba(43, 51, 64, 0.8);border-radius: 2px;color: #ccc;z-index: 2000;
   position: absolute;top: 0;right: 0;text-align: center;display: none
 }
 .delTag:hover {cursor: pointer}

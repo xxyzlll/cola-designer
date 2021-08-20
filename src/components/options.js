@@ -106,6 +106,19 @@ const cptOptions = {
                 sort:true,//自动排序
                 valueFormatter:undefined,//数值格式化
                 refresh:true//手动刷新标识
+            },
+            'cpt-dataV-waterLevel-option':{
+                cptDataForm:{
+                    dataSource: 1,
+                    dataText: '["55"]',
+                },
+                shape: 'rect',//水位图形状rect/roundRect/round
+                colors: ['#1b6782'],//水位图配色
+                waveNum: 3,//波浪数量
+                waveHeight: 40,//波浪高度
+                waveOpacity: 0.4,//波浪透明度
+                formatter: '{value}%',//信息格式化
+                refresh:false
             }
         }
     },

@@ -49,7 +49,7 @@
                 <el-radio :label="3">sql</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="数据">
+            <el-form-item :label="dataLabels[currentCpt.option.cptDataForm.dataSource-1]">
               <el-input type="textarea" :rows="5" v-model="currentCpt.option.cptDataForm.dataText"/>
             </el-form-item>
             <el-form-item>
@@ -95,6 +95,7 @@ export default {
       currentPosition:{
         cptWidth:30,cptHeight:30,cptX:0,cptY:0,cptZ:0
       },
+      dataLabels: ['数据','接口地址','sql'],
     }
   },
   methods:{
