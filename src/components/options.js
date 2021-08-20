@@ -60,11 +60,14 @@ const cptOptions = {
         opened:true,
         options: {
             'cpt-chart-column-option': {
-                chartTitle: '标题一', titleLeft: 'center', titleTop: 10, titleTextColor: '#aaa',
+                chartTitle: '标题一', titleLeft: 'center', titleTop: 10, titleTextColor: '#ccc',
                 xLabelColor: '#0a7eea', xLineColor: '#aaa', yLabelColor: '#0bd124', yLineColor: '#aaa',
                 yGridLineShow: false, yTickShow: true,
-                barBgShow: false, barBorderRadius: 5, barColor: '#0775eb',
-                barWidth: 24,
+                barBgShow: false, barBorderRadius: 5,barLabelShow: true,
+                barLabelColor: '#ff0',barLabelSize: 10,
+                barColor1: '#e9a90a',barColor2: '#0bcfcf',barColor3: '#cc0ce6',
+                barWidth: 18, barType: 'bar',
+                barPath: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
                 cptDataForm:{dataText:'{"xData":"Mon,Tue,Wed,Thu,Fri,Sat,Sun","yData": "120,200,150,80,70,110,130"}',dataSource: 1},
             },
             'cpt-chart-pie-option': {
@@ -131,7 +134,7 @@ const cptOptions = {
                 },
                 title: '一天用电量分布',subtext:'纯属虚构',yTickShow: true,yGridLineShow:false,
                 lineColor: '#409eff',xLabelColor:'#eee',xLineColor:'#eee',titleTextColor:'#ccc',
-                yLabelColor:'#eee',yLineColor:'#eee'
+                yLabelColor:'#eee',yLineColor:'#eee',smooth:false
             }
         }
     },

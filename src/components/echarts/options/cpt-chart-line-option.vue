@@ -27,6 +27,9 @@
     <el-form-item label="y轴刻度线">
       <el-switch v-model="option.yTickShow" active-text="开" inactive-text="关"/>
     </el-form-item>
+    <el-form-item label="平滑曲线">
+      <el-switch v-model="option.smooth" active-text="开" inactive-text="关"/>
+    </el-form-item>
   </el-form>
 </template>
 

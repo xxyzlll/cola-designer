@@ -98,7 +98,8 @@ export default {
         },
         series: [{
           data: that.cptData.yData.split(','),
-          type: 'line'
+          type: 'line',
+          smooth: option.smooth
         }]
       }
       that.chart.setOption(that.chartOption);

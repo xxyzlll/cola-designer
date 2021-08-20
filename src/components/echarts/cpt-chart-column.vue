@@ -51,7 +51,13 @@ export default {
     loadChart(option){
       const that = this;
       that.chartOption = {
-        color: option.barColor,
+        color: new this.$echarts.graphic.LinearGradient(
+            0, 0, 0, 1,
+            [
+              {offset: 0, color: option.barColor1},
+              {offset: 0.5, color: option.barColor2},
+              {offset: 1, color: option.barColor3}
+            ]),
         title: {
           text:option.chartTitle,
           textStyle:{
@@ -98,14 +104,23 @@ export default {
         },
         series: [{
           data: this.cptData.yData.split(','),
-          type: 'bar',
+          type: option.barType,//pictorialBar || bar
           showBackground: option.barBgShow,
+          symbol: option.barPath,
           backgroundStyle: {
             color: 'rgba(180, 180, 180, 0.2)'
           },
           barWidth: option.barWidth,
           itemStyle: {
             borderRadius: option.barBorderRadius
+          },
+          label: {
+            show: option.barLabelShow, //开启显示
+            position: 'top', //在上方显示
+            textStyle: { //数值样式
+              color: option.barLabelColor,
+              fontSize: option.barLabelSize
+            }
           }
         }]
       };
