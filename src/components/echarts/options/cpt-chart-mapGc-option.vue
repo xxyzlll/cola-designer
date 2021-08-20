@@ -7,10 +7,40 @@
       <el-color-picker v-model="option.geoLabelColor" show-alpha/>
     </el-form-item>
     <el-form-item label="字体大小">
-      <el-input-number v-model="option.geoLabelSize" :min="12" :max="100"/>
+      <el-input-number v-model="option.geoLabelSize" :min="4" :max="100"/>
     </el-form-item>
-    <el-form-item label="缩放">
+    <el-form-item label="允许缩放">
       <el-switch v-model="option.roam" active-text="开" inactive-text="关"/>
+    </el-form-item>
+    <el-form-item label=">100文字">
+      <el-input v-model="option.piecesLabel1"/>
+    </el-form-item>
+    <el-form-item label=">100颜色">
+      <el-color-picker v-model="option.piecesColor1" show-alpha/>
+    </el-form-item>
+    <el-form-item label="10 - 100文字">
+      <el-input v-model="option.piecesLabel2"/>
+    </el-form-item>
+    <el-form-item label="10-100颜色">
+      <el-color-picker v-model="option.piecesColor2" show-alpha/>
+    </el-form-item>
+    <el-form-item label="1-9文字">
+      <el-input v-model="option.piecesLabel3"/>
+    </el-form-item>
+    <el-form-item label="1-9颜色">
+      <el-color-picker v-model="option.piecesColor3" show-alpha/>
+    </el-form-item>
+    <el-form-item label="0-1文字">
+      <el-input v-model="option.piecesLabel4"/>
+    </el-form-item>
+    <el-form-item label="0-1颜色">
+      <el-color-picker v-model="option.piecesColor4" show-alpha/>
+    </el-form-item>
+    <el-form-item label="0文字">
+      <el-input v-model="option.piecesLabel5"/>
+    </el-form-item>
+    <el-form-item label="0颜色">
+      <el-color-picker v-model="option.piecesColor5" show-alpha/>
     </el-form-item>
   </el-form>
 </template>

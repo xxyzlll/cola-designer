@@ -31,6 +31,9 @@
         <el-form-item label="x轴字体颜色">
           <el-color-picker v-model="option.xLabelColor" show-alpha/>
         </el-form-item>
+        <el-form-item label="x轴字体倾斜">
+          <el-input-number v-model="option.xFontRotate" :min="-180" :max="180"/>
+        </el-form-item>
         <el-form-item label="x轴线颜色">
           <el-color-picker v-model="option.xLineColor" show-alpha/>
         </el-form-item>

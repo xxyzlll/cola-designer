@@ -77,7 +77,8 @@ export default {
           type: 'category',
           data: this.cptData.xData.split(','),
           axisLabel:{
-            color: option.xLabelColor
+            color: option.xLabelColor,
+            rotate:option.xFontRotate//倾斜角度-180~180
           },
           axisLine:{
             lineStyle:{

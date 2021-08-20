@@ -27,7 +27,7 @@
                                  v-model="currentPosition.cptY" size="small" @change="changeConfig"/>
           </el-row>
           <el-row style="padding: 10px 6px 0 6px;">
-            Z 轴：<el-input-number :min="-500" :max="1500"
+            Z 轴：<el-input-number :min="1" :max="1800"
                                  v-model="currentPosition.cptZ" size="small" @change="changeConfig"/>
           </el-row>
         </div>

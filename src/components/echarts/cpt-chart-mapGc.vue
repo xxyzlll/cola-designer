@@ -8,7 +8,7 @@ export default {
   title: "渐变地图",
   icon: 'el-icon-map-location',
   initWidth: 350,
-  initHeight: 350,
+  initHeight: 310,
   group: 'map',
   props:{
     width:Number,
@@ -23,6 +23,12 @@ export default {
     }
   },
   watch:{
+    option:{
+      handler(obj,newObj) {
+        this.loadChart(newObj);
+      },
+      deep: true//深度监听
+    },
     width(){
       this.chart.resize();
     }
@@ -52,33 +58,37 @@ export default {
         },
         visualMap: {
           min: 0,
-          max: 1000,
-          left: 26,
-          bottom: 40,
+          max: 100,
+          left: 20,
+          bottom: 20,
           showLabel: !0,
           text: ["高", "低"],
+          textStyle:{
+            color:'#ddd'
+          },
           pieces: [{
             gt: 100,
-            label: "> 100 人",
-            color: "#7f1100"
+            label: option.piecesLabel1,
+            color: option.piecesColor1
           }, {
             gte: 10,
             lte: 100,
-            label: "10 - 100 人",
-            color: "#ff5428"
+            label: option.piecesLabel2,
+            color: option.piecesColor2
           }, {
             gte: 1,
             lt: 10,
-            label: "1 - 9 人",
-            color: "#ff8c71"
+            label: option.piecesLabel3,
+            color: option.piecesColor3
           }, {
             gt: 0,
             lt: 1,
-            label: "疑似",
-            color: "#ffd768"
+            label: option.piecesLabel4,
+            color: option.piecesColor4
           }, {
             value: 0,
-            color: "#ffffff"
+            label: option.piecesLabel5,
+            color: option.piecesColor5
           }],
           show: !0
         },
