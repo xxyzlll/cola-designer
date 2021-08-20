@@ -73,6 +73,7 @@ export default {
           }
         },
         xAxis: {
+          show: option.xAxisShow,
           type: 'category',
           data: this.cptData.xData.split(','),
           axisLabel:{
@@ -85,6 +86,7 @@ export default {
           }
         },
         yAxis: {
+          show: option.yAxisShow,
           type: 'value',
           axisLabel:{
             color: option.yLabelColor
@@ -117,10 +119,8 @@ export default {
           label: {
             show: option.barLabelShow, //开启显示
             position: 'top', //在上方显示
-            textStyle: { //数值样式
-              color: option.barLabelColor,
-              fontSize: option.barLabelSize
-            }
+            color: option.barLabelColor,
+            fontSize: option.barLabelSize
           }
         }]
       };

@@ -61,6 +61,7 @@ const cptOptions = {
         options: {
             'cpt-chart-column-option': {
                 chartTitle: '标题一', titleLeft: 'center', titleTop: 10, titleTextColor: '#ccc',
+                xAxisShow: true, yAxisShow: true,
                 xLabelColor: '#0a7eea', xLineColor: '#aaa', yLabelColor: '#0bd124', yLineColor: '#aaa',
                 yGridLineShow: false, yTickShow: true,
                 barBgShow: false, barBorderRadius: 5,barLabelShow: true,

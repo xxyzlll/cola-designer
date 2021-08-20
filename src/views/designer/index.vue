@@ -3,10 +3,10 @@
     <el-row class="top">
       <el-col :span="2" align="right" style="height: 100%;overflow: hidden;">
         <el-image style="width: 40px; height: 40px;padding: 0;margin: 0" :src="require('/src/assets/logo.png')"
-                  fit="fill"></el-image>
+                  fit="fill"/>
       </el-col>
       <el-col :span="3">
-        <span class="el-icon-magic-stick lg" style="width: 30px"></span>
+        <span class="el-icon-magic-stick lg" style="width: 30px"/>
         <span>Cola Designer</span>
         <a style="margin: 0 4px;" href='https://gitee.com/colaiven/cola-designer' target="_blank">
           <el-image style="width: 50px; height: 16px;padding: 0;margin: 0" src='https://gitee.com/colaiven/cola-designer/badge/star.svg?theme=dark' alt='star'/>
@@ -17,7 +17,7 @@
             background: #49586e;color: #fff;float: right">预览</el-button>
         <el-button size="mini" @click="submitDesign" style="margin: 10px 5px;background: #d5d9e2;float: right">保存</el-button>
         <div style="float: right;margin: 1px 10px;" class="configBtn" @click="showConfigForm">
-          <i style="font-size: 22px;" class="el-icon-setting"></i>
+          <i style="font-size: 22px;" class="el-icon-setting"/>
         </div>
         <el-popover style="float: right;margin: 1px 10px;"
                     placement="bottom" title="已选图层" width="200" trigger="click">
@@ -32,7 +32,7 @@
             </el-row>
           </div>
 
-          <i slot="reference" style="font-size: 22px;" class="el-icon-tickets"></i>
+          <i slot="reference" style="font-size: 22px;" class="el-icon-tickets"/>
         </el-popover>
       </el-col>
     </el-row>
@@ -58,7 +58,7 @@
               <i class="el-icon-copy-document" @click.stop="copyCpt(item)"/>
               <i style="margin-left: 4px" class="el-icon-delete" @click.stop="delCpt(item,index)"/>
             </div>
-            <div v-show="currentCptIndex === index" class="resizeTag" v-resize></div>
+            <div v-show="currentCptIndex === index" class="resizeTag" v-resize/>
           </div>
         </div>
       </div>
@@ -99,8 +99,17 @@ export default {
   },
   created() {
     this.initContainerSize();
+    this.loadCacheData();
   },
   methods: {
+    loadCacheData(){
+      const cacheStr = localStorage.getItem('designCache');
+      if (cacheStr){
+        this.designData = JSON.parse(cacheStr);
+        this.cacheComponents = this.designData.comments;
+        this.designData.comments = [];//单纯洁癖
+      }
+    },
     copyCpt(item){
       let copyItem = JSON.parse(JSON.stringify(item))
       copyItem.cptX = item.cptX+30//复制的组件向右下偏移
@@ -130,13 +139,13 @@ export default {
       this.conWidth = tempWidth;
       this.conHeight = tempHeight;
       //缩放思路：组件尺寸始终保持1024为基准，保证在每台电脑上的尺寸一致，设计实时缩放，需同步更新配置栏数据
-      this.containerScale = tempWidth / 1024//原始比例1024:576
+      this.containerScale = tempWidth / 1024//原始比例1024:576  16:9
     },
-    submitDesign() {
+    submitDesign() {//保存到缓存
       this.designData.comments = this.cacheComponents;
-      console.log('组件数据', this.designData)
+      localStorage.setItem('designCache', JSON.stringify(this.designData));
     },
-    preview() {
+    preview() {//预览按钮
       this.designData.comments = this.cacheComponents;
       localStorage.setItem('designCache', JSON.stringify(this.designData));
       let routeUrl = this.$router.resolve({
