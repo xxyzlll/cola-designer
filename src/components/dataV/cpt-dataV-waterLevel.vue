@@ -7,8 +7,8 @@ export default {
   name: "cpt-dataV-waterLevel",
   title: "水位图",
   icon: 'el-icon-goblet-square-full',
-  initWidth: 300,
-  initHeight: 150,
+  initWidth: 120,
+  initHeight: 100,
   group: 'chart',
   props:{
     width:Number,

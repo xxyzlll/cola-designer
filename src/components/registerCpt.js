@@ -13,13 +13,15 @@ import cpt_dataV_scrollList from '@/components/dataV/cpt-dataV-scrollList'
 import cpt_chart_mapGc from '@/components/echarts/cpt-chart-mapGc'
 import cpt_chart_mapMigrate from '@/components/echarts/cpt-chart-mapMigrate'
 import cpt_dataV_waterLevel from '@/components/dataV/cpt-dataV-waterLevel'
+import cpt_dataV_decoration from '@/components/dataV/cpt-dataV-decoration'
+import cpt_chart_line from '@/components/echarts/cpt-chart-line'
 
 let cptList = [
     cpt_dataV_border,
     cpt_input,cpt_text,cpt_carousel,cpt_button,cpt_image,
     cpt_chart_column,cpt_chart_pie,cpt_chart_clock,cpt_dataV_scrollTable,
     cpt_dataV_scrollList,cpt_chart_mapGc,cpt_chart_mapMigrate,
-    cpt_dataV_waterLevel
+    cpt_dataV_waterLevel,cpt_dataV_decoration,cpt_chart_line
 ]
 
 let cptGroups = {}

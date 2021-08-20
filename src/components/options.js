@@ -47,6 +47,10 @@ const cptOptions = {
                     require('@/assets/readme/options.png')
                 ],
                 fit:'cover'
+            },
+            'cpt-dataV-decoration-option': {
+                decorationType:'dv-decoration-1',
+                color1:'#409eff',color2:'#f00',text:'若比伤春意未多',textColor:'#ff0'
             }
         }
     },
@@ -119,6 +123,15 @@ const cptOptions = {
                 waveOpacity: 0.4,//波浪透明度
                 formatter: '{value}%',//信息格式化
                 refresh:false
+            },
+            'cpt-chart-line-option': {
+                cptDataForm:{
+                    dataSource: 1,
+                    dataText: '{"xData":"Mon,Tue,Wed,Thu,Fri,Sat,Sun","yData": "120,200,150,80,70,110,130"}',
+                },
+                title: '一天用电量分布',subtext:'纯属虚构',yTickShow: true,yGridLineShow:false,
+                lineColor: '#409eff',xLabelColor:'#eee',xLineColor:'#eee',titleTextColor:'#ccc',
+                yLabelColor:'#eee',yLineColor:'#eee'
             }
         }
     },
