@@ -1,5 +1,5 @@
 <template>
-  <div :style="{width: windowWidth+'px',height: windowHeight+'px',backgroundColor: designCache.bgColor}">
+  <div :style="{width: windowWidth+'px',height: windowHeight+'px',backgroundColor: designCache.bgColor}" style="position:relative;overflow: hidden">
     <div v-for="(item,index) in designCache.comments" :key="item+index"
          style="position: absolute;overflow: auto"
          :style="{width:Math.round(containerScale * item.cptWidth)+'px',
@@ -21,7 +21,7 @@ export default {
     return{
       designCache:{},
       windowWidth:document.documentElement.clientWidth,
-      windowHeight:document.documentElement.clientHeight,
+      windowHeight: document.documentElement.clientHeight,
       containerScale:1
     }
   },
@@ -30,6 +30,7 @@ export default {
   },
   methods:{
     loadCacheData(){
+      this.windowHeight = this.windowWidth/16*9;
       let designCache = JSON.parse(localStorage.getItem('designCache'));
       document.title = designCache.title
       this.containerScale = this.windowWidth/1024
