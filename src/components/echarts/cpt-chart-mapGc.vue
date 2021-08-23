@@ -51,6 +51,19 @@ export default {
     loadChart(option) {
       const that = this;
       that.chartOption = {
+        title : {
+          text: option.titleText,
+          subtext: option.subtext,
+          left: 'center',
+          textStyle : {
+            color: option.titleColor,
+            fontSize: option.titleFontSize
+          },
+          subtextStyle: {
+            color: option.subTitleColor,
+            fontSize: option.subTitleFontSize
+          }
+        },
         tooltip: {
           formatter: function(e) {//e, t, n
             return e.seriesName + "<br />" + e.name + "：" + e.value

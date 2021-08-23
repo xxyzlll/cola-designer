@@ -72,13 +72,17 @@ export default {
       }
 
       that.chartOption = {
-        backgroundColor: option.backgroundColor,
         title : {
           text: option.titleText,
           subtext: option.subtext,
           left: 'center',
           textStyle : {
-            color: '#fff'
+            color: option.titleColor,
+            fontSize: option.titleFontSize
+          },
+          subtextStyle: {
+            color: option.subTitleColor,
+            fontSize: option.subTitleFontSize
           }
         },
         tooltip : {

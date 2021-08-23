@@ -51,9 +51,9 @@ export default {
     loadChart(option){
       const that = this;
       that.chartOption = {
+        color: option.pieColor,
         title: {
           text: option.chartTitle,
-          //backgroundColor: '#EEE',
           subtext: option.subtext,
           left: option.titleX,
           top:option.titleY,
