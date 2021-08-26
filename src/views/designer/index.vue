@@ -34,6 +34,9 @@
 
           <i slot="reference" style="font-size: 22px;" class="el-icon-tickets"/>
         </el-popover>
+        <div style="float: right;margin: 1px 10px;" class="configBtn" @click="clearDesign">
+          <i style="font-size: 22px;" class="el-icon-delete"/>
+        </div>
       </el-col>
     </el-row>
     <div :style="{height: (windowHeight-45)+'px'}" @click.self="outBlur">
@@ -102,6 +105,18 @@ export default {
     this.loadCacheData();
   },
   methods: {
+    clearDesign(){
+      this.$confirm('此操作将会清空图层，是否继续？', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.cacheComponents = [];
+        this.designData.comments = [];
+        localStorage.removeItem('designCache');
+        this.$message.success("清除成功");
+      }).catch(() => {});
+    },
     loadCacheData(){
       const cacheStr = localStorage.getItem('designCache');
       if (cacheStr){
