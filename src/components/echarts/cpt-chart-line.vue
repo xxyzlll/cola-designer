@@ -99,7 +99,19 @@ export default {
         series: [{
           data: that.cptData.yData.split(','),
           type: 'line',
-          smooth: option.smooth
+          smooth: option.smooth,
+          areaStyle:{
+            color: new that.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+              offset: 0,
+              color: 'rgba(80,141,255,0.39)'
+            }, {
+              offset: .34,
+              color: 'rgba(56,155,255,0.25)'
+            },{
+              offset: 1,
+              color: 'rgba(38,197,254,0.00)'
+            }])
+          }
         }]
       }
       that.chart.setOption(that.chartOption);

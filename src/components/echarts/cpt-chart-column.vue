@@ -50,14 +50,18 @@ export default {
     },
     loadChart(option){
       const that = this;
-      that.chartOption = {
-        color: new this.$echarts.graphic.LinearGradient(
+      let columnColor = option.barColor;
+      if(option.gradualColor) {
+        columnColor = new this.$echarts.graphic.LinearGradient(
             0, 0, 0, 1,
             [
               {offset: 0, color: option.barColor1},
               {offset: 0.5, color: option.barColor2},
               {offset: 1, color: option.barColor3}
-            ]),
+            ])
+      }
+      that.chartOption = {
+        color: columnColor,
         title: {
           text:option.chartTitle,
           textStyle:{
