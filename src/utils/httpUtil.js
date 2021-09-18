@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { Message } from "element-ui";
+
 const httpUtil = axios.create({
   timeout: 12000 // request timeout
 })
@@ -20,7 +22,7 @@ httpUtil.interceptors.response.use(
   response => {
     const res = response.data
     if (res.code !== 1) {
-      this.$message.error(res.msg)
+        Message.error(res.msg)
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
       return res
@@ -28,7 +30,7 @@ httpUtil.interceptors.response.use(
   },
   error => {
     console.log('err' + error)
-    this.$message.error(error.message)
+      Message.error(error.message)
     return Promise.reject(error)
   }
 )
