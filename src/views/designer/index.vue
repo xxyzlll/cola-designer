@@ -37,6 +37,17 @@
         <div style="float: right;margin: 1px 10px;" class="configBtn" @click="clearDesign">
           <i style="font-size: 22px;" class="el-icon-delete"/>
         </div>
+        <div style="float: right;margin: 0 10px;">
+          <el-dropdown @command="handleCommand">
+            <span class="el-dropdown-link">
+              导出<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="a">图片</el-dropdown-item>
+              <el-dropdown-item command="b" disabled>JSON</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </el-col>
     </el-row>
     <div :style="{height: (windowHeight-45)+'px'}" @click.self="outBlur">
@@ -45,7 +56,7 @@
       </div>
       <div style="float: left;" :style="{width:(windowWidth-cptBarWidth-10)+'px'}" @click.self="outBlur">
         <div class="webContainer" :style="{width:conWidth+'px',height:conHeight+'px',
-                  backgroundColor: designData.bgColor}" @dragover="allowDrop" @drop="drop">
+                  backgroundColor: designData.bgColor}" @dragover="allowDrop" @drop="drop" ref="webContainer">
           <div v-for="(item,index) in cacheComponents" :key="item.cptName+index"
                :class="currentCptIndex === index ? {'focusCptClass':true}:{'cptDiv':true}"
                :style="{width:Math.round(containerScale*item.cptWidth)+'px',
@@ -77,6 +88,7 @@ import ComponentBar from "@/views/designer/componentBar";
 import ConfigBar from "@/views/designer/configBar";
 import cptOptions from "@/components/options"
 import ConfigForm from "@/views/designer/configForm";
+import html2canvas from 'html2canvas';
 
 export default {
   name: 'design-index',
@@ -105,6 +117,26 @@ export default {
     this.loadCacheData();
   },
   methods: {
+    handleCommand(command) {
+      console.log(command)
+      html2canvas(this.$refs.webContainer, {
+        backgroundColor: '#ffffff'
+      }).then(canvas => {
+        const imgData = canvas.toDataURL("image/jpeg");
+        console.log(11)
+        this.fileDownload(imgData);
+      })
+    },
+    fileDownload(downloadUrl) {
+      let aLink = document.createElement("a");
+      aLink.style.display = "none";
+      aLink.href = downloadUrl;
+      aLink.download = this.designData.title+".png";
+      // 触发点击-然后移除
+      document.body.appendChild(aLink);
+      aLink.click();
+      document.body.removeChild(aLink);
+    },
     clearDesign(){
       this.$confirm('此操作将会清空图层，是否继续？', '警告', {
         confirmButtonText: '确定',
@@ -311,4 +343,5 @@ export default {
 .configBtn:hover{cursor: pointer;color: #B6BFCE}
 .selectedItem{margin-top: 2px;line-height: 35px;border-radius: 4px;}
 .selectedItem:hover{cursor: pointer;background: #ddd}
+.el-dropdown-link { cursor: pointer; color: #fff;}
 </style>
