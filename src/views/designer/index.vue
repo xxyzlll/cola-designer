@@ -77,7 +77,7 @@
         </div>
       </div>
     </div>
-    <config-bar v-show="configBarShow" ref="configBar" @change="changeCpt" @close="closeConfigBar"
+    <config-bar ref="configBar" @change="changeCpt"
                 :currentCpt="currentCpt" @refreshCptData="refreshCptData"/><!--右侧属性栏-->
     <config-form ref="configForm" :formData="designData" @saveConfigForm="saveConfigForm" @cancel="cancelConfigForm"/>
   </div>
@@ -106,7 +106,6 @@ export default {
       },
       oldDesignData:'',//大屏参数表单未保存时还原
       cacheComponents:[],
-      configBarShow: false,
       currentCptIndex: -1,
       currentCpt: {option: undefined},
       containerScale:1
@@ -174,7 +173,8 @@ export default {
     },
     outBlur(){//取消聚焦组件
       this.currentCptIndex = -1;
-      this.configBarShow = false;
+      this.currentCpt = undefined;
+      //this.configBarShow = false;
     },
     initContainerSize(){
       let tempWidth = this.windowWidth - this.cptBarWidth - 40;//流出空隙
@@ -207,7 +207,8 @@ export default {
         type: 'warning'
       }).then(() => {
         this.cacheComponents.splice(index, 1);
-        this.configBarShow = false;
+        //this.configBarShow = false;
+        this.currentCpt = undefined;
       }).catch(() => {});
     },
     changeCpt(position) {//基础属性修改
@@ -226,9 +227,6 @@ export default {
         cptX: item.cptX, cptY: item.cptY, cptZ: item.cptZ
       }
       this.$refs['configBar'].updateData(currentCptPosition);
-      if (this.configBarShow === false) {
-        this.configBarShow = true;
-      }
     },
     dragStart(copyDom) {//从组件栏拿起组件
       this.copyDom = copyDom;
@@ -260,9 +258,7 @@ export default {
       }
       this.cacheComponents.push(cpt);
       this.showConfigBar(cpt, this.cacheComponents.length - 1)//丢下组件后刷新组件属性栏
-    },
-    closeConfigBar() {
-      this.configBarShow = false
+      this.$refs['configBar'].showConfigBar();
     },
     showConfigForm() {
       this.oldDesignData = JSON.stringify(this.designData)//保存原有数据，点击取消时还原
