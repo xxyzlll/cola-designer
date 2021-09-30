@@ -105,7 +105,7 @@ export default {
       conHeight: 0,
       copyDom: '',
       designData:{
-        id:'',title:'我的大屏',bgColor:'#2B3340',simpleDesc:'',bgImg:'',viewCode:'',comments:[]
+        id:'',title:'我的大屏',bgColor:'#2B3340',simpleDesc:'',bgImg:'',viewCode:'',components:[]
       },
       oldDesignData:'',//大屏参数表单未保存时还原
       cacheComponents:[],
@@ -150,7 +150,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.cacheComponents = [];
-        this.designData.comments = [];
+        this.designData.components = [];
         localStorage.removeItem('designCache');
         this.$message.success("清除成功");
       }).catch(() => {});
@@ -159,8 +159,8 @@ export default {
       const cacheStr = localStorage.getItem('designCache');
       if (cacheStr){
         this.designData = JSON.parse(cacheStr);
-        this.cacheComponents = this.designData.comments;
-        this.designData.comments = [];//单纯洁癖
+        this.cacheComponents = this.designData.components;
+        this.designData.components = [];//单纯洁癖
       }
     },
     copyCpt(item){
@@ -196,11 +196,11 @@ export default {
       this.containerScale = tempWidth / 1024//原始比例1024:576  16:9
     },
     submitDesign() {//保存到缓存
-      this.designData.comments = this.cacheComponents;
+      this.designData.components = this.cacheComponents;
       localStorage.setItem('designCache', JSON.stringify(this.designData));
     },
     preview() {//预览按钮
-      this.designData.comments = this.cacheComponents;
+      this.designData.components = this.cacheComponents;
       localStorage.setItem('designCache', JSON.stringify(this.designData));
       let routeUrl = this.$router.resolve({
         path: "/preview"

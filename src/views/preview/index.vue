@@ -1,6 +1,6 @@
 <template>
   <div :style="{width: windowWidth+'px',height: windowHeight+'px',backgroundColor: designCache.bgColor}" style="position:relative;overflow: hidden">
-    <div v-for="(item,index) in designCache.comments" :key="item+index"
+    <div v-for="(item,index) in designCache.components" :key="item+index"
          style="position: absolute;overflow: auto"
          :style="{width:Math.round(containerScale * item.cptWidth)+'px',
                   height:Math.round(containerScale * item.cptHeight)+'px',
