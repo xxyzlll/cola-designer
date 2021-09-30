@@ -66,7 +66,7 @@
                   height:Math.round(containerScale*item.cptHeight)+'px',
                   top:Math.round(containerScale*item.cptY)+'px',left:Math.round(containerScale*item.cptX)+'px',
                   zIndex:item.cptZ}"
-               @mousedown="showConfigBar(item,index)" cptIndex="index">
+               @mousedown="showConfigBar(item,index)" :cptIndex="index">
             <div v-dragParent style="width: 100%;height: 100%;overflow: auto;">
               <comment :is="item.cptName" :ref="item.cptName+index" :width="Math.round(containerScale*item.cptWidth)"
                        :height="Math.round(containerScale*item.cptHeight)" :option="item.option"/>
