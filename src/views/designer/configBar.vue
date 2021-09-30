@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="position: fixed;z-index: 1500;bottom: 40px;right: 30px;">
-      <el-button type="primary" icon="el-icon-s-operation" circle @click="configBarShow = !configBarShow"></el-button>
+      <el-button style='background-color:#3F4B5F;color:white' icon="el-icon-s-operation" circle @click="configBarShow = !configBarShow"></el-button>
     </div>
     <div v-show="configBarShow">
       <el-row style="position: fixed;width: 260px;height:450px;z-index: 1500;

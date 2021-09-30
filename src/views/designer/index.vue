@@ -43,10 +43,13 @@
               导出<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="a">图片</el-dropdown-item>
-              <el-dropdown-item command="b" disabled>JSON</el-dropdown-item>
+              <el-dropdown-item command="img">图片</el-dropdown-item>
+              <el-dropdown-item command="json">JSON</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
+        </div>
+        <div style="float: right;margin: 0 10px;">
+          <span style="font-size: 14px;color: #aaa">导入</span>
         </div>
       </el-col>
     </el-row>
@@ -63,7 +66,7 @@
                   height:Math.round(containerScale*item.cptHeight)+'px',
                   top:Math.round(containerScale*item.cptY)+'px',left:Math.round(containerScale*item.cptX)+'px',
                   zIndex:item.cptZ}"
-               @mousedown="showConfigBar(item,index)" :cptIndex="index">
+               @mousedown="showConfigBar(item,index)" cptIndex="index">
             <div v-dragParent style="width: 100%;height: 100%;overflow: auto;">
               <comment :is="item.cptName" :ref="item.cptName+index" :width="Math.round(containerScale*item.cptWidth)"
                        :height="Math.round(containerScale*item.cptHeight)" :option="item.option"/>
@@ -117,21 +120,25 @@ export default {
   },
   methods: {
     handleCommand(command) {
-      console.log(command)
-      html2canvas(this.$refs.webContainer, {
-        backgroundColor: '#ffffff'
-      }).then(canvas => {
-        const imgData = canvas.toDataURL("image/jpeg");
-        console.log(11)
-        this.fileDownload(imgData);
-      })
+      if(command === 'img'){
+        html2canvas(this.$refs.webContainer, {
+          backgroundColor: '#ffffff'
+        }).then(canvas => {
+          const imgUrl = canvas.toDataURL("image/jpeg");
+          this.fileDownload(imgUrl,'.png');
+        })
+      }else if(command === 'json'){
+        this.designData.comments = this.cacheComponents;
+        const data = JSON.stringify(this.designData)
+        let uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);//encodeURIComponent解决中文乱码
+        this.fileDownload(uri,'.json');
+      }
     },
-    fileDownload(downloadUrl) {
+    fileDownload(downloadUrl,suffix) {
       let aLink = document.createElement("a");
       aLink.style.display = "none";
       aLink.href = downloadUrl;
-      aLink.download = this.designData.title+".png";
-      // 触发点击-然后移除
+      aLink.download = this.designData.title+suffix;
       document.body.appendChild(aLink);
       aLink.click();
       document.body.removeChild(aLink);
@@ -329,9 +336,8 @@ export default {
   background-color: rgba(140, 197, 255, 0.4)
 }
 .delTag {width: 45px;height: 22px;background: rgba(43, 51, 64, 0.8);border-radius: 2px;color: #ccc;z-index: 2000;
-  position: absolute;top: 0;right: 0;text-align: center;display: none
+  position: absolute;top: 0;right: 0;text-align: center;display: none;cursor: pointer
 }
-.delTag:hover {cursor: pointer}
 .cptDiv:hover .delTag {display: block}
 .focusCptClass:hover .delTag {display: block}
 .resizeTag{width: 10px;height: 10px;position: absolute;bottom: -5px;right: -5px;background-color: #49586e;z-index: 2600;border-radius: 50%}
