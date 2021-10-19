@@ -44,12 +44,12 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="img">图片</el-dropdown-item>
-              <el-dropdown-item command="json">JSON</el-dropdown-item>
+              <el-dropdown-item command="json">设计文件</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
-        <div style="float: right;margin: 0 10px;">
-          <span style="font-size: 14px;color: #aaa">导入</span>
+        <div style="float: right;margin: 0 10px;" @click="importDesign()">
+          <span style="font-size: 14px;cursor: pointer">导入</span>
         </div>
       </el-col>
     </el-row>
@@ -84,6 +84,7 @@
                 :currentCpt="currentCpt" @refreshCptData="refreshCptData"/><!--右侧属性栏-->
     <config-form ref="configForm" :formData="designData" @saveConfigForm="saveConfigForm"
                  @cancel="cancelConfigForm" @updateScale="initContainerSize"/>
+    <input v-show="false" type="file" id="files" ref="refFile" @change="fileLoad" accept=".cd">
   </div>
 </template>
 
@@ -93,7 +94,8 @@ import ConfigBar from "@/views/designer/configBar";
 import cptOptions from "@/components/options"
 import ConfigForm from "@/views/designer/configForm";
 import html2canvas from 'html2canvas';
-import {fileDownload} from '@/utils/fileUtil'
+import {fileDownload} from '@/utils/FileUtil'
+import env from "/env";
 
 export default {
   name: 'design-index',
@@ -107,7 +109,7 @@ export default {
       conHeight: 0,
       copyDom: '',
       designData:{
-        id:'',title:'我的大屏', scaleX:16, scaleY:9,
+        id:'',title:'我的大屏', scaleX:16, scaleY:9, version:'',
         bgColor:'#2B3340',simpleDesc:'',bgImg:'',viewCode:'',components:[]
       },
       oldDesignData:'',//大屏参数表单未保存时还原
@@ -132,7 +134,7 @@ export default {
       this.conWidth = tempWidth;
       this.conHeight = tempHeight;
       //缩放思路：组件尺寸始终保持1024为基准，保证在每台电脑上的尺寸一致，设计实时缩放，需同步更新配置栏数据
-      this.containerScale = tempWidth / 1024//原始比例1024:576  16:9
+      this.containerScale = tempWidth / 1024//原始比例1024:576
     },
     exportCommand(command) {
       if(command === 'img'){
@@ -143,11 +145,32 @@ export default {
           fileDownload(imgUrl,this.designData.title+'.png');
         })
       }else if(command === 'json'){
-        this.designData.comments = this.cacheComponents;
+        this.designData.components = this.cacheComponents;
         const data = JSON.stringify(this.designData)
         let uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);//encodeURIComponent解决中文乱码
-        fileDownload(uri,this.designData.title+'.json');
+        fileDownload(uri,this.designData.title+'.cd');
       }
+    },
+    importDesign(){
+      this.$refs.refFile.dispatchEvent(new MouseEvent('click'))
+    },
+    fileLoad(){
+      const that = this;
+      const selectedFile = this.$refs.refFile.files[0];
+      const reader = new FileReader();
+      reader.readAsText(selectedFile);
+      reader.onload = function() {
+        const fileJson = JSON.parse(this.result);//文件大小、合法性待校验
+        if (!fileJson.version || fileJson.version !== env.version){
+          that.$message.error('导入失败，与当前版本不一致');
+        }else{
+          that.designData = fileJson;
+          that.cacheComponents = fileJson.components;
+          that.designData.components = [];
+          that.$message.success('导入成功');
+        }
+      }
+      this.$refs.refFile.value =''
     },
     clearDesign(){
       this.$confirm('此操作将会清空图层，是否继续？', '警告', {
@@ -165,9 +188,15 @@ export default {
       const cacheStr = localStorage.getItem('designCache');
       if (cacheStr){
         this.designData = JSON.parse(cacheStr);
-        this.cacheComponents = this.designData.components;
-        this.designData.components = [];//单纯洁癖
+        if (!this.designData.version || this.designData.version !== env.version){
+          localStorage.removeItem('designCache');
+          this.$message.success("发现旧版缓存，已清除");
+        }else{
+          this.cacheComponents = this.designData.components;
+          this.designData.components = [];//单纯洁癖
+        }
       }
+      this.designData.version = env.version
     },
     copyCpt(item){
       let copyItem = JSON.parse(JSON.stringify(item))

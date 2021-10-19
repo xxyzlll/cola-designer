@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import httpUtil from "@/utils/httpUtil";
+import httpUtil from "@/utils/HttpUtil";
 export default {
   name: "cpt-text",
   title: '文字框',
