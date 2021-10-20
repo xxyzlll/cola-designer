@@ -37,7 +37,7 @@ const cptOptions = {
                 formSize: 'mini'
             },
             'cpt-image-option':{
-                url:require('/src/assets/exam/btfGirl.png'),
+                url:require('/src/assets/logo.png'),
                 fit:'fill',preview:false
             },
             'cpt-carousel-option':{

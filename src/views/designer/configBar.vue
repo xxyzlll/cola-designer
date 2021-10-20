@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div style="position: fixed;z-index: 1500;bottom: 40px;right: 30px;">
+    <div style="position: fixed;z-index: 2000;bottom: 40px;right: 30px;">
       <el-button style='background-color:#3F4B5F;color:white' icon="el-icon-s-operation" circle @click="configBarShow = !configBarShow"></el-button>
     </div>
     <div v-show="configBarShow">
-      <el-row style="position: fixed;width: 260px;height:450px;z-index: 1500;
+      <el-row style="position: fixed;width: 260px;height:450px;z-index: 2002;
       bottom: 84px;right: 30px;border-radius: 6px;background: rgba(228,230,236,.8);border: 1px solid #3F4B5F">
         <el-row v-drag class="cptTitle">
           <el-col :span="21"><div>组件属性</div></el-col>
