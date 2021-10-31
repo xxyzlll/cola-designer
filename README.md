@@ -1,9 +1,9 @@
 # cola-designer-vue
-gitee：[cola-designer-vue](https://gitee.com/colaiven/cola-designer )
+gitee：<a href="https://gitee.com/colaiven/cola-designer" target="_blank">cola-designer-vue</a>
 
 github：[~~cola-designer-vue(随缘更新)~~](https://github.com/colaiven/cola-designer )
 
-预览地址：https://colaiven.gitee.io/cola-designer/#/
+预览地址：<a href="https://colaiven.gitee.io/cola-designer/#/" target="_blank">colaiven.gitee.io/cola-designer</a>
 #### Project setup
 ```
 yarn install
