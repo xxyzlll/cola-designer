@@ -94,8 +94,9 @@ import ConfigBar from "@/views/designer/configBar";
 import cptOptions from "@/components/options"
 import ConfigForm from "@/views/designer/configForm";
 import html2canvas from 'html2canvas';
-import {fileDownload} from '@/utils/FileUtil'
+import {fileDownload, base64toFile} from '@/utils/FileUtil'
 import env from "/env";
+import {saveOrUpdateApi,uploadFileApi, getByIdApi} from "@/api/DesignerApi";
 
 export default {
   name: 'design-index',
@@ -138,11 +139,9 @@ export default {
     },
     exportCommand(command) {
       if(command === 'img'){
-        html2canvas(this.$refs.webContainer, {
-          backgroundColor: '#ffffff'
-        }).then(canvas => {
-          const imgUrl = canvas.toDataURL("image/jpeg");
-          fileDownload(imgUrl,this.designData.title+'.png');
+        html2canvas(this.$refs.webContainer, {backgroundColor: '#49586e'}).then(canvas => {
+          const canvasData = canvas.toDataURL("image/jpeg");
+          fileDownload(canvasData,this.designData.title+'.png');
         })
       }else if(command === 'json'){
         this.designData.components = this.cacheComponents;
@@ -185,18 +184,30 @@ export default {
       }).catch(() => {});
     },
     loadCacheData(){
-      const cacheStr = localStorage.getItem('designCache');
-      if (cacheStr){
-        this.designData = JSON.parse(cacheStr);
-        if (!this.designData.version || this.designData.version !== env.version){
-          localStorage.removeItem('designCache');
-          this.$message.success("发现旧版缓存，已清除");
+      if ('preview' === env.active){
+        const cacheStr = localStorage.getItem('designCache');
+        if (cacheStr){
+          this.designData = JSON.parse(cacheStr);
+          if (!this.designData.version || this.designData.version !== env.version){
+            localStorage.removeItem('designCache');
+            this.$message.success("发现旧版缓存，已清除");
+          }else{
+            this.cacheComponents = this.designData.components;
+            this.designData.components = [];//单纯洁癖
+          }
+        }
+        this.designData.version = env.version
+      }else{
+        const id = this.$route.query.id;
+        if (id){
+          getByIdApi(id).then(res => {
+            this.designData = res.data;
+            this.cacheComponents = JSON.parse(this.designData.components);
+          })
         }else{
-          this.cacheComponents = this.designData.components;
-          this.designData.components = [];//单纯洁癖
+          this.$message.error('id错')
         }
       }
-      this.designData.version = env.version
     },
     copyCpt(item){
       let copyItem = JSON.parse(JSON.stringify(item))
@@ -219,9 +230,31 @@ export default {
       //this.configBarShow = false;
     },
 
-    submitDesign() {//保存到缓存
-      this.designData.components = this.cacheComponents;
-      localStorage.setItem('designCache', JSON.stringify(this.designData));
+    submitDesign() {//保存
+      if ('preview'===env.active){
+        this.designData.components = this.cacheComponents;
+        localStorage.setItem('designCache', JSON.stringify(this.designData));
+        this.$message.success('已保存')
+      }else {
+        const that = this;
+        if(!that.$route.query.id){
+          that.$message.error('更新异常')
+          return;
+        }
+        html2canvas(this.$refs.webContainer, {backgroundColor: '#49586e'}).then(canvas => {
+          const canvasData = canvas.toDataURL("image/jpeg");
+          let file = base64toFile(canvasData,that.designData.title+'.png');
+          let fileFormData = new FormData()
+          fileFormData.append('file',file)
+          uploadFileApi(fileFormData).then(res => {//上传预览图
+            this.designData.designImg = res.data
+            this.designData.components = JSON.stringify(this.cacheComponents)
+            saveOrUpdateApi(this.designData).then(res => {
+              that.$message.success(res.msg)
+            })
+          })
+        })
+      }
     },
     preview() {//预览按钮
       this.designData.components = this.cacheComponents;

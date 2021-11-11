@@ -1,0 +1,26 @@
+import request from '@/utils/HttpUtil'
+import { baseUrl,fileUrl } from '/env'
+
+export function getByIdApi(id) {
+    return request({
+        url: baseUrl+'/design/getById/'+id,
+        method: 'get'
+    })
+}
+
+export function uploadFileApi(data) {
+    return request({
+        headers: {'Content-Type':'multipart/form-data'},
+        url: fileUrl+'/file/upload?dir=design',
+        method: 'post',
+        data: data
+    })
+}
+
+export function saveOrUpdateApi(data) {
+    return request({
+        url: baseUrl+'/design/saveOrUpdate',
+        method: 'post',
+        data
+    })
+}
