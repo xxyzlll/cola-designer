@@ -16,7 +16,7 @@
         <el-button size="mini" @click="preview" style="margin: 10px 10px;
             background: #49586e;color: #fff;float: right">预览</el-button>
         <el-button size="mini" @click="submitDesign" style="margin: 10px 5px;background: #d5d9e2;float: right">保存</el-button>
-        <div style="float: right;margin: 1px 10px;" class="configBtn" @click="showConfigForm">
+        <div style="float: right;margin: 1px 10px;" class="configBtn" @click="showSittingForm">
           <i style="font-size: 22px;" class="el-icon-setting"/>
         </div>
         <el-popover style="float: right;margin: 1px 10px;"
@@ -58,8 +58,9 @@
         <component-bar @dragStart="dragStart"/><!--左侧组件栏-->
       </div>
       <div style="float: left;" :style="{width:(windowWidth-cptBarWidth-10)+'px'}" @click.self="outBlur">
-        <div class="webContainer" :style="{width:conWidth+'px',height:conHeight+'px',
-                  backgroundColor: designData.bgColor}" @dragover="allowDrop" @drop="drop" ref="webContainer">
+        <div class="webContainer" :style="{width:conWidth+'px',height:conHeight+'px', backgroundColor: designData.bgColor,
+             backgroundImage: designData.bgImg ? 'url('+fileUrl+'/file/img/'+designData.bgImg+')':'none'}"
+             @dragover="allowDrop" @drop="drop" ref="webContainer">
           <div v-for="(item,index) in cacheComponents" :key="item.cptName+index"
                :class="currentCptIndex === index ? {'focusCptClass':true}:{'cptDiv':true}"
                :style="{width:Math.round(containerScale*item.cptWidth)+'px',
@@ -82,8 +83,8 @@
     </div>
     <config-bar ref="configBar" @change="changeCpt"
                 :currentCpt="currentCpt" @refreshCptData="refreshCptData"/><!--右侧属性栏-->
-    <config-form ref="configForm" :formData="designData" @saveConfigForm="saveConfigForm"
-                 @cancel="cancelConfigForm" @updateScale="initContainerSize"/>
+    <sitting-form ref="sittingForm" :formData="designData" @saveSittingForm="saveSittingForm"
+                 @cancel="cancelSittingForm" @updateScale="initContainerSize"/>
     <input v-show="false" type="file" id="files" ref="refFile" @change="fileLoad" accept=".cd">
   </div>
 </template>
@@ -92,7 +93,7 @@
 import ComponentBar from "@/views/designer/componentBar";
 import ConfigBar from "@/views/designer/configBar";
 import cptOptions from "@/components/options"
-import ConfigForm from "@/views/designer/configForm";
+import SittingForm from "@/views/designer/sittingForm";
 import html2canvas from 'html2canvas';
 import {fileDownload, base64toFile} from '@/utils/FileUtil'
 import env from "/env";
@@ -101,9 +102,10 @@ import {setToken} from "@/utils/auth";
 
 export default {
   name: 'design-index',
-  components: {ConfigForm, ConfigBar, ComponentBar},
+  components: {SittingForm, ConfigBar, ComponentBar},
   data() {
     return {
+      fileUrl:env.fileUrl,
       cptBarWidth:200,
       windowWidth:document.documentElement.clientWidth,
       windowHeight:document.documentElement.clientHeight,
@@ -122,7 +124,6 @@ export default {
     }
   },
   created() {
-    this.initContainerSize();
     this.loadCacheData();
   },
   methods: {
@@ -174,9 +175,7 @@ export default {
     },
     clearDesign(){
       this.$confirm('此操作将会清空图层，是否继续？', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+        confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'
       }).then(() => {
         this.cacheComponents = [];
         this.designData.components = [];
@@ -185,6 +184,10 @@ export default {
       }).catch(() => {});
     },
     loadCacheData(){
+      const loading = this.$loading({
+        lock: true, text: '加载中', spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       if ('preview' === env.active){
         const cacheStr = localStorage.getItem('designCache');
         if (cacheStr){
@@ -197,7 +200,9 @@ export default {
             this.designData.components = [];//强迫症
           }
         }
-        this.designData.version = env.version
+        this.designData.version = env.version;
+        this.initContainerSize();
+        loading.close();
       }else{
         const id = this.$route.query.id;
         setToken(this.$route.query.token);
@@ -209,6 +214,8 @@ export default {
               this.cacheComponents = []
             }
             this.designData.components = [];
+            this.initContainerSize();
+            loading.close();
           })
         }else{
           this.$message.error('id错')
@@ -247,6 +254,11 @@ export default {
           that.$message.error('更新异常')
           return;
         }
+        const loading = this.$loading({
+          lock: true, text: '保存中', spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+
         html2canvas(that.$refs.webContainer, {backgroundColor: '#49586e'}).then(canvas => {
           const canvasData = canvas.toDataURL("image/jpeg");
           let file = base64toFile(canvasData,that.designData.title+'.png');
@@ -256,7 +268,8 @@ export default {
             that.designData.designImgId = res.data
             that.designData.components = JSON.stringify(this.cacheComponents)
             saveOrUpdateApi(this.designData).then(res => {
-              that.$message.success(res.msg)
+              loading.close();
+              that.$message.success(res.msg);
             })
           })
         })
@@ -302,10 +315,10 @@ export default {
       this.copyDom = copyDom;
       copyDom.draggable = false;
     },
-    saveConfigForm(formData){
+    saveSittingForm(formData){
       this.designData = formData;
     },
-    cancelConfigForm(){//设置表单关闭
+    cancelSittingForm(){//设置表单关闭
       this.designData = JSON.parse(this.oldDesignData);
       this.initContainerSize();//待优化
     },
@@ -331,9 +344,9 @@ export default {
       this.showConfigBar(cpt, this.cacheComponents.length - 1)//丢下组件后刷新组件属性栏
       this.$refs['configBar'].showConfigBar();
     },
-    showConfigForm() {
+    showSittingForm() {
       this.oldDesignData = JSON.stringify(this.designData)//保存原有数据，点击取消时还原
-      this.$refs['configForm'].opened();
+      this.$refs['sittingForm'].opened();
     }
   },
   directives: {
@@ -392,7 +405,7 @@ export default {
 <style scoped>
 .top {height: 45px;box-shadow: 0 2px 5px #222 inset;color: #fff;overflow: hidden;
   margin: 0;font-size: 18px;line-height: 48px;background: #353F50}
-.webContainer {border: 1px dashed #ccc;margin: 10px auto;position: relative;}
+.webContainer {border: 1px dashed #ccc;margin: 10px auto;background-size:cover;position: relative;}
 .cptDiv {position: absolute;}
 .focusCptClass {
   position: absolute;

@@ -18,13 +18,18 @@
         </el-form-item>
         <el-form-item label="背景图片">
           <el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              :action="fileUrl+'/file/upload?dir=imgPool'"
               :show-file-list="false"
+              :headers="uploadHeaders"
               list-type="picture-card"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload">
-            <img v-if="formData.bgImg" :src="formData.bgImg" class="avatar">
+              :on-success="handleBgImgSuccess"
+              :on-remove="handleRemove"
+              :before-upload="beforeBgImgUpload">
+            <div v-if="formData.bgImg" style="width: 100%;height: 100%;position: relative">
+              <img :src="fileUrl+'/file/img/'+formData.bgImg" style="width: 100%;height: 100%;"/>
+              <i style="position: absolute;z-index: 6;right: 0"
+                 class="el-icon-delete" @click.stop="handleRemove"></i>
+            </div>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -44,6 +49,8 @@
 </template>
 
 <script>
+import {fileUrl} from "/env";
+import {getToken} from "@/utils/auth";
 export default {
   name: "configForm",
   props:{
@@ -51,6 +58,8 @@ export default {
   },
   data(){
     return {
+      fileUrl:fileUrl,
+      uploadHeaders:{'X-Token':getToken()},
       dialogVisible:false,
       scale:'',
       scaleOptions: [
@@ -75,7 +84,7 @@ export default {
       this.dialogVisible = false
     },
     save(){
-      this.$emit('saveConfigForm',JSON.parse(JSON.stringify(this.formData)));
+      this.$emit('saveSittingForm',JSON.parse(JSON.stringify(this.formData)));
       this.dialogVisible = false
     },
     scaleChange(value){//关闭时待优化
@@ -84,12 +93,26 @@ export default {
       this.formData.scaleY = split[1]
       this.$emit('updateScale');
     },
-    handleAvatarSuccess(){
-
+    handleRemove(){
+      this.formData.bgImg = ''
     },
-    beforeAvatarUpload(){
-
-    }
+    handleBgImgSuccess(res){
+      if (res.code !== 1){
+        this.$message.error(res.msg)
+      }
+      this.formData.bgImg = res.data;
+    },
+    beforeBgImgUpload(file){
+      const isIMG = file.type.substr(0,5) === 'image';
+      const isLt5M = file.size / 1024 / 1024 < 25;
+      if (!isIMG) {
+        this.$message.error('上传图片只能是图片格式!');
+      }
+      if (!isLt5M) {
+        this.$message.error('上传图片大小不能超过 25MB!');
+      }
+      return isIMG && isLt5M;
+    },
   }
 }
 </script>

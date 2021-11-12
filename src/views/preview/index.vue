@@ -1,5 +1,7 @@
 <template>
-  <div :style="{width: windowWidth+'px',height: windowHeight+'px',backgroundColor: designCache.bgColor}" style="position:relative;overflow: hidden">
+  <div :style="{width: windowWidth+'px',height: windowHeight+'px',backgroundColor: designCache.bgColor,
+       backgroundImage: designCache.bgImg ? 'url('+fileUrl+'/file/img/'+designCache.bgImg+')':'none'}"
+       style="background-size:cover;position:relative;overflow: hidden">
     <transition-group appear name="bounce">
       <div v-for="(item,index) in designCache.components" :key="item.cptName+index"
          style="position: absolute;overflow: auto"
@@ -19,10 +21,14 @@
 </template>
 
 <script>
+import {getByIdApi} from "@/api/DesignerApi";
+import {fileUrl} from "/env";
+
 export default {
   name: "preview_index",
   data(){
     return{
+      fileUrl:fileUrl,
       designCache:{},
       windowWidth:document.documentElement.clientWidth,
       windowHeight: document.documentElement.clientHeight,
@@ -33,13 +39,22 @@ export default {
     this.loadCacheData();
   },
   methods:{
-    loadCacheData(){
-      let designCache = JSON.parse(localStorage.getItem('designCache'));
+    async loadCacheData(){
+      const path = this.$route.path;
+      let designCache;
+      if (path === '/preview'){
+        designCache = JSON.parse(localStorage.getItem('designCache'));
+      }else if(path === '/view'){
+        await getByIdApi(this.$route.query.id).then(res => {
+          designCache = res.data;
+          designCache.components = JSON.parse(designCache.components);
+        })
+      }
       this.windowHeight = Math.round(this.windowWidth / designCache.scaleX * designCache.scaleY);
       document.title = designCache.title
       this.containerScale = this.windowWidth / 1024
       this.designCache = designCache;
-    }
+    },
   }
 }
 </script>
