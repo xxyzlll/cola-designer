@@ -97,6 +97,7 @@ import html2canvas from 'html2canvas';
 import {fileDownload, base64toFile} from '@/utils/FileUtil'
 import env from "/env";
 import {saveOrUpdateApi,uploadFileApi, getByIdApi} from "@/api/DesignerApi";
+import {setToken} from "@/utils/auth";
 
 export default {
   name: 'design-index',
@@ -193,16 +194,21 @@ export default {
             this.$message.success("发现旧版缓存，已清除");
           }else{
             this.cacheComponents = this.designData.components;
-            this.designData.components = [];//单纯洁癖
+            this.designData.components = [];//强迫症
           }
         }
         this.designData.version = env.version
       }else{
         const id = this.$route.query.id;
+        setToken(this.$route.query.token);
         if (id){
           getByIdApi(id).then(res => {
             this.designData = res.data;
             this.cacheComponents = JSON.parse(this.designData.components);
+            if (!this.cacheComponents){
+              this.cacheComponents = []
+            }
+            this.designData.components = [];
           })
         }else{
           this.$message.error('id错')
@@ -241,14 +247,14 @@ export default {
           that.$message.error('更新异常')
           return;
         }
-        html2canvas(this.$refs.webContainer, {backgroundColor: '#49586e'}).then(canvas => {
+        html2canvas(that.$refs.webContainer, {backgroundColor: '#49586e'}).then(canvas => {
           const canvasData = canvas.toDataURL("image/jpeg");
           let file = base64toFile(canvasData,that.designData.title+'.png');
           let fileFormData = new FormData()
           fileFormData.append('file',file)
-          uploadFileApi(fileFormData).then(res => {//上传预览图
-            this.designData.designImg = res.data
-            this.designData.components = JSON.stringify(this.cacheComponents)
+          uploadFileApi(that.designData.designImgId,fileFormData).then(res => {//上传预览图
+            that.designData.designImgId = res.data
+            that.designData.components = JSON.stringify(this.cacheComponents)
             saveOrUpdateApi(this.designData).then(res => {
               that.$message.success(res.msg)
             })

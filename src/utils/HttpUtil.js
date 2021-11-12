@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { Message } from "element-ui";
+import {getToken} from "@/utils/auth";
 
 const httpUtil = axios.create({
     timeout: 12000 // request timeout
 })
 httpUtil.interceptors.request.use(
     config => {
-        const token = localStorage.getItem("token");
+        const token = getToken();
         if (token) {
             config.headers['X-Token'] = token
         }

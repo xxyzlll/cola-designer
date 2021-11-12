@@ -8,10 +8,10 @@ export function getByIdApi(id) {
     })
 }
 
-export function uploadFileApi(data) {
+export function uploadFileApi(oldId, data) {
     return request({
         headers: {'Content-Type':'multipart/form-data'},
-        url: fileUrl+'/file/upload?dir=design',
+        url: fileUrl+'/file/upload?dir=design&oldId='+oldId,
         method: 'post',
         data: data
     })
