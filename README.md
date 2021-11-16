@@ -16,6 +16,12 @@ yarn serve
 ```
 yarn build
 ```
+### 后端程序
+管理端和后端程序暂时仓库：https://gitee.com/colaiven/cola-designer-manage
+
+有需求的老铁可以先凑合着用，后期计划会将管理端和设计器合并。
+
+后端架构：Springboot + SpringSecurity + mybatis-plus + mysql + redis
 
 ### 自定义组件
 #### T：自定义组件注册方式
