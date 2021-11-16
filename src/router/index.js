@@ -18,6 +18,10 @@ export default new VueRouter({
             path: '/preview',
             name: 'preview',
             component: Preview
+        }, {
+            path: '/view',
+            name: 'view',
+            component: Preview
         }
     ]
 })

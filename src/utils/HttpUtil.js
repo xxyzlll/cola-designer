@@ -1,14 +1,15 @@
 import axios from 'axios'
 import { Message } from "element-ui";
+import {getToken} from "@/utils/auth";
 
 const httpUtil = axios.create({
-  timeout: 12000 // request timeout
+    timeout: 12000 // request timeout
 })
 httpUtil.interceptors.request.use(
     config => {
-        const token = localStorage.getItem("token");
+        const token = getToken();
         if (token) {
-          config.headers['X-Token'] = token
+            config.headers['X-Token'] = token
         }
         return config
     },
@@ -19,20 +20,20 @@ httpUtil.interceptors.request.use(
 )
 
 httpUtil.interceptors.response.use(
-  response => {
-    const res = response.data
-    if (res.code !== 1) {
-        Message.error(res.msg)
-      return Promise.reject(new Error(res.message || 'Error'))
-    } else {
-      return res
+    response => {
+        const res = response.data
+        if (res.code !== 1) {
+            Message.error(res.msg)
+            return Promise.reject(new Error(res.msg || 'Error'))
+        } else {
+            return res
+        }
+    },
+    error => {
+        console.log('err' + error)
+        Message.error(error.message)
+        return Promise.reject(error)
     }
-  },
-  error => {
-    console.log('err' + error)
-      Message.error(error.message)
-    return Promise.reject(error)
-  }
 )
 httpUtil.doRequest = function (url, method, params) {
     return httpUtil({
@@ -41,5 +42,19 @@ httpUtil.doRequest = function (url, method, params) {
         params
     })
 }
+httpUtil.doGet = function (url, params) {
+    return httpUtil({
+        url: url,
+        method: 'get',
+        params
+    })
+}
+httpUtil.doPost = function (headers, url, data) {
+    return httpUtil({
+        headers: headers,
+        url: url,
+        method: 'post',
+        data: data
+    })
+}
 export default httpUtil
-

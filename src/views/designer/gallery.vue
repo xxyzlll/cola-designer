@@ -6,15 +6,25 @@
                      :label="item.label" :name="item.name" closable>
           <el-row :gutter="6">
             <el-col :span="4" v-for="item2 in item.total" :key="item2">
-              <div style="border: 1px solid #ccc;height: 150px;margin-bottom: 6px;">{{ item2 }}</div>
+              <div style="border: 1px solid #ccc;height: 150px;"></div>
+              <div style="background-color: #ccc;height: 20px;margin-bottom: 6px;">{{ item2 }}</div>
             </el-col>
             <el-col :span="4">
-              <div style="border: 1px solid #ccc;height: 150px;margin-bottom: 6px;
+              <div style="border: 1px solid #ccc;height: 150px;
                   text-align: center;font-size: 90px;line-height: 140px;cursor: pointer;color: #aaa">
                 <i class="el-icon-plus"></i>
               </div>
             </el-col>
           </el-row>
+          <el-pagination style="margin-top: 16px;"
+                         @size-change="handleSizeChange"
+                         @current-change="handleCurrentChange"
+                         :current-page="1" background
+                         :page-sizes="[11, 23, 59, 119]"
+                         :page-size="100"
+                         layout="total, sizes, prev, pager, next, jumper"
+                         :total="400">
+          </el-pagination>
         </el-tab-pane>
         <el-tab-pane label="新增分组" name="add">
           <el-form :inline="true" :model="formGroup" class="demo-form-inline" size="small">
@@ -27,15 +37,7 @@
           </el-form>
         </el-tab-pane>
       </el-tabs>
-      <el-pagination style="margin-top: 16px;"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="1" background
-          :page-sizes="[11, 23, 59, 119]"
-          :page-size="100"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="400">
-      </el-pagination>
+
       <span slot="footer" class="dialog-footer">
         <el-button @click="modelShow = false" size="small">取 消</el-button>
         <el-button type="primary" @click="modelShow = false" size="small">确 定</el-button>
