@@ -21,6 +21,8 @@ yarn build
 
 有需求的老铁可以先凑合着用，后期计划会将管理端和设计器合并。
 
+前期为了方便演示以将后端接口分离，默认使用缓存方式，链接后端需要将env.js中的active修改成dev
+![img.png](src/assets/img.png)
 后端架构：Springboot + SpringSecurity + mybatis-plus + mysql + redis
 
 ### 自定义组件
