@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog title="图片素材库" :visible.sync="modelShow" width="75%" :close-on-click-modal="false">
+    <el-dialog title="图片素材库" :visible.sync="modelShow" width="75%" :close-on-click-modal="false" append-to-body>
       <el-tabs v-model="activeGroup" @tab-click="tabClick" type="border-card" @tab-remove="removeTab">
         <el-tab-pane v-for="item in groupPanes" :key="item.id"
                      :label="item.groupName" :name="item.id" ><!-- closable-->

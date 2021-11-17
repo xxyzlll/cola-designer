@@ -35,8 +35,8 @@ export default {
   },
   methods:{
     refreshCptData(){
-      this.config = JSON.parse(JSON.stringify(this.option))
       getDataStr(this.option.cptDataForm).then(res => {
+        this.config = JSON.parse(JSON.stringify(this.option))
         this.config.data = JSON.parse(res);
       });
     }
