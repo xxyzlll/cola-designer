@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import {getDataStr} from "@/utils/refreshCptData";
 export default {
   name: "cpt-dataV-waterLevel",
   title: "水位图",
@@ -31,10 +32,9 @@ export default {
   methods:{
     refreshCptData(){
       this.config = JSON.parse(JSON.stringify(this.option))
-      this.config.data = JSON.parse(this.option.cptDataForm.dataText)
-      if(this.option.cptDataForm.dataSource === 2){//调接口
-        this.$message.warning('接口还未实现')
-      }
+      getDataStr(this.option.cptDataForm).then(res => {
+        this.config.data = JSON.parse(res);
+      });
     }
   }
 }

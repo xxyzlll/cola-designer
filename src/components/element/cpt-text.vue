@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import httpUtil from "@/utils/HttpUtil";
+import {getDataStr} from "@/utils/refreshCptData";
+
 export default {
   name: "cpt-text",
   title: '文字框',
@@ -28,21 +29,9 @@ export default {
   },
   methods: {
     refreshCptData(){
-      const that = this;
-      const iptStr = that.option.cptDataForm.dataText;
-      if (that.option.cptDataForm.dataSource === 1){
-        that.cptData = iptStr;
-      }else if(that.option.cptDataForm.dataSource === 2){//调接口
-        if (!iptStr){
-          this.$message.error("接口地址不能为空");
-          return;
-        }
-        httpUtil.doRequest(iptStr,'get').then(res => {
-          that.cptData = res.data;
-        })
-      }else if(that.option.cptDataForm.dataSource === 3){
-        this.$message.warning("sql方式待实现")
-      }
+      getDataStr(this.option.cptDataForm).then(res => {
+        this.cptData = res;
+      });
     },
     redirect(){
       if (this.option.url){

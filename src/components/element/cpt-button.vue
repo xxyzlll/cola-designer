@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import {getDataStr} from "@/utils/refreshCptData";
+
 export default {
   name: "cpt-button",
   title: "按钮",
@@ -27,10 +29,9 @@ export default {
   },
   methods:{
     refreshCptData(){
-      this.cptData = this.option.cptDataForm.dataText
-      if(this.option.cptDataForm.dataSource === 2){//调接口
-        this.$message.warning('接口还未实现')
-      }
+      getDataStr(this.option.cptDataForm).then(res => {
+        this.cptData = res;
+      });
     },
     redirect(){
       if(this.option.url){

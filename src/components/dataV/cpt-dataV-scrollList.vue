@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import {getDataStr} from "@/utils/refreshCptData";
+
 export default {
   name: "cpt-dataV-scrollList",
   title: "滚动列表",
@@ -22,19 +24,18 @@ export default {
   },
   watch: {
     'option.refresh': function() {
-      this.refreshCptData()
+      this.refreshCptData();
     }
   },
   created() {
-    this.refreshCptData()
+    this.refreshCptData();
   },
   methods:{
     refreshCptData(){
       this.config = JSON.parse(JSON.stringify(this.option))
-      this.config.data = JSON.parse(this.option.cptDataForm.dataText)
-      if(this.option.cptDataForm.dataSource === 2){//调接口
-        this.$message.warning('接口还未实现')
-      }
+      getDataStr(this.option.cptDataForm).then(res => {
+        this.config.data = JSON.parse(res);
+      });
     },
   }
 }
