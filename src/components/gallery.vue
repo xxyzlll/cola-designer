@@ -48,7 +48,7 @@
 
 <script>
 import {listGroupAllApi, pageListApi} from "@/api/ImgGroupApi";
-import {fileUrl} from "/env";
+import {fileUrl} from "/workspace/colaiven/cola-designer/env";
 
 export default {
   name: "gallery",

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Gallery from "@/views/designer/gallery";
+import Gallery from "@/components/gallery";
 export default {
   name: "cpt-image-option",
   components: {Gallery},
