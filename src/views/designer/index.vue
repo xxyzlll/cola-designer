@@ -218,7 +218,7 @@ export default {
             loading.close();
           })
         }else{
-          this.$message.error('id错')
+          this.$message.error('当前为DEV模式，请从管理端进入')
         }
       }
     },

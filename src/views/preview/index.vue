@@ -1,22 +1,24 @@
 <template>
   <div :style="{width: windowWidth+'px',height: windowHeight+'px',backgroundColor: designCache.bgColor,
        backgroundImage: designCache.bgImg ? 'url('+fileUrl+'/file/img/'+designCache.bgImg+')':'none'}"
-       style="background-size:cover;position:relative;overflow: hidden">
-    <transition-group appear name="bounce">
-      <div v-for="(item,index) in designCache.components" :key="item.cptName+index"
-         style="position: absolute;overflow: auto"
-         :style="{width:Math.round(containerScale * item.cptWidth)+'px',
+       style="background-size:cover;position:relative;overflow: auto">
+    <div style="width: 100%" :style="{height:conHeight+'px'}">
+      <transition-group appear name="bounce">
+        <div v-for="(item,index) in designCache.components" :key="item.cptName+index"
+             style="position: absolute;overflow: auto"
+             :style="{width:Math.round(containerScale * item.cptWidth)+'px',
                   height:Math.round(containerScale * item.cptHeight)+'px',
                   top:Math.round(containerScale*item.cptY)+'px',
                   left:Math.round(containerScale*item.cptX)+'px',
                   zIndex:item.cptZ}">
 
-        <comment :is="item.cptName" :width="Math.round(containerScale * item.cptWidth)"
-                 :height="Math.round(containerScale * item.cptHeight)"
-                 :option="item.option"/>
+          <comment :is="item.cptName" :width="Math.round(containerScale * item.cptWidth)"
+                   :height="Math.round(containerScale * item.cptHeight)"
+                   :option="item.option"/>
 
-      </div>
-    </transition-group>
+        </div>
+      </transition-group>
+    </div>
   </div>
 </template>
 
@@ -30,13 +32,23 @@ export default {
     return{
       fileUrl:fileUrl,
       designCache:{},
-      windowWidth:document.documentElement.clientWidth,
+      windowWidth: document.documentElement.clientWidth,
       windowHeight: document.documentElement.clientHeight,
+      conHeight: 0,
       containerScale:1
     }
   },
-  created() {
+  mounted() {
+    const that = this;
     this.loadCacheData();
+    that.loadSize();
+    window.onresize = () => {
+      return (() => {
+        that.windowWidth = document.documentElement.clientWidth;
+        that.windowHeight = document.documentElement.clientHeight;
+        that.loadSize()
+      })();
+    };
   },
   methods:{
     async loadCacheData(){
@@ -50,11 +62,13 @@ export default {
           designCache.components = JSON.parse(designCache.components);
         })
       }
-      this.windowHeight = Math.round(this.windowWidth / designCache.scaleX * designCache.scaleY);
       document.title = designCache.title
-      this.containerScale = this.windowWidth / 1024
       this.designCache = designCache;
     },
+    loadSize(){
+      this.conHeight = Math.round(this.windowWidth / this.designCache.scaleX * this.designCache.scaleY);
+      this.containerScale = this.windowWidth / 1024
+    }
   }
 }
 </script>
