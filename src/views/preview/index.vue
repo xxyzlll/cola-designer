@@ -24,6 +24,7 @@
 <script>
 import {getByIdApi} from "@/api/DesignerApi";
 import {fileUrl} from "/env";
+import {setToken} from "@/utils/auth";
 
 export default {
   name: "preview_index",
@@ -31,28 +32,27 @@ export default {
     return{
       fileUrl:fileUrl,
       designCache:{},
-      windowWidth: document.documentElement.clientWidth,
-      windowHeight: document.documentElement.clientHeight,
+      windowWidth: 0,
+      windowHeight: 0,
       conHeight: 0,
       containerScale:1
     }
   },
-  created() {
-    this.loadCacheData();
-    this.loadSize();
-  },
   mounted() {
     const that = this;
+    that.loadCacheData().then(res => {
+      that.designCache = res;
+      that.loadSize();
+    });
     window.onresize = () => {
       return (() => {
-        that.windowWidth = document.documentElement.clientWidth;
-        that.windowHeight = document.documentElement.clientHeight;
         that.loadSize()
       })();
     };
   },
   methods:{
     async loadCacheData(){
+      setToken(this.$route.query.token);
       const path = this.$route.path;
       let designCache;
       if (path === '/preview'){
@@ -63,10 +63,12 @@ export default {
           designCache.components = JSON.parse(designCache.components);
         })
       }
-      this.designCache = designCache;
-      document.title = designCache.title
+      document.title = designCache.title;
+      return designCache;
     },
     loadSize(){
+      this.windowWidth = document.documentElement.clientWidth;
+      this.windowHeight = document.documentElement.clientHeight;
       this.conHeight = Math.round(this.windowWidth / this.designCache.scaleX * this.designCache.scaleY);
       this.containerScale = this.windowWidth / 1024
     }
