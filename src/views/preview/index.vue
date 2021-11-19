@@ -1,8 +1,8 @@
 <template>
   <div :style="{width: windowWidth+'px',height: windowHeight+'px',backgroundColor: designCache.bgColor,
        backgroundImage: designCache.bgImg ? 'url('+fileUrl+'/file/img/'+designCache.bgImg+')':'none'}"
-       style="background-size:cover;position:relative;overflow: auto">
-    <div style="width: 100%" :style="{height:conHeight+'px'}">
+       style="background-size:cover;overflow: auto">
+    <div style="width: 100%;position:relative;overflow: hidden;" :style="{height:conHeight+'px'}">
       <transition-group appear name="bounce">
         <div v-for="(item,index) in designCache.components" :key="item.cptName+index"
              style="position: absolute;overflow: auto"
@@ -15,7 +15,6 @@
           <comment :is="item.cptName" :width="Math.round(containerScale * item.cptWidth)"
                    :height="Math.round(containerScale * item.cptHeight)"
                    :option="item.option"/>
-
         </div>
       </transition-group>
     </div>
@@ -38,10 +37,12 @@ export default {
       containerScale:1
     }
   },
+  created() {
+    this.loadCacheData();
+    this.loadSize();
+  },
   mounted() {
     const that = this;
-    this.loadCacheData();
-    that.loadSize();
     window.onresize = () => {
       return (() => {
         that.windowWidth = document.documentElement.clientWidth;
@@ -62,8 +63,8 @@ export default {
           designCache.components = JSON.parse(designCache.components);
         })
       }
-      document.title = designCache.title
       this.designCache = designCache;
+      document.title = designCache.title
     },
     loadSize(){
       this.conHeight = Math.round(this.windowWidth / this.designCache.scaleX * this.designCache.scaleY);
