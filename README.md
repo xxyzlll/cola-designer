@@ -17,7 +17,7 @@ yarn serve
 yarn build
 ```
 ### 后端程序
-后端程序：https://gitee.com/colaiven/cola-designer-manage
+后端程序：https://gitee.com/colaiven/cola-designer-java
 
 前期为了方便演示以将后端接口分离，默认使用缓存方式，链接后端需要将env.js中的active修改成dev
 ![img.png](src/assets/img.png)
