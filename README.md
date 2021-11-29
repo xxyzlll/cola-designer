@@ -17,11 +17,7 @@ yarn serve
 yarn build
 ```
 ### 后端程序
-管理端和后端程序暂时仓库：https://gitee.com/colaiven/cola-designer-manage
-
-使用顺序：启动后台--->启动管理端前段--->启动设计器--->访问管理端--->大屏管理--->设计/预览
-
-有需求的老铁可以先凑合着用，后期计划会将管理端和设计器合并。
+后端程序：https://gitee.com/colaiven/cola-designer-manage
 
 前期为了方便演示以将后端接口分离，默认使用缓存方式，链接后端需要将env.js中的active修改成dev
 ![img.png](src/assets/img.png)
