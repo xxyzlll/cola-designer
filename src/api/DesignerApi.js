@@ -24,3 +24,18 @@ export function saveOrUpdateApi(data) {
         data
     })
 }
+
+
+export function pageListApi(params) {
+    return request({
+        url: baseUrl+'/design/pageList',
+        method: 'get',
+        params
+    })
+}
+export function deleteApi(id) {
+    return request({
+        url: baseUrl+'/design/delete?id='+id,
+        method: 'delete'
+    })
+}

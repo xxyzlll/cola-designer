@@ -47,7 +47,8 @@
 </template>
 
 <script>
-import {listGroupAllApi, pageListApi} from "@/api/ImgGroupApi";
+import {listGroupAllApi} from "@/api/ImgGroupApi";
+import {pageListApi} from "@/api/ImgPool";
 import {fileUrl} from "/workspace/colaiven/cola-designer/env";
 
 export default {

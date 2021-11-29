@@ -98,7 +98,6 @@ import html2canvas from 'html2canvas';
 import {fileDownload, base64toFile} from '@/utils/FileUtil'
 import env from "/env";
 import {saveOrUpdateApi,uploadFileApi, getByIdApi} from "@/api/DesignerApi";
-import {setToken} from "@/utils/auth";
 
 export default {
   name: 'design-index',
@@ -205,7 +204,6 @@ export default {
         loading.close();
       }else{
         const id = this.$route.query.id;
-        setToken(this.$route.query.token);
         if (id){
           getByIdApi(id).then(res => {
             this.designData = res.data;

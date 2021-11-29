@@ -24,7 +24,6 @@
 <script>
 import {getByIdApi} from "@/api/DesignerApi";
 import {fileUrl} from "/env";
-import {setToken} from "@/utils/auth";
 
 export default {
   name: "preview_index",
@@ -52,7 +51,6 @@ export default {
   },
   methods:{
     async loadCacheData(){
-      setToken(this.$route.query.token);
       const path = this.$route.path;
       let designCache;
       if (path === '/preview'){
