@@ -1,7 +1,7 @@
 import router from './router'
 import { getToken } from '@/utils/auth' // get token from cookie
 
-const whiteList = ['/login','/404'] // no redirect whitelist
+const whiteList = ['/login','/404','/design'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   const hasToken = getToken()
