@@ -16,13 +16,14 @@ import cpt_chart_mapMigrate_option from '@/components/echarts/options/cpt-chart-
 import cpt_dataV_waterLevel_option from '@/components/dataV/options/cpt-dataV-waterLevel-option'
 import cpt_dataV_decoration_option from '@/components/dataV/options/cpt-dataV-decoration-option'
 import cpt_chart_line_option from '@/components/echarts/options/cpt-chart-line-option'
+import cpt_dataV_digitalFlop_option from '@/components/dataV/options/cpt-dataV-digitalFlop-option'
 
 let cptOptionsList = [
     cpt_button_option, cpt_text_option, cpt_input_option, cpt_image_option,
     cpt_carousel_option, cpt_chart_column_option,cpt_chart_pie_option,cpt_chart_clock_option,
     cpt_dataV_border_option,cpt_dataV_scrollTable_option,cpt_dataV_scrollList_option,
     cpt_chart_mapGc_option,cpt_chart_mapMigrate_option,cpt_dataV_waterLevel_option,
-    cpt_dataV_decoration_option,cpt_chart_line_option
+    cpt_dataV_decoration_option,cpt_chart_line_option,cpt_dataV_digitalFlop_option
 ]
 let listOptions = [];
 cptOptionsList.forEach(ele => {

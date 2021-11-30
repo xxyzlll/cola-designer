@@ -101,7 +101,7 @@ export default {
           login(loginParam).then(res => {
             localStorage.setItem('userinfo', JSON.stringify(res.data))
             setToken(res.data.token)
-            this.$router.push({ path: this.redirect || '/manage' })
+            this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch(error => {
             console.log(error)

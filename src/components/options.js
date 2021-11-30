@@ -51,6 +51,10 @@ const cptOptions = {
             'cpt-dataV-decoration-option': {
                 decorationType:'dv-decoration-1',
                 color1:'#409eff',color2:'#f00',text:'若比伤春意未多',textColor:'#ff0'
+            },
+            'cpt-dataV-digitalFlop-option': {
+                cptDataForm:{dataText:'29999,333',dataSource: 1, pollTime: 0},
+                content: '{nt}个{nt}元', toFixedNum: 2
             }
         }
     },
