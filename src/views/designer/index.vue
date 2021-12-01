@@ -62,13 +62,13 @@
              backgroundImage: designData.bgImg ? 'url('+fileUrl+'/file/img/'+designData.bgImg+')':'none'}"
              @dragover="allowDrop" @drop="drop" ref="webContainer">
           <div v-for="(item,index) in cacheComponents" :key="item.cptName+index"
-               :class="currentCptIndex === index ? {'focusCptClass':true}:{'cptDiv':true}"
+               :class="currentCptIndex === index ? 'focusCptClass' : 'cptDiv'"
                :style="{width:Math.round(containerScale*item.cptWidth)+'px',
                   height:Math.round(containerScale*item.cptHeight)+'px',
                   top:Math.round(containerScale*item.cptY)+'px',left:Math.round(containerScale*item.cptX)+'px',
                   zIndex: currentCptIndex === index ? 1800 : item.cptZ}"
                @mousedown="showConfigBar(item,index)" :cptIndex="index">
-            <div v-dragParent style="width: 100%;height: 100%;overflow: auto;">
+            <div v-dragParent style="width: 100%;height: 100%;">
               <comment :is="item.cptName" :ref="item.cptName+index" :width="Math.round(containerScale*item.cptWidth)"
                        :height="Math.round(containerScale*item.cptHeight)" :option="item.option"/>
             </div>
@@ -412,7 +412,7 @@ export default {
 .cptDiv {position: absolute;}
 .focusCptClass {
   position: absolute;
-  border: 1px dashed rgba(102, 177, 205, 0.6);
+
   background-color: rgba(140, 197, 255, 0.4)
 }
 .delTag {width: 45px;height: 22px;background: rgba(43, 51, 64, 0.8);border-radius: 2px;color: #ccc;z-index: 2000;

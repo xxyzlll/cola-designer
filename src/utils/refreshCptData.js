@@ -44,7 +44,6 @@ export function pollingRefresh(uuid, cptDataForm, loadData){
     loadData();
     if (cptDataForm.pollTime && cptDataForm.pollTime !== 0) {//轮询
         cptTimer[uuid] = setInterval(function () {
-            console.log('轮询')
             loadData();
         }, cptDataForm.pollTime * 1000)
     }
