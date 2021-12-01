@@ -55,6 +55,12 @@ const cptOptions = {
             'cpt-dataV-digitalFlop-option': {
                 cptDataForm:{dataText:'29999,333',dataSource: 1, pollTime: 0},
                 content: '{nt}个{nt}元', toFixedNum: 2
+            },
+            'cpt-dataV-percentPond-option': {
+                cptDataForm:{dataText: '66',dataSource: 1, pollTime: 0},
+                borderWidth: 2,borderRadius: 4,borderGap: 3,
+                lineWidth: 3,lineSpace: 2, localGradient: true,
+                colors: ['#01c4f9', '#c135ff'],
             }
         }
     },
