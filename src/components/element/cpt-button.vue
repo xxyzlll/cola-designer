@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import {getDataStr} from "@/utils/refreshCptData";
+import {getDataStr, pollingRefresh} from "@/utils/refreshCptData";
 
 export default {
   name: "cpt-button",
@@ -21,14 +21,19 @@ export default {
   props:{option:Object},
   data() {
     return {
-      cptData: ''
+      cptData: '',
+      uuid: null
     }
   },
   created() {
+    this.uuid = require('uuid').v1();
     this.refreshCptData();
   },
   methods:{
     refreshCptData(){
+      pollingRefresh(this.uuid, this.option.cptDataForm, this.loadData)
+    },
+    loadData(){
       getDataStr(this.option.cptDataForm).then(res => {
         this.cptData = res;
       });

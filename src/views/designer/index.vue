@@ -98,6 +98,7 @@ import html2canvas from 'html2canvas';
 import {fileDownload, base64toFile} from '@/utils/FileUtil'
 import env from "/env";
 import {saveOrUpdateApi,uploadFileApi, getByIdApi} from "@/api/DesignerApi";
+import {clearCptInterval} from "@/utils/refreshCptData";
 
 export default {
   name: 'design-index',
@@ -178,7 +179,9 @@ export default {
       }).then(() => {
         this.cacheComponents = [];
         this.designData.components = [];
+        this.currentCpt = undefined;
         localStorage.removeItem('designCache');
+        clearCptInterval(null, true);
         this.$message.success("清除成功");
       }).catch(() => {});
     },
@@ -288,8 +291,10 @@ export default {
         type: 'warning'
       }).then(() => {
         this.cacheComponents.splice(index, 1);
-        //this.configBarShow = false;
         this.currentCpt = undefined;
+
+        const childId = this.$refs[cpt.cptName+index][0].uuid
+        clearCptInterval(childId);
       }).catch(() => {});
     },
     changeCpt(position) {//基础属性修改

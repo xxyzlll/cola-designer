@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import {getDataStr} from "@/utils/refreshCptData";
+import {getDataStr, pollingRefresh} from "@/utils/refreshCptData";
 
 export default {
   name: "cpt-dataV-digitalFlop",
@@ -19,33 +19,26 @@ export default {
   },
   data(){
     return {
-      flopConfig: {},
-      pollTimer: null
+      uuid: null,
+      flopConfig: {}
     }
   },
-  mounted() {
-    const that = this;
-    that.refreshCptData();
-    if (that.option.cptDataForm.pollTime && that.option.cptDataForm.pollTime !== 0) {//轮询
-      that.pollTimer = setInterval(function () {
-        that.refreshCptData();
-      }, that.option.cptDataForm.pollTime * 1000)
-    }
+  created() {
+    this.uuid = require('uuid').v1();
+    this.refreshCptData();
   },
   methods: {
     refreshCptData() {
-        getDataStr(this.option.cptDataForm).then(res => {
-          this.flopConfig = {
-            number: res.split(',').map(Number),
-            content: this.option.content,
-            toFixed: this.option.toFixedNum
-          }
-        });
+      pollingRefresh(this.uuid, this.option.cptDataForm, this.loadData)
     },
-  },
-  beforeDestroy() {
-    if(this.pollTimer) { //关闭定时器
-      clearInterval(this.pollTimer);
+    loadData(){
+      getDataStr(this.option.cptDataForm).then(res => {
+        this.flopConfig = {
+          number: res.split(',').map(Number),
+          content: this.option.content,
+          toFixed: this.option.toFixedNum
+        }
+      });
     }
   }
 }

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import {getDataStr} from "@/utils/refreshCptData";
+import {getDataStr, pollingRefresh} from "@/utils/refreshCptData";
 
 export default {
   name: "cpt-chart-column",
@@ -18,10 +18,10 @@ export default {
   },
   data(){
     return {
-      uuid:'',
+      uuid: null,
       chartOption:{},
       chart:undefined,
-      cptData:{}
+      cptData:{},
     }
   },
   watch:{
@@ -44,6 +44,9 @@ export default {
   },
   methods:{
     refreshCptData(){
+      pollingRefresh(this.uuid, this.option.cptDataForm, this.loadData)
+    },
+    loadData(){
       getDataStr(this.option.cptDataForm).then(res => {
         this.cptData = JSON.parse(res);
         this.loadChart(this.option);

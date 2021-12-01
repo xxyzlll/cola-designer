@@ -47,13 +47,19 @@
             <!--      展示数据表单需在option.js初始化cptDataForm-->
             <el-tab-pane label="数据" name="data" v-if="cptDataFormShow">
               <div class="customForm">
-                <el-form size="mini">
+                <el-form size="mini" label-position="top">
                   <el-form-item label="数据类型">
                     <el-radio-group v-model="currentCpt.option.cptDataForm.dataSource">
                       <el-radio :label="1">静态数据</el-radio>
                       <el-radio :label="2">接口</el-radio>
                       <el-radio :label="3">sql</el-radio>
                     </el-radio-group>
+                  </el-form-item>
+                  <el-form-item label="轮询">
+                    <el-switch v-model="dataPollEnable" active-text="开启" inactive-text="关闭"/>
+                  </el-form-item>
+                  <el-form-item label="轮询时间(s)" v-show="dataPollEnable">
+                    <el-input-number v-model="currentCpt.option.cptDataForm.pollTime" :min="0" :max="100" label="描述文字"/>
                   </el-form-item>
                   <el-form-item :label="dataLabels[currentCpt.option.cptDataForm.dataSource-1]">
                     <el-input type="textarea" :rows="5" v-model="currentCpt.option.cptDataForm.dataText"/>
@@ -100,6 +106,24 @@ export default {
         this.customOptionShow = false;
       }
     },
+  },
+  computed:{
+    dataPollEnable: {
+      get(){
+        return !!(this.currentCpt.option.cptDataForm
+            && this.currentCpt.option.cptDataForm.pollTime
+            && this.currentCpt.option.cptDataForm.pollTime !== 0);
+      },
+      set(newValue){
+        if(newValue){
+          this.currentCpt.option.cptDataForm.pollTime = 8;
+        }else{
+          this.currentCpt.option.cptDataForm.pollTime = 0;
+          this.refreshCptData();//清除定时器
+        }
+        return newValue;
+      }
+    }
   },
   data(){
     return{

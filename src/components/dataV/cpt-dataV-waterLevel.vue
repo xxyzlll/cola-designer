@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import {getDataStr} from "@/utils/refreshCptData";
+import {getDataStr, pollingRefresh} from "@/utils/refreshCptData";
 export default {
   name: "cpt-dataV-waterLevel",
   title: "水位图",
@@ -18,7 +18,8 @@ export default {
   },
   data(){
     return {
-      config: {}
+      config: {},
+      uuid: null
     }
   },
   watch: {
@@ -27,10 +28,14 @@ export default {
     }
   },
   created() {
+    this.uuid = require('uuid').v1();
     this.refreshCptData();
   },
   methods:{
     refreshCptData(){
+      pollingRefresh(this.uuid, this.option.cptDataForm, this.loadData)
+    },
+    loadData(){
       getDataStr(this.option.cptDataForm).then(res => {
         this.config = JSON.parse(JSON.stringify(this.option))
         this.config.data = JSON.parse(res);
