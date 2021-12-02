@@ -1,10 +1,18 @@
 import request from '@/utils/HttpUtil'
 import { baseUrl,fileUrl } from '/env'
 
-export function getByIdApi(id) {
+export function getByIdApi(id,mode,viewCode) {
     return request({
-        url: baseUrl+'/design/getById/'+id,
+        url: baseUrl+'/design/getById/'+id+'/'+mode+'/'+viewCode,
         method: 'get'
+    })
+}
+
+export function authViewCodeApi(params) {
+    return request({
+        url: baseUrl+'/design/authViewCode',
+        method: 'get',
+        params
     })
 }
 

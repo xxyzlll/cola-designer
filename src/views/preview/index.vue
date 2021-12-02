@@ -18,11 +18,23 @@
         </div>
       </transition-group>
     </div>
+
+    <el-dialog title="请输入访问码" :visible.sync="authCodeDialogVisible" width="30%" center
+               :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false">
+      <el-form>
+        <el-form-item label="访问码">
+          <el-input v-model="viewCode" autocomplete="off"/>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="authCode">提 交</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import {getByIdApi} from "@/api/DesignerApi";
+import {authViewCodeApi, getByIdApi} from "@/api/DesignerApi";
 import {fileUrl} from "/env";
 
 export default {
@@ -34,15 +46,14 @@ export default {
       windowWidth: 0,
       windowHeight: 0,
       conHeight: 0,
-      containerScale:1
+      containerScale:1,
+      authCodeDialogVisible:false,
+      viewCode:''
     }
   },
   mounted() {
     const that = this;
-    that.loadCacheData().then(res => {
-      that.designCache = res;
-      that.loadSize();
-    });
+    that.loadCacheData();
     window.onresize = () => {
       return (() => {
         that.loadSize()
@@ -50,25 +61,55 @@ export default {
     };
   },
   methods:{
-    async loadCacheData(){
+    loadCacheData(){
       const path = this.$route.path;
-      let designCache;
+      const that = this;
       if (path === '/preview'){
-        designCache = JSON.parse(localStorage.getItem('designCache'));
+        let designCache = JSON.parse(localStorage.getItem('designCache'));
+        this.loadDesign(designCache);
       }else if(path === '/view'){
-        await getByIdApi(this.$route.query.id).then(res => {
-          designCache = res.data;
-          designCache.components = JSON.parse(designCache.components);
+        const id = this.$route.query.id;
+        if (!id){
+          this.$message.error('id错');
+          return;
+        }
+        const viewCode = localStorage.getItem('code'+id);//如果已经输入过访问码就带着访问码一起请求
+        getByIdApi(id,1, viewCode).then(res => {
+          if (res.data === 'NEED_AUTH'){
+            that.authCodeDialogVisible = true;
+          }else{
+            that.loadDesign(res.data);
+          }
         })
       }
-      document.title = designCache.title;
-      return designCache;
+    },
+    loadDesign(design){
+      design.components = JSON.parse(design.components);
+      document.title = design.title;
+      this.designCache = design;
+      this.loadSize();
+    },
+    authCode(){
+      if (!this.viewCode){
+        this.$message.error('请输入访问码');
+        return;
+      }
+      const id = this.$route.query.id;
+      authViewCodeApi({id: id, viewCode:this.viewCode}).then(res => {
+        this.authCodeDialogVisible = false;
+        localStorage.setItem('code'+id, res.data.viewCode);//缓存访问码避免二次刷新需要再次输入
+        this.loadDesign(res.data)
+      })
     },
     loadSize(){
       this.windowWidth = document.documentElement.clientWidth;
       this.windowHeight = document.documentElement.clientHeight;
-      this.conHeight = Math.round(this.windowWidth / this.designCache.scaleX * this.designCache.scaleY);
-      this.containerScale = this.windowWidth / 1024
+      if(this.designCache){
+        this.conHeight = Math.round(this.windowWidth / this.designCache.scaleX * this.designCache.scaleY);
+        this.containerScale = this.windowWidth / 1024
+      }else{
+        this.conHeight = this.windowHeight;
+      }
     }
   }
 }

@@ -208,7 +208,7 @@ export default {
       }else{
         const id = this.$route.query.id;
         if (id){
-          getByIdApi(id).then(res => {
+          getByIdApi(id,0).then(res => {
             this.designData = res.data;
             this.cacheComponents = JSON.parse(this.designData.components);
             if (!this.cacheComponents){
@@ -320,6 +320,7 @@ export default {
     },
     saveSittingForm(formData){
       this.designData = formData;
+      this.submitDesign();
     },
     cancelSittingForm(){//设置表单关闭
       this.designData = JSON.parse(this.oldDesignData);
