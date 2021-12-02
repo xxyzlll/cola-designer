@@ -413,7 +413,7 @@ export default {
 .cptDiv {position: absolute;}
 .focusCptClass {
   position: absolute;
-
+  border: 1px dashed rgba(102, 177, 205, 0.6);
   background-color: rgba(140, 197, 255, 0.4)
 }
 .delTag {width: 45px;height: 22px;background: rgba(43, 51, 64, 0.8);border-radius: 2px;color: #ccc;z-index: 2000;

@@ -1,5 +1,5 @@
 <template>
-  <dv-percent-pond v-if="refreshCpt" :config="pondConfig" style="width: 100%;height: 100%" />
+  <dv-percent-pond :key="refreshFlagKey" :config="pondConfig" style="width: 100%;height: 100%" />
 </template>
 
 <script>
@@ -32,11 +32,12 @@ export default {
     return {
       uuid: null,
       pondConfig:{},
-      refreshCpt: true
+      refreshFlagKey: null //强制刷新视图
     }
   },
   created() {
     this.uuid = require('uuid').v1();
+    this.refreshFlagKey = require('uuid').v1();
     this.refreshCptData();
   },
   methods: {
@@ -44,13 +45,12 @@ export default {
       pollingRefresh(this.uuid, this.option.cptDataForm, this.loadData)
     },
     loadData(){
-      this.refreshCpt = false; //解决视图不刷新bug
       getDataStr(this.option.cptDataForm).then(res => {
         let tempConfig = JSON.parse(JSON.stringify(this.option));
         tempConfig.value = res;
         tempConfig.lineDash = [tempConfig.lineWidth, tempConfig.lineSpace]
         this.pondConfig = tempConfig;
-        this.refreshCpt = true
+        this.refreshFlagKey = require('uuid').v1(); //强制刷新视图
       });
     }
   }

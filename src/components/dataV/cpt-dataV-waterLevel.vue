@@ -1,5 +1,5 @@
 <template>
-  <dv-water-level-pond :config="config" :style="{width:width+'px',height:height+'px'}" />
+  <dv-water-level-pond :key="refreshFlagKey" :config="config" :style="{width:width+'px',height:height+'px'}" />
 </template>
 
 <script>
@@ -19,21 +19,27 @@ export default {
   data(){
     return {
       config: {},
-      uuid: null
+      uuid: null,
+      refreshFlagKey: null
     }
   },
   watch: {
     'option.refresh': function() {
       this.refreshCptData()
+    },
+    width(){
+      this.refreshCptData()
     }
   },
   created() {
     this.uuid = require('uuid').v1();
+    this.refreshFlagKey = require('uuid').v1();
     this.refreshCptData();
   },
   methods:{
     refreshCptData(){
-      pollingRefresh(this.uuid, this.option.cptDataForm, this.loadData)
+      pollingRefresh(this.uuid, this.option.cptDataForm, this.loadData);
+      this.refreshFlagKey = require('uuid').v1();
     },
     loadData(){
       getDataStr(this.option.cptDataForm).then(res => {
