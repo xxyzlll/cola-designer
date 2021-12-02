@@ -66,7 +66,7 @@ export default {
       const that = this;
       if (path === '/preview'){
         let designCache = JSON.parse(localStorage.getItem('designCache'));
-        this.loadDesign(designCache);
+        this.loadDesign(designCache,false);
       }else if(path === '/view'){
         const id = this.$route.query.id;
         if (!id){
@@ -78,13 +78,15 @@ export default {
           if (res.data === 'NEED_AUTH'){
             that.authCodeDialogVisible = true;
           }else{
-            that.loadDesign(res.data);
+            that.loadDesign(res.data, true);
           }
         })
       }
     },
-    loadDesign(design){
-      design.components = JSON.parse(design.components);
+    loadDesign(design, componentPares){
+      if (componentPares){
+        design.components = JSON.parse(design.components);
+      }
       document.title = design.title;
       this.designCache = design;
       this.loadSize();
@@ -98,7 +100,7 @@ export default {
       authViewCodeApi({id: id, viewCode:this.viewCode}).then(res => {
         this.authCodeDialogVisible = false;
         localStorage.setItem('code'+id, res.data.viewCode);//缓存访问码避免二次刷新需要再次输入
-        this.loadDesign(res.data)
+        this.loadDesign(res.data,true)
       })
     },
     loadSize(){
