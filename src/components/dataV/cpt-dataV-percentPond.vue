@@ -50,7 +50,7 @@ export default {
         tempConfig.value = res;
         tempConfig.lineDash = [tempConfig.lineWidth, tempConfig.lineSpace]
         this.pondConfig = tempConfig;
-        this.refreshFlagKey = require('uuid').v1(); //强制刷新视图
+        this.refreshFlagKey = require('uuid').v1(); //强制刷新视图 报错为dataV组件内部bug
       });
     }
   }

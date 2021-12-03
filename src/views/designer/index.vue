@@ -103,12 +103,18 @@ import {clearCptInterval} from "@/utils/refreshCptData";
 export default {
   name: 'design-index',
   components: {SittingForm, ConfigBar, ComponentBar},
+  computed:{
+    windowWidth(){
+      return document.documentElement.clientWidth;
+    },
+    windowHeight(){
+      return document.documentElement.clientHeight
+    }
+  },
   data() {
     return {
       fileUrl:env.fileUrl,
       cptBarWidth:200,
-      windowWidth:document.documentElement.clientWidth,
-      windowHeight:document.documentElement.clientHeight,
       conWidth: 0,
       conHeight: 0,
       copyDom: '',

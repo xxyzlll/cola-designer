@@ -23,6 +23,17 @@ export default {
       flopConfig: {}
     }
   },
+  watch: {
+    option: {
+      handler() {
+        this.loadData();
+      },
+      deep: true//深度监听
+    },
+    width(){
+      this.loadData();
+    }
+  },
   created() {
     this.uuid = require('uuid').v1();
     this.refreshCptData();
@@ -36,7 +47,10 @@ export default {
         this.flopConfig = {
           number: res.split(',').map(Number),
           content: this.option.content,
-          toFixed: this.option.toFixedNum
+          toFixed: this.option.toFixedNum,
+          textAlign: this.option.textAlign,
+          rowGap: this.option.rowGap,
+          style: this.option.style
         }
       });
     }

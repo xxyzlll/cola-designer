@@ -18,6 +18,12 @@
     <el-form-item label="线条间隔">
       <el-input-number :min="0" :max="20" v-model="option.lineSpace"/>
     </el-form-item>
+<!--    <el-form-item label="颜色1">
+      <el-color-picker v-model="option.colors[0]" show-alpha/>
+    </el-form-item>
+    <el-form-item label="颜色2">
+      <el-color-picker v-model="option.colors[1]" show-alpha/>
+    </el-form-item>-->
   </el-form>
 </template>
 
