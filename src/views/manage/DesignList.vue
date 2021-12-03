@@ -13,22 +13,20 @@
     </el-form>
     <el-row :gutter="24">
       <el-col :span="6" v-for="item in tableData" :key="item.id">
-        <div style="height: 220px;">
-          <div class="designItem" :style="{backgroundImage: item.designImgId ? 'url('+imgUrl+item.designImgId+')':'none'}">
-            <div style="text-indent: 1em;position: absolute;">{{item.title}}</div>
-            <div class="editMask">
-              <div style="text-align: center;line-height: 45px;">
-                <el-button type="primary" size="mini" icon="el-icon-edit-outline" @click="toDesign(item)">设计</el-button>
-              </div>
-              <div style="text-align: center;line-height: 45px;">
-                <el-button type="primary" size="mini" icon="el-icon-view" @click="toView(item)">访问</el-button>
-              </div>
-              <div style="text-align: center;line-height: 45px;">
-                <el-button type="primary" size="mini" icon="el-icon-share" @click="toShare(item)">分享</el-button>
-              </div>
-              <div style="text-align: center;line-height: 45px;">
-                <el-button type="primary" size="mini" icon="el-icon-delete" @click="deleteItem(item)">删除</el-button>
-              </div>
+        <div class="designItem" :style="{backgroundImage: item.designImgId ? 'url('+imgUrl+item.designImgId+')':'none'}">
+          <div style="text-indent: 1em;position: absolute;">{{item.title}}</div>
+          <div class="editMask">
+            <div style="text-align: center;line-height: 45px;">
+              <el-button type="primary" size="mini" icon="el-icon-edit-outline" @click="toDesign(item)">设计</el-button>
+            </div>
+            <div style="text-align: center;line-height: 45px;">
+              <el-button type="primary" size="mini" icon="el-icon-view" @click="toView(item)">访问</el-button>
+            </div>
+            <div style="text-align: center;line-height: 45px;">
+              <el-button type="primary" size="mini" icon="el-icon-share" @click="toShare(item)">分享</el-button>
+            </div>
+            <div style="text-align: center;line-height: 45px;">
+              <el-button type="primary" size="mini" icon="el-icon-delete" @click="deleteItem(item)">删除</el-button>
             </div>
           </div>
         </div>
@@ -120,6 +118,6 @@ export default {
 
 <style scoped>
 .editMask{width: 100%;height: 100%;position:absolute;display:none; background-color: rgba(0,0,0,.6)}
-.designItem{height: 200px;position: relative;background-color: #2b3340;color: #eee;line-height: 30px;background-size: cover}
+.designItem{height: 240px;position: relative;background-color: #2b3340;color: #eee;line-height: 30px;background-size: cover}
 .designItem:hover .editMask{display:block}
 </style>

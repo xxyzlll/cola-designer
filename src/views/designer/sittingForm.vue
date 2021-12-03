@@ -34,10 +34,10 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="个性链接">
-          <el-input v-model="formData.id" autocomplete="off"></el-input>
+          <el-input disabled v-model="formData.id" autocomplete="off"/>
         </el-form-item>
         <el-form-item label="访问码">
-          <el-input v-model="formData.viewCode" autocomplete="off"></el-input>
+          <el-input v-model="formData.viewCode" autocomplete="off"/>
         </el-form-item>
       </el-form>
       <div style="text-align: center;margin-top: 10px;">
