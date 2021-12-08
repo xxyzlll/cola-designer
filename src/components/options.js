@@ -13,14 +13,14 @@ const cptOptions = {
                 }
             },
             'cpt-button-option': {
-                cptDataForm:{dataText:'按钮2',dataSource: 1},
+                cptDataForm:{dataText:'按钮2',dataSource: 1, pollTime: 0},
                 attribute:{
                     url: '', bgColor: '#409eff', textColor: '#fff',
                     radius: 6,
                 }
             },
             'cpt-text-option': {
-                cptDataForm:{dataText:'普通文本',dataSource: 1},
+                cptDataForm:{dataText:'普通文本',dataSource: 1, pollTime: 0},
                 attribute:{
                     url: '', textColor: '#4BB344', textSize: 16,
                     fontWeight: 'bold', textLineHeight: 30,
@@ -90,7 +90,10 @@ const cptOptions = {
                     barWidth: 18, barType: 'bar',xFontRotate:0,
                     barPath: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
                 },
-                cptDataForm:{dataText:'{"xData":"Mon,Tue,Wed,Thu,Fri,Sat,Sun","yData": "120,200,150,80,70,110,130"}',dataSource: 1},
+                cptDataForm:{
+                    dataText:'{"xData":"Mon,Tue,Wed,Thu,Fri,Sat,Sun","yData": "120,200,150,80,70,110,130"}',
+                    dataSource: 1, pollTime: 0
+                },
             },
             'cpt-chart-pie-option': {
                 attribute:{
@@ -99,7 +102,7 @@ const cptOptions = {
                     legendTextColor:'#ddd',legendX:'center', legendY:'bottom',
                     pieColor: ['#91cc75', '#fac858', '#ee6666', '#73c0de' , '#5470c6', '#ff8c71'],
                 },
-                cptDataForm:{dataText: '[{"value":1048,"name":"搜索引擎"},{"value":735,"name":"直接访问"},{"value":580,"name":"邮件营销"},{"value":484,"name":"联盟广告"},{"value":300,"name":"视频广告"}]',dataSource: 1},
+                cptDataForm:{dataText: '[{"value":1048,"name":"搜索引擎"},{"value":735,"name":"直接访问"},{"value":580,"name":"邮件营销"},{"value":484,"name":"联盟广告"},{"value":300,"name":"视频广告"}]',dataSource: 1, pollTime: 0},
             },
             'cpt-chart-clock-option':{
                 attribute:{
@@ -109,7 +112,7 @@ const cptOptions = {
             },
             'cpt-dataV-scrollTable-option':{
                 cptDataForm:{
-                    dataSource: 1,
+                    dataSource: 1, pollTime: 0,
                     dataText: '[["行1列1","行1列2","行1列3"],["行2列1","行2列2","行2列3"],["行3列1","行3列2","行3列3"],["行4列1","行4列2","行4列3"],["行5列1","行5列2","行5列3"],["行6列1","行6列2","行6列3"],["行7列1","行7列2","行7列3"],["行8列1","行8列2","行8列3"],["行9列1","行9列2","行9列3"],["行10列1","行10列2","行10列3"]]'
                 },
                 attribute:{
@@ -130,7 +133,7 @@ const cptOptions = {
             },
             'cpt-dataV-scrollList-option':{
                 cptDataForm:{
-                    dataSource: 1,
+                    dataSource: 1, pollTime: 0,
                     dataText: '[{"name":"周口","value":55},{"name":"南阳","value":120},{"name":"西峡","value":78},{"name":"驻马店","value":66},{"name":"新乡","value":80},{"name":"信阳","value":45},{"name":"漯河","value":29}]'
                 },
                 attribute:{
@@ -140,12 +143,12 @@ const cptOptions = {
                     carousel:'single',//轮播方式'single'|'page'
                     unit:'个',//数值单位
                     sort:true,//自动排序
-                    valueFormatter:undefined,//数值格式化
+                    valueFormatter:null,//数值格式化
                 }
             },
             'cpt-dataV-waterLevel-option':{
                 cptDataForm:{
-                    dataSource: 1,
+                    dataSource: 1, pollTime: 0,
                     dataText: '["55"]',
                 },
                 attribute:{
@@ -159,7 +162,7 @@ const cptOptions = {
             },
             'cpt-chart-line-option': {
                 cptDataForm:{
-                    dataSource: 1,
+                    dataSource: 1, pollTime: 0,
                     dataText: '{"xData":"Mon,Tue,Wed,Thu,Fri,Sat,Sun","yData": "120,200,150,80,70,110,130"}',
                 },
                 attribute:{
@@ -177,7 +180,7 @@ const cptOptions = {
         options:{
             'cpt-chart-mapGc-option':{
                 cptDataForm:{
-                    dataSource: 1,
+                    dataSource: 1, pollTime: 0,
                     dataText:'[{"name":"南海诸岛","value":0},{"name":"北京","value":54},{"name":"天津","value":13},{"name":"上海","value":40},{"name":"重庆","value":75},{"name":"河北","value":13},{"name":"河南","value":83},{"name":"云南","value":11},{"name":"辽宁","value":19},{"name":"黑龙江","value":15},{"name":"湖南","value":69},{"name":"安徽","value":60},{"name":"山东","value":39},{"name":"新疆","value":4},{"name":"江苏","value":31},{"name":"浙江","value":104},{"name":"江西","value":36},{"name":"湖北","value":1052},{"name":"广西","value":33},{"name":"甘肃","value":7},{"name":"山西","value":9},{"name":"内蒙古","value":7},{"name":"陕西","value":22},{"name":"吉林","value":4},{"name":"福建","value":18},{"name":"贵州","value":5},{"name":"广东","value":98},{"name":"青海","value":1},{"name":"西藏","value":0},{"name":"四川","value":44},{"name":"宁夏","value":4},{"name":"海南","value":22},{"name":"台湾","value":3},{"name":"香港","value":5},{"name":"澳门","value":5}]',
                 },
                 attribute:{
@@ -194,7 +197,7 @@ const cptOptions = {
             },
             'cpt-chart-mapMigrate-option':{
                 cptDataForm: {
-                    dataSource: 1,
+                    dataSource: 1, pollTime: 0,
                     dataText:'{"start":[116.4551,40.2539],"end":[{"name": "上海", "value": 95},{"name": "广州", "value": 90},{"name": "大连", "value": 80},{"name": "南宁", "value": 70},{"name": "南昌", "value": 60},{"name": "拉萨", "value": 50},{"name": "长春", "value": 40},{"name": "包头", "value": 30},{"name": "重庆", "value": 20},{"name": "乌鲁木齐", "value": 100}]}'
                 },
                 attribute:{
