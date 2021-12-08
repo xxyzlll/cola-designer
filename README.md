@@ -5,7 +5,7 @@ Cola-Designer 是一个 基于VUE，实现拖拽 + 配置方式生成数据大�
 在线体验地址：<a href="http://colaiven.gitee.io/cola-designer/#/design" target="_blank">cola-designer/#/design</a>   
 （没钱买服务器暂时只能体验前端，联合后端可自行拉取代码运行体验）   
 
-文档地址：<a href="http://colaiven.gitee.io/cola-designer-doc/" target="_blank">cola-designer-doc/</a>   
+文档地址：<a href="https://colaiven.gitee.io/cola-designer-doc/" target="_blank">cola-designer-doc/</a>   
 
 前端仓库：<a href="https://gitee.com/colaiven/cola-designer" target="_blank">cola-designer</a>   
 
