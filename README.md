@@ -27,8 +27,8 @@ Cola-Designer 是一个 基于VUE，实现拖拽 + 配置方式生成数据大�
 ![](src/assets/readme/d2.png)
 ![](src/assets/readme/d3.png)
 
-定制化需求请联系：   
-<img src="src/assets/readme/QQ.jpg" style="zoom:30%;" />
+定制化需求请联系：    
+<img src="src/assets/readme/QQ.jpg"  width="240px" />
 
 
 
