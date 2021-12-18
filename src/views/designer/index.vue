@@ -132,6 +132,28 @@ export default {
   created() {
     this.loadCacheData();
   },
+  mounted() {
+    const that = this;
+    window.addEventListener("keydown",(event)=>{
+      if (that.currentCptIndex !== -1){
+        let key = event.key
+        switch (key) {//方向键移动当前组件
+          case 'ArrowDown':
+            that.currentCpt.cptY += 1;
+            break;
+          case 'ArrowUp':
+            that.currentCpt.cptY -= 1;
+            break;
+          case 'ArrowLeft':
+            that.currentCpt.cptX -= 1
+            break;
+          case 'ArrowRight':
+            that.currentCpt.cptX += 1
+            break;
+        }
+      }
+    })
+  },
   methods: {
     initContainerSize(){
       let tempWidth = this.windowWidth - this.cptBarWidth - 40;//流出空隙
@@ -249,7 +271,6 @@ export default {
       this.currentCpt = undefined;
       //this.configBarShow = false;
     },
-
     submitDesign() {//保存
       if ('preview'===env.active){
         this.designData.components = this.cacheComponents;
@@ -298,7 +319,6 @@ export default {
       }).then(() => {
         this.cacheComponents.splice(index, 1);
         this.currentCpt = undefined;
-
         const childId = this.$refs[cpt.cptName+index][0].uuid
         clearCptInterval(childId);
       }).catch(() => {});
@@ -360,7 +380,7 @@ export default {
     }
   },
   directives: {
-    dragParent(el, binding, vNode) {//页面上的组件挪到位置
+    dragParent(el, binding, vNode) {//页面上的组件拖动位置
       const that = vNode.context;
       el.onmousedown = function (e) {
         const disX = e.clientX - el.parentNode.offsetLeft;
@@ -374,10 +394,10 @@ export default {
         }
         document.onmouseup = function () {
           document.onmousemove = document.onmouseup = null;
-          const cptIndex = el.parentNode.getAttribute('cptIndex')
           //缩放适应不同屏幕，在容器显示时会重新*缩放比例
-          that.cacheComponents[cptIndex].cptX = Math.round(cptX/that.containerScale);
-          that.cacheComponents[cptIndex].cptY = Math.round(cptY/that.containerScale);
+          that.currentCpt.cptX = Math.round(cptX/that.containerScale);
+          that.currentCpt.cptY = Math.round(cptY/that.containerScale);
+          const cptIndex = el.parentNode.getAttribute('cptIndex')
           that.$refs['configBar'].updateData(that.cacheComponents[cptIndex]);//解决组件移动位置配置栏数据不更新问题
         }
         return false;
@@ -401,8 +421,8 @@ export default {
           document.onmousemove = document.onmouseup = null;
           const cptIndex = el.parentNode.getAttribute('cptIndex');
           //拉伸适应不同屏幕，在容器显示时会重新*缩放比例
-          that.cacheComponents[cptIndex].cptWidth = Math.round(cptWidth/that.containerScale);
-          that.cacheComponents[cptIndex].cptHeight = Math.round(cptHeight/that.containerScale);
+          that.currentCpt.cptWidth = Math.round(cptWidth/that.containerScale);
+          that.currentCpt.cptHeight = Math.round(cptHeight/that.containerScale);
           that.$refs['configBar'].updateData(that.cacheComponents[cptIndex]);//解决缩放组件被遮挡时 配置栏数据不更新
         }
         return false;
