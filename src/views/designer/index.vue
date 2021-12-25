@@ -61,7 +61,7 @@
         <div class="webContainer" :style="{width:conWidth+'px',height:conHeight+'px', backgroundColor: designData.bgColor,
              backgroundImage: designData.bgImg ? 'url('+fileUrl+'/file/img/'+designData.bgImg+')':'none'}"
              @dragover="allowDrop" @drop="drop" ref="webContainer">
-          <div v-for="(item,index) in cacheComponents" :key="item.cptName+index"
+          <div v-for="(item,index) in cacheComponents" :key="item.keyId"
                :class="currentCptIndex === index ? 'focusCptClass' : 'cptDiv'"
                :style="{width:Math.round(containerScale*item.cptWidth)+'px',
                   height:Math.round(containerScale*item.cptHeight)+'px',
@@ -317,8 +317,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.cacheComponents.splice(index, 1);
+        //记录一个bug，v-for key值重复导致页面渲染数据错乱。在丢下组件时实用uuid作为key解决。
         this.currentCpt = undefined;
+        this.cacheComponents.splice(index, 1);
         const childId = this.$refs[cpt.cptName+index][0].uuid
         clearCptInterval(childId);
       }).catch(() => {});
@@ -360,7 +361,8 @@ export default {
         cptName: config.name, cptZ: 1, option: undefined,
         cptX: Math.round(e.offsetX / this.containerScale),
         cptY: Math.round(e.offsetY / this.containerScale),
-        cptWidth: config.initWidth, cptHeight: config.initHeight
+        cptWidth: config.initWidth, cptHeight: config.initHeight,
+        keyId: require('uuid').v1()
       }
       const group = cptOptions[config.group];
       if (group && group.options[config.name + '-option']) {
