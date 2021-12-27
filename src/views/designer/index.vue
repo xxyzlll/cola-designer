@@ -57,7 +57,7 @@
       <div style="float: left;height: 100%;" :style="{width:cptBarWidth+'px'}">
         <component-bar @dragStart="dragStart"/><!--左侧组件栏-->
       </div>
-      <div style="float: left;" :style="{width:(windowWidth-cptBarWidth)+'px'}" @click.self="outBlur">
+      <div style="float: left;" :style="{width:(windowWidth-cptBarWidth-10)+'px'}" @click.self="outBlur">
         <!--顶部刻度线-->
         <div style="height: 10px;margin: 0 auto" :style="{width:conWidth+'px'}">
           <ScaleMarkX/>
@@ -76,7 +76,7 @@
                   zIndex: currentCptIndex === index ? 1800 : item.cptZ}"
                @mousedown="showConfigBar(item,index)" :cptIndex="index">
             <div v-show="currentCptIndex === index" style="position: fixed;border-top: 1px dashed #8898AF;"
-                 :style="{width:conWidth+'px',left:cptBarWidth+20+'px'}"/><!--顶部辅助线-->
+                 :style="{width:conWidth+'px',left:topLineLeft+'px'}"/><!--顶部辅助线-->
             <div v-show="currentCptIndex === index" style="position: fixed;border-right: 1px dashed #8898AF;"
                  :style="{height:conHeight+'px',top:'55px'}"/><!--左侧辅助线-->
             <div v-dragParent style="width: 100%;height: 100%;">
@@ -122,6 +122,9 @@ export default {
     },
     windowHeight(){
       return document.documentElement.clientHeight
+    },
+    topLineLeft(){
+      return (this.windowWidth - this.conWidth - this.cptBarWidth) / 2 + this.cptBarWidth - 5
     }
   },
   data() {
@@ -171,7 +174,7 @@ export default {
     initContainerSize(){
       let tempWidth = this.windowWidth - this.cptBarWidth - 40;//40=两边空隙
       let tempHeight = tempWidth / this.designData.scaleX * this.designData.scaleY;
-      const maxHeight = this.windowHeight - 60;//60=顶部操作条+顶部刻度线
+      const maxHeight = this.windowHeight - 70;//70=顶部操作条+顶部刻度线+底部滚动条
       if (tempHeight > maxHeight){
         tempHeight = maxHeight;
         tempWidth = tempHeight / this.designData.scaleY * this.designData.scaleX
@@ -463,7 +466,7 @@ export default {
 }
 .cptDiv:hover .delTag {display: block}
 .focusCptClass:hover .delTag {display: block}
-.resizeTag{width: 10px;height: 10px;position: absolute;bottom: -5px;right: -5px;background-color: #697E9B;z-index: 2000;border-radius: 50%}
+.resizeTag{width: 8px;height: 8px;position: absolute;bottom: -4px;right: -4px;background-color: #697E9B;z-index: 2000;border-radius: 50%}
 .resizeTag:hover{cursor: nwse-resize}
 .configBtn:hover{cursor: pointer;color: #B6BFCE}
 .selectedItem{margin-top: 2px;line-height: 35px;border-radius: 4px;}
