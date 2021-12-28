@@ -70,6 +70,11 @@ const cptOptions = {
                     lineWidth: 3,lineSpace: 2, localGradient: true,
                     colors: ['#01c4f9', '#c135ff'],
                 }
+            },
+            'cpt-iframe-option':{
+                attribute:{
+                    url: 'https://www.rainy.pub/'
+                }
             }
         }
     },

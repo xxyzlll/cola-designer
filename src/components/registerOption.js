@@ -18,6 +18,7 @@ import cpt_dataV_decoration_option from '@/components/dataV/options/cpt-dataV-de
 import cpt_chart_line_option from '@/components/echarts/options/cpt-chart-line-option'
 import cpt_dataV_digitalFlop_option from '@/components/dataV/options/cpt-dataV-digitalFlop-option'
 import cpt_dataV_percentPond_option from '@/components/dataV/options/cpt-dataV-percentPond-option'
+import cpt_iframe_option from '@/components/element/options/cpt-iframe-option'
 
 let cptOptionsList = [
     cpt_button_option, cpt_text_option, cpt_image_option,
@@ -25,7 +26,7 @@ let cptOptionsList = [
     cpt_dataV_border_option,cpt_dataV_scrollTable_option,cpt_dataV_scrollList_option,
     cpt_chart_mapGc_option,cpt_chart_mapMigrate_option,cpt_dataV_waterLevel_option,
     cpt_dataV_decoration_option,cpt_chart_line_option,cpt_dataV_digitalFlop_option,
-    cpt_dataV_percentPond_option
+    cpt_dataV_percentPond_option,cpt_iframe_option
 ]
 let listOptions = [];
 cptOptionsList.forEach(ele => {
