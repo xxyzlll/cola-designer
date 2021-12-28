@@ -88,7 +88,22 @@
               <i class="el-icon-copy-document" @click.stop="copyCpt(item)"/>
               <i style="margin-left: 4px" class="el-icon-delete" @click.stop="delCpt(item,index)"/>
             </div>
-            <div v-show="currentCptIndex === index" class="resizeTag" v-resize/>
+<!--            <div v-show="currentCptIndex === index" style="top: -4px;left: -4px;cursor: se-resize"
+                 class="resizeTag" v-resize="'lt'"  />
+            <div v-show="currentCptIndex === index" style="top: -4px;left: 48%;cursor: s-resize"
+                 class="resizeTag" v-resize="'t'"  />
+            <div v-show="currentCptIndex === index" style="top: -4px;right: -4px;cursor: ne-resize"
+                 class="resizeTag" v-resize="'rt'"  />-->
+            <div v-show="currentCptIndex === index" style="top: 48%;right: -4px;cursor: w-resize"
+                 class="resizeTag" v-resize="'r'"  />
+            <div v-show="currentCptIndex === index" style="bottom: -4px;right: -4px;cursor: se-resize"
+                 class="resizeTag" v-resize="'rb'"  />
+            <div v-show="currentCptIndex === index" style="bottom: -4px;left: 48%;cursor: s-resize"
+                 class="resizeTag" v-resize="'b'"  />
+<!--            <div v-show="currentCptIndex === index" style="bottom: -4px;left: -4px;cursor: ne-resize"
+                 class="resizeTag" v-resize="'lb'"  />
+            <div v-show="currentCptIndex === index" style="top: 48%;left: -4px;cursor: w-resize"
+                 class="resizeTag" v-resize="'l'"  />-->
           </div>
         </div>
       </div>
@@ -430,8 +445,39 @@ export default {
         const disY = e.clientY - el.parentNode.offsetHeight;
         let cptWidth,cptHeight;
         document.onmousemove = function (me) {
-          cptWidth = me.clientX - disX;
-          cptHeight = me.clientY - disY;
+          switch (binding.value) {
+            case 'lt':
+              cptWidth = me.clientX - disX;
+              cptHeight = me.clientY - disY;
+              break;
+            case 't':
+              cptWidth = me.clientX - disX;
+              cptHeight = me.clientY - disY;
+              break;
+            case 'rt':
+              cptWidth = me.clientX - disX;
+              cptHeight = me.clientY - disY;
+              break;
+            case 'r':
+              cptWidth = me.clientX - disX;
+              break;
+            case 'rb':
+              cptWidth = me.clientX - disX;
+              cptHeight = me.clientY - disY;
+              break;
+            case 'b':
+              cptHeight = me.clientY - disY;
+              break;
+            case 'lb':
+              cptWidth = me.clientX - disX;
+              cptHeight = me.clientY - disY;
+              break;
+            case 'l':
+              cptWidth = me.clientX - disX;
+              cptHeight = me.clientY - disY;
+              break;
+          }
+
           cptWidth = cptWidth < 40 ? 40:cptWidth;//限制最小缩放
           cptHeight = cptHeight < 20 ? 20:cptHeight;
           el.parentNode.style.width = cptWidth + 'px';
@@ -462,8 +508,7 @@ export default {
 .activeMask{width: 100%;height: 100%;position: absolute;z-index: 1801}
 .cptDiv{position: absolute;}
 .cptDiv:hover .delTag {display: block}
-.resizeTag{width: 8px;height: 8px;position: absolute;bottom: -4px;right: -4px;background-color: #697E9B;z-index: 2000;border-radius: 50%}
-.resizeTag:hover{cursor: nwse-resize}
+.resizeTag{width: 8px;height: 8px;position: absolute;background-color: #697E9B;z-index: 2000;border-radius: 50%;}
 .configBtn:hover{cursor: pointer;color: #B6BFCE}
 .selectedItem{margin-top: 2px;line-height: 35px;border-radius: 4px;}
 .selectedItem:hover{cursor: pointer;background: #ddd}
