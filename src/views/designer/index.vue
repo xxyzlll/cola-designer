@@ -69,8 +69,7 @@
             <ScaleMarkY/><!--左侧刻度线-->
           </div>
           <div v-for="(item,index) in cacheComponents" :key="item.keyId"
-               style="position: absolute;"
-               :style="{width:Math.round(containerScale*item.cptWidth)+'px',
+               class="cptDiv" :style="{width:Math.round(containerScale*item.cptWidth)+'px',
                   height:Math.round(containerScale*item.cptHeight)+'px',
                   top:Math.round(containerScale*item.cptY)+'px',left:Math.round(containerScale*item.cptX)+'px',
                   zIndex: currentCptIndex === index ? 1800 : item.cptZ}"
@@ -80,8 +79,7 @@
             <div v-show="currentCptIndex === index" style="position: fixed;border-right: 1px dashed #8898AF;"
                  :style="{height:conHeight+'px',top:'55px'}"/><!--左侧辅助线-->
             <!-- 2021-12-28新增iframe组件，防止焦点聚焦在iframe内部，添加此蒙版 -->
-            <div v-dragParent style="width: 100%;height: 100%;position: absolute;z-index: 1801;"
-                 :style="currentCptIndex === index ? {backgroundColor:'rgba(140, 197, 255, 0.4)'}:{} "></div>
+            <div v-dragParent class="activeMask" :style="currentCptIndex === index ? {backgroundColor:'rgba(140, 197, 255, 0.4)'}:{}"/>
             <div style="width: 100%;height: 100%;">
               <comment :is="item.cptName" :ref="item.cptName+index" :width="Math.round(containerScale*item.cptWidth)"
                        :height="Math.round(containerScale*item.cptHeight)" :option="item.option"/>
@@ -461,8 +459,9 @@ export default {
 .delTag {width: 45px;height: 22px;background: rgba(43, 51, 64, 0.8);border-radius: 2px;color: #ccc;z-index: 2000;
   position: absolute;top: 0;right: 0;text-align: center;display: none;cursor: pointer
 }
+.activeMask{width: 100%;height: 100%;position: absolute;z-index: 1801}
+.cptDiv{position: absolute;}
 .cptDiv:hover .delTag {display: block}
-.focusCptClass:hover .delTag {display: block}
 .resizeTag{width: 8px;height: 8px;position: absolute;bottom: -4px;right: -4px;background-color: #697E9B;z-index: 2000;border-radius: 50%}
 .resizeTag:hover{cursor: nwse-resize}
 .configBtn:hover{cursor: pointer;color: #B6BFCE}
