@@ -133,18 +133,14 @@ export default {
   name: 'design-index',
   components: {ScaleMarkY, ScaleMarkX, SittingForm, ConfigBar, ComponentBar},
   computed:{
-    windowWidth(){
-      return document.documentElement.clientWidth;
-    },
-    windowHeight(){
-      return document.documentElement.clientHeight
-    },
     topLineLeft(){
       return (this.windowWidth - this.conWidth - this.cptBarWidth) / 2 + this.cptBarWidth - 5
     }
   },
   data() {
     return {
+      windowWidth:0,
+      windowHeight:0,
       fileUrl:env.fileUrl,
       cptBarWidth:200,
       conWidth: 0,
@@ -185,9 +181,16 @@ export default {
         }
       }
     })
+    window.onresize = () => {
+      return (() => {
+        that.initContainerSize()
+      })();
+    };
   },
   methods: {
     initContainerSize(){
+      this.windowWidth = document.documentElement.clientWidth
+      this.windowHeight = document.documentElement.clientHeight
       let tempWidth = this.windowWidth - this.cptBarWidth - 40;//40=两边空隙
       let tempHeight = tempWidth / this.designData.scaleX * this.designData.scaleY;
       const maxHeight = this.windowHeight - 70;//70=顶部操作条+顶部刻度线+底部滚动条
