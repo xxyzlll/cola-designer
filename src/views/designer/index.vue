@@ -328,9 +328,9 @@ export default {
           uploadFileApi(that.designData.designImgId,fileFormData).then(res => {//上传预览图
             that.designData.designImgId = res.data
             that.designData.components = JSON.stringify(this.cacheComponents)
-            saveOrUpdateApi(this.designData).then(res => {
+            saveOrUpdateApi(this.designData).then(res2 => {
               loading.close();
-              that.$message.success(res.msg);
+              that.$message.success(res2.msg);
             })
           })
         })
@@ -499,7 +499,7 @@ export default {
 <style scoped>
 .top {height: 45px;box-shadow: 0 2px 5px #222 inset;color: #fff;overflow: hidden;
   margin: 0;font-size: 18px;line-height: 48px;background: #353F50}
-.webContainer {position: relative;margin: 0 auto;background-size:cover;}
+.webContainer {position: relative;margin: 0 auto;background-size:100% 100%;}
 .delTag {width: 45px;height: 22px;background: rgba(43, 51, 64, 0.8);border-radius: 2px;color: #ccc;z-index: 2000;
   position: absolute;top: 0;right: 0;text-align: center;display: none;cursor: pointer
 }

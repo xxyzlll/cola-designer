@@ -1,7 +1,7 @@
 <template>
   <div :style="{width: windowWidth+'px',height: windowHeight+'px',backgroundColor: designCache.bgColor,
        backgroundImage: designCache.bgImg ? 'url('+fileUrl+'/file/img/'+designCache.bgImg+')':'none'}"
-       style="background-size:cover;overflow: auto">
+       style="background-size:100% 100%;overflow: auto">
     <div style="width: 100%;position:relative;overflow: hidden;" :style="{height:conHeight+'px'}">
       <transition-group appear name="bounce">
         <div v-for="(item) in designCache.components" :key="item.keyId"
