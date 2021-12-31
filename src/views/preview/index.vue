@@ -70,8 +70,8 @@ export default {
         if (!id){
           let designCache = JSON.parse(localStorage.getItem('designCache'));
           this.loadDesign(designCache,false);
-        }else{
-          loadFile('/designData/'+id+'.cd').then(text => {
+        }else{//演示环境用
+          loadFile('/cola-designer/designData/'+id+'.cd').then(text => {
             let designCache = text.data
             this.loadDesign(designCache,false);
           });
