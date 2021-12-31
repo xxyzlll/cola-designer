@@ -211,6 +211,7 @@ export default {
         })
       }else if(command === 'json'){
         this.designData.components = this.cacheComponents;
+        this.designData.version = env.version;
         const data = JSON.stringify(this.designData)
         let uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);//encodeURIComponent解决中文乱码
         fileDownload(uri,this.designData.title+'.cd');

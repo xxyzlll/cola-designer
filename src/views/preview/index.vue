@@ -36,6 +36,7 @@
 <script>
 import {authViewCodeApi, getByIdApi} from "@/api/DesignerApi";
 import {fileUrl} from "/env";
+import {loadFile} from "@/utils/FileUtil";
 
 export default {
   name: "preview_index",
@@ -64,11 +65,18 @@ export default {
     loadCacheData(){
       const path = this.$route.path;
       const that = this;
+      const id = this.$route.query.id;
       if (path === '/preview'){
-        let designCache = JSON.parse(localStorage.getItem('designCache'));
-        this.loadDesign(designCache,false);
+        if (!id){
+          let designCache = JSON.parse(localStorage.getItem('designCache'));
+          this.loadDesign(designCache,false);
+        }else{
+          loadFile('/designData/'+id+'.cd').then(text => {
+            let designCache = text.data
+            this.loadDesign(designCache,false);
+          });
+        }
       }else if(path === '/view'){
-        const id = this.$route.query.id;
         if (!id){
           this.$message.error('id错');
           return;
