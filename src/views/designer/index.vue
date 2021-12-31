@@ -79,7 +79,7 @@
             <div v-show="currentCptIndex === index" style="position: fixed;border-right: 1px dashed #8898AF;"
                  :style="{height:conHeight+'px',top:'55px'}"/><!--左侧辅助线-->
             <!-- 2021-12-28新增iframe组件，防止焦点聚焦在iframe内部，添加此蒙版 -->
-            <div v-resize="'move'" class="activeMask" :style="currentCptIndex === index ? {backgroundColor:'rgba(140, 197, 255, 0.4)'}:{}"/>
+            <div v-resize="'move'" class="activeMask" :style="currentCptIndex === index ? {border:'1px solid #B6BFCE'}:{}"/>
             <div style="width: 100%;height: 100%;">
               <comment :is="item.cptName" :ref="item.cptName+index" :width="Math.round(containerScale*item.cptWidth)"
                        :height="Math.round(containerScale*item.cptHeight)" :option="item.option"/>
@@ -88,11 +88,11 @@
               <i class="el-icon-copy-document" @click.stop="copyCpt(item)"/>
               <i style="margin-left: 4px" class="el-icon-delete" @click.stop="delCpt(item,index)"/>
             </div>
-            <div v-show="currentCptIndex === index" style="top: -4px;left: -4px;cursor: se-resize"
+            <div v-show="currentCptIndex === index" style="top: -3px;left: -3px;cursor: se-resize"
                  class="resizeTag" v-resize="'lt'"  />
-            <div v-show="currentCptIndex === index" style="top: -4px;left: 48%;cursor: s-resize"
+            <div v-show="currentCptIndex === index" style="top: -3px;left: 48%;cursor: s-resize"
                  class="resizeTag" v-resize="'t'"  />
-            <div v-show="currentCptIndex === index" style="top: -4px;right: -4px;cursor: ne-resize"
+            <div v-show="currentCptIndex === index" style="top: -3px;right: -4px;cursor: ne-resize"
                  class="resizeTag" v-resize="'rt'"  />
             <div v-show="currentCptIndex === index" style="top: 48%;right: -4px;cursor: w-resize"
                  class="resizeTag" v-resize="'r'"  />
@@ -100,9 +100,9 @@
                  class="resizeTag" v-resize="'rb'"  />
             <div v-show="currentCptIndex === index" style="bottom: -4px;left: 48%;cursor: s-resize"
                  class="resizeTag" v-resize="'b'"  />
-            <div v-show="currentCptIndex === index" style="bottom: -4px;left: -4px;cursor: ne-resize"
+            <div v-show="currentCptIndex === index" style="bottom: -4px;left: -3px;cursor: ne-resize"
                  class="resizeTag" v-resize="'lb'"  />
-            <div v-show="currentCptIndex === index" style="top: 48%;left: -4px;cursor: w-resize"
+            <div v-show="currentCptIndex === index" style="top: 48%;left: -3px;cursor: w-resize"
                  class="resizeTag" v-resize="'l'"  />
           </div>
         </div>
@@ -509,7 +509,7 @@ export default {
 .activeMask{width: 100%;height: 100%;position: absolute;z-index: 1801}
 .cptDiv{position: absolute;}
 .cptDiv:hover .delTag {display: block}
-.resizeTag{width: 8px;height: 8px;position: absolute;background-color: #697E9B;z-index: 2000;border-radius: 50%;}
+.resizeTag{width: 6px;height: 6px;position: absolute;background-color: #B6BFCE;z-index: 2000;border-radius: 50%;}
 .configBtn:hover{cursor: pointer;color: #B6BFCE}
 .selectedItem{margin-top: 2px;line-height: 35px;border-radius: 4px;}
 .selectedItem:hover{cursor: pointer;background: #ddd}
