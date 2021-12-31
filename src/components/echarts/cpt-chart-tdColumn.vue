@@ -6,8 +6,8 @@
 import {getDataStr, pollingRefresh} from "@/utils/refreshCptData";
 
 export default {
-  name: "cpt-chart-column",
-  title: "柱状图",
+  name: "cpt-chart-tdColumn",
+  title: "立体柱图",
   icon: 'el-icon-s-data',
   initWidth: 256,
   initHeight: 191,
@@ -74,12 +74,7 @@ export default {
           left:attribute.titleLeft,
           top:attribute.titleTop
         },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
+        tooltip: {},
         grid: {
           x:10,y:30,x2:10,y2:10,
           containLabel: true
@@ -121,25 +116,57 @@ export default {
             show: attribute.yGridLineShow
           }
         },
-        series: [{
-          data: this.cptData.yData.split(','),
-          type: attribute.barType,//pictorialBar || bar
-          showBackground: attribute.barBgShow,
-          symbol: attribute.barPath,
-          backgroundStyle: {
-            color: 'rgba(180, 180, 180, 0.2)'
-          },
-          barWidth: attribute.barWidth,
-          itemStyle: {
-            borderRadius: attribute.barBorderRadius
-          },
-          label: {
-            show: attribute.barLabelShow, //开启显示
-            position: 'top', //在上方显示
-            color: attribute.barLabelColor,
-            fontSize: attribute.barLabelSize
+        series: [
+          {
+            name: '新增用户数量',
+            type: 'bar',//pictorialBar || bar
+            showBackground: attribute.barBgShow,
+            stack: 'account',
+            barWidth: attribute.barWidth,
+            data: this.cptData.yData.split(',')
+          },{
+            name: '邀请新用户数量',
+            type: 'bar',
+            stack: 'account',
+            barWidth: attribute.barWidth,
+            itemStyle: {
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: '#ffae88' },
+                { offset: 1, color: '#ff7388' }
+              ])
+            },
+            data: this.cptData.yData2.split(',')
+          },{
+            z: 3,
+            type: 'pictorialBar',
+            symbolPosition: 'end',
+            symbol: 'diamond',
+            symbolOffset: [0, '-50%'],
+            symbolSize: [attribute.barWidth, 10],
+            symbolRotate: 0,
+            itemStyle: {
+              normal: {
+                borderWidth: 0,
+                color: '#10e6ff'
+              }
+            },
+            data: this.cptData.yData3.split(',')
+          },{
+            z: 3,
+            type: 'pictorialBar',
+            symbolPosition: 'end',
+            symbol: 'diamond',
+            symbolOffset: [0, '-50%'],
+            symbolSize: [attribute.barWidth, 10],
+            itemStyle: {
+              normal: {
+                borderWidth: 0,
+                color: '#ffcf90'
+              }
+            },
+            data: this.cptData.yData4.split(',')
           }
-        }]
+        ]
       };
       that.chart.setOption(that.chartOption);
     }

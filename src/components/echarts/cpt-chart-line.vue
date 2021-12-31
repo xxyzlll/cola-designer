@@ -66,6 +66,10 @@ export default {
           },
           subtextStyle: { fontSize: 12, color: attribute.subtextColor }
         },
+        grid: {
+          x:10,y:30,x2:10,y2:10,
+          containLabel: true
+        },
         xAxis: {
           type: 'category',
           data: that.cptData.xData.split(','),

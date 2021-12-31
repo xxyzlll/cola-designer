@@ -18,10 +18,11 @@ import cpt_chart_line from '@/components/echarts/cpt-chart-line'
 import cpt_dataV_digitalFlop from '@/components/dataV/cpt-dataV-digitalFlop'
 import cpt_dataV_percentPond from '@/components/dataV/cpt-dataV-percentPond'
 import cpt_iframe from '@/components/element/cpt-iframe'
+import cpt_chart_tdColumn from '@/components/echarts/cpt-chart-tdColumn'
 
 let cptList = [
     cpt_dataV_border,cpt_text,cpt_carousel,cpt_button,cpt_image,
-    cpt_chart_column,cpt_chart_pie,cpt_chart_clock,cpt_dataV_scrollTable,
+    cpt_chart_column,cpt_chart_tdColumn,cpt_chart_pie,cpt_chart_clock,cpt_dataV_scrollTable,
     cpt_dataV_scrollList,cpt_chart_mapGc,cpt_chart_mapMigrate,
     cpt_dataV_waterLevel,cpt_dataV_decoration,cpt_chart_line,
     cpt_dataV_digitalFlop,cpt_dataV_percentPond,cpt_iframe
