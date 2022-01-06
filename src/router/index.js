@@ -8,6 +8,7 @@ import Layout from "@/views/manage/Layout";
 import DesignList from "@/views/manage/DesignList";
 import ImgPool from "@/views/manage/ImgPool";
 import Login from "@/views/manage/Login";
+import ThreeJSDom from "@/components/3D/ThreeJSDom";
 
 export const manageMenus = [
     {
@@ -52,6 +53,10 @@ export default new VueRouter({
             path: '/view',
             name: 'view',
             component: Preview
+        }, {
+            path: '/3d',
+            name: '3d',
+            component: ThreeJSDom
         }
     ]
 })
