@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 1000px;height: 700px;margin: 0 auto" id="container"></div>
+  <div style="width: 1300px;height: 700px;margin: 0 auto" id="container"></div>
 </template>
 
 <script>
@@ -8,6 +8,7 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+
 export default {
   name: "ThreeJSDom",
   data() {
@@ -17,7 +18,9 @@ export default {
       renderer: null,
       mesh: null,
       model:null,
-      controls:null
+      controls:null,
+      clock:null,
+      mixer:null,
     };
   },
   mounted() {
@@ -27,8 +30,10 @@ export default {
   methods: {
     init() {//初始化
       const that = this;
+      that.clock = new THREE.Clock();
       let container = document.getElementById("container");
       that.scene = new THREE.Scene();//  创建场景对象Scene
+      that.scene.background = new THREE.Color( 0xbfe3dd );
 
       //相机
       this.camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
@@ -45,19 +50,28 @@ export default {
         model.scale.set( 0.01, 0.01, 0.01 );
         that.model = model
         that.scene.add( model );
+
+        that.mixer = new THREE.AnimationMixer( model );
+        that.mixer.clipAction( gltf.animations[ 0 ] ).play();
         that.animate()
       }, undefined, function ( e ) {
-        console.error('ppppppppp', e );
+        console.error('error', e );
       } );
 
       /**
        * 创建渲染器对象
        */
-      this.renderer = new THREE.WebGLRenderer({ antialias: true,alpha: true });
+      this.renderer = new THREE.WebGLRenderer({ antialias: true });
       this.renderer.setSize(container.clientWidth, container.clientHeight);
+      this.renderer.setPixelRatio( window.devicePixelRatio );
+      this.renderer.outputEncoding = THREE.sRGBEncoding;
       container.appendChild(this.renderer.domElement);
       //创建控件对象
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+      this.controls.target.set( 0, 0.5, 0 );
+      this.controls.update();
+      this.controls.enablePan = false;
+      this.controls.enableDamping = true;
 
       const pmremGenerator = new THREE.PMREMGenerator( this.renderer );
       this.scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.02 ).texture;
@@ -66,6 +80,11 @@ export default {
       if (this.model){
         requestAnimationFrame(this.animate);
         /*this.model.rotation.y += 0.01;*/
+
+        const delta = this.clock.getDelta();
+        this.mixer.update( delta );
+        this.controls.update();
+
         this.renderer.render(this.scene, this.camera);
       }
     }
