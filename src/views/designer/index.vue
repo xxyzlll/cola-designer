@@ -19,21 +19,6 @@
         <div style="float: right;margin: 1px 10px;" class="configBtn" @click="showSittingForm">
           <i style="font-size: 22px;" class="el-icon-setting"/>
         </div>
-        <el-popover style="float: right;margin: 1px 10px;"
-                    placement="bottom" title="已选图层" width="200" trigger="click">
-          <div style="overflow: auto" :style="{maxHeight:(conHeight-30)+'px'}">
-            <el-row v-for="(item,index) in cacheComponents" :key="item.cptName+index+'x'" class="selectedItem">
-              <el-col :span="4" style="text-align: center"><i :class="item.icon"/></el-col>
-              <el-col :span="15" @click.native="showConfigBar(item,index)">{{item.cptTitle}}</el-col>
-              <el-col :span="5" style="text-align: center">
-                <i class="el-icon-copy-document" @click="copyCpt(item)"/>
-                <i style="margin-left: 4px;" class="el-icon-delete" @click="delCpt(item,index)"/>
-              </el-col>
-            </el-row>
-          </div>
-
-          <i slot="reference" style="font-size: 22px;" class="el-icon-tickets"/>
-        </el-popover>
         <div style="float: right;margin: 1px 10px;" class="configBtn" @click="clearDesign">
           <i style="font-size: 22px;" class="el-icon-delete"/>
         </div>
@@ -55,7 +40,8 @@
     </el-row>
     <div :style="{height: (windowHeight-45)+'px'}" @click.self="outBlur">
       <div style="float: left;height: 100%;" :style="{width:cptBarWidth+'px'}">
-        <component-bar @dragStart="dragStart"/><!--左侧组件栏-->
+        <component-bar @dragStart="dragStart" :selectedComponents="cacheComponents" :currentCptIndex="currentCptIndex"
+                       @showConfigBar="showConfigBar" @copyCpt="copyCpt" @delCpt="delCpt"/><!--左侧组件栏-->
       </div>
       <div style="float: left;" :style="{width:(windowWidth-cptBarWidth-10)+'px'}" @click.self="outBlur">
         <!--顶部刻度线-->
@@ -292,6 +278,7 @@ export default {
       let copyItem = JSON.parse(JSON.stringify(item))
       copyItem.cptX = item.cptX+30//复制的组件向右下偏移
       copyItem.cptY = item.cptY+30
+      copyItem.keyId = require('uuid').v1();
       this.cacheComponents.push(copyItem);
       this.currentCptIndex = this.cacheComponents.length - 1//聚焦到复制的组件
     },
@@ -501,8 +488,8 @@ export default {
 </script>
 
 <style scoped>
-.top {height: 45px;box-shadow: 0 2px 5px #222 inset;color: #fff;overflow: hidden;
-  margin: 0;font-size: 18px;line-height: 48px;background: #353F50}
+.top {height: 45px;box-shadow: 0 2px 5px #2b3340 inset;color: #fff;overflow: hidden;
+  margin: 0;font-size: 18px;line-height: 45px;background: #353F50}
 .webContainer {position: relative;margin: 0 auto;background-size:100% 100%;}
 .delTag {width: 45px;height: 22px;background: rgba(43, 51, 64, 0.8);border-radius: 2px;color: #ccc;z-index: 2000;
   position: absolute;top: 0;right: 0;text-align: center;display: none;cursor: pointer
@@ -512,7 +499,5 @@ export default {
 .cptDiv:hover .delTag {display: block}
 .resizeTag{width: 6px;height: 6px;position: absolute;background-color: #B6BFCE;z-index: 2000;border-radius: 50%;}
 .configBtn:hover{cursor: pointer;color: #B6BFCE}
-.selectedItem{margin-top: 2px;line-height: 35px;border-radius: 4px;}
-.selectedItem:hover{cursor: pointer;background: #ddd}
 .el-dropdown-link { cursor: pointer; color: #fff;}
 </style>

@@ -29,9 +29,9 @@ let cptOptionsList = [
     cpt_dataV_decoration_option,cpt_chart_line_option,cpt_dataV_digitalFlop_option,
     cpt_dataV_percentPond_option,cpt_iframe_option,cpt_chart_tdColumn_option
 ]
-let listOptions = [];
-cptOptionsList.forEach(ele => {
-    Vue.component(ele.name, ele);
-    listOptions.push(ele.name);
-})
-export default listOptions;
+
+export function registerOption(){
+    cptOptionsList.forEach(ele => {
+        Vue.component(ele.name, ele);
+    })
+}
