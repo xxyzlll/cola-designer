@@ -39,7 +39,7 @@
               </div>
             </el-tab-pane>
             <el-tab-pane label="属性" name="custom">
-              <div class="customForm">
+              <div class="customForm" v-if="currentCpt && currentCpt.option">
                 <comment :is="currentCpt.cptName+'-option'" :attribute="currentCpt.option.attribute"></comment>
               </div>
             </el-tab-pane>
@@ -85,7 +85,7 @@ export default {
   watch:{
     currentCpt(newVal) {
       this.cptDataFormShow = false
-      if(!newVal){
+      if(!newVal){//清空时
         this.configBarShow = false
       }else{
         if(this.currentCpt.option.cptDataForm){
