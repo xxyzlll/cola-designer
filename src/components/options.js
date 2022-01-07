@@ -231,6 +231,18 @@ const cptOptions = {
                 }
             }
         }
+    },
+    threeD:{
+        name:'3D',
+        icon:'',
+        opened:true,
+        options:{
+            'cpt-threeJs-dom-option':{
+                attribute:{
+                    cameraX:5,cameraY:2,cameraZ:8,bgColor:'#1f245a',bgAlpha:0.5
+                }
+            }
+        }
     }
 }
 export default cptOptions
