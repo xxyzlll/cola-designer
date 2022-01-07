@@ -232,7 +232,7 @@ const cptOptions = {
             }
         }
     },
-    threeD:{
+    /*threeD:{
         name:'3D',
         icon:'',
         opened:true,
@@ -243,6 +243,6 @@ const cptOptions = {
                 }
             }
         }
-    }
+    }*/
 }
 export default cptOptions
