@@ -14,6 +14,7 @@ export default {
   group: 'chart',
   props:{
     width:Number,
+    height:Number,
     option:Object
   },
   data(){
@@ -32,6 +33,10 @@ export default {
       deep: true//深度监听
     },
     width(){
+      this.chart.resize();
+    },
+    height(){
+      console.log('----',11)
       this.chart.resize();
     }
   },
