@@ -193,6 +193,26 @@ const cptOptions = {
                     yLabelColor:'#eee',yLineColor:'#eee',smooth:false,
                     areaColor1:'rgba(80,141,255,0.39)',areaColor2:'rgba(56,155,255,0.25)',areaColor3:'rgba(38,197,254,0.00)',
                 }
+            },
+            'cpt-dataV-activeRing-option':{
+                cptDataForm:{
+                    dataSource: 1, pollTime: 0,
+                    dataText: '[{"name": "周口","value": 55},{"name": "南阳","value": 120},{"name": "西峡","value": 78},{"name": "驻马店","value": 66}]',
+                },
+                attribute:{
+                    lineWidth: 10,radius:80,activeRadius:60,showOriginValue:false,
+                    color: ['#91cc75', '#fac858', '#ee6666', '#73c0de' , '#5470c6', '#ff8c71']
+                }
+            },
+            'cpt-chart-gauge-option':{
+                cptDataForm:{
+                    dataSource: 1, pollTime: 0,
+                    dataText: '22',
+                },
+                attribute:{
+                    title:'速度',
+                    lineWidth:3,color1:'#67e0e3',color2:'#37a2da',color3:'#fd666d',itemColor:'#6ADA13'
+                }
             }
         }
     },
