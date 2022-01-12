@@ -73,21 +73,24 @@ export default {
           trigger: 'item'
         },
         legend: {
+          show: attribute.legendShow,
           orient: attribute.orient,
           x: attribute.legendX,
           y: attribute.legendY,
           textStyle:{
-            color: attribute.legendTextColor
+            color: attribute.legendTextColor,
+            fontSize: attribute.legendFontSize
           }
         },
         series: [
           {
-            name: '访问来源',
+            name: attribute.chartTitle,
             type: 'pie',
-            radius: '50%',
+            roseType: attribute.roseType==='false' ? false:attribute.roseType,
+            radius: [attribute.radiusInside+'%',attribute.radiusOutside+'%'],
             label: {
-              fontSize: 14,
-              color: '#ddd'
+              fontSize: attribute.labelFontSize,
+              color: attribute.labelColor
             },
             data: this.cptData,
             emphasis: {
