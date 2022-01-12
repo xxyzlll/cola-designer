@@ -25,6 +25,7 @@ export default {
       uuid:'',
       chartOption:{},
       chart:undefined,
+      timer:null
     }
   },
   watch:{
@@ -49,8 +50,7 @@ export default {
     this.chart = this.$echarts.init(document.getElementById(this.uuid));
     this.loadChart(this.option.attribute);
 
-
-    setInterval(function () {
+    this.timer = setInterval(function () {
       let date = new Date();
       let second = date.getSeconds();
       let minute = date.getMinutes() + second / 60;
@@ -90,6 +90,7 @@ export default {
           type: 'gauge',
           startAngle: 90,
           endAngle: -270,
+          radius : '100%',
           min: 0,
           max: 12,
           splitNumber: 12,
@@ -268,6 +269,9 @@ export default {
           }]
       }
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   }
 }
 </script>

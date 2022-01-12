@@ -29,7 +29,7 @@ let cptList = [
     cpt_dataV_scrollList,cpt_chart_mapGc,cpt_chart_mapMigrate,
     cpt_dataV_waterLevel,cpt_dataV_decoration,cpt_chart_line,
     cpt_dataV_digitalFlop,cpt_dataV_percentPond,cpt_iframe,
-    cpt_dataV_activeRing,cpt_chart_gauge,
+    cpt_dataV_activeRing,cpt_chart_gauge
 ]
 
 let cptGroups = {}

@@ -95,5 +95,5 @@ export default {
 .topTab{width:200px;height: 45px;text-align: center;line-height: 45px;cursor: pointer;
   position: fixed;z-index: 7;background: #353f50;box-shadow: 0 1px 3px #2b3340;}
 .focusTab{background: #3F4B5F}
-.selectedItem{margin-top: 4px;line-height: 45px;cursor: pointer;box-shadow: 0 1px 3px #2b3340;}
+.selectedItem{line-height: 45px;cursor: pointer;box-shadow: 0 1px 3px #2b3340 inset;}
 </style>
