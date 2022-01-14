@@ -41,7 +41,12 @@ export default {
     },
     redirect(){
       if (this.option.attribute.url){
-        window.open(this.option.attribute.url)
+        if (this.option.attribute.url.startsWith("view")){
+          this.$router.push(this.option.attribute.url)
+          this.$emit("reload")
+        }else{
+          window.open(this.option.attribute.url)
+        }
       }
     }
   },

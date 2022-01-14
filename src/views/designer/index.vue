@@ -5,14 +5,14 @@
         <el-image style="width: 40px; height: 40px;padding: 0;margin: 0" :src="require('/src/assets/logo.png')"
                   fit="fill"/>
       </el-col>
-      <el-col :span="3">
+      <el-col :span="6">
         <span class="el-icon-magic-stick lg" style="width: 30px"/>
         <span>Cola Designer</span>
         <a style="margin: 0 4px;" href='https://gitee.com/colaiven/cola-designer' target="_blank">
           <el-image style="width: 50px; height: 16px;padding: 0;margin: 0" src='https://gitee.com/colaiven/cola-designer/badge/star.svg?theme=dark' alt='star'/>
         </a>
       </el-col>
-      <el-col :span="19" @click.self.native="outBlur">
+      <el-col :span="16" @click.self.native="outBlur">
         <el-button size="mini" @click="preview" style="margin: 10px 10px;
             background: #49586e;color: #fff;float: right">预览</el-button>
         <el-button size="mini" @click="submitDesign" style="margin: 10px 5px;background: #d5d9e2;float: right">保存</el-button>

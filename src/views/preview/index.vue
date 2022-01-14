@@ -13,7 +13,7 @@
                   zIndex:item.cptZ}">
 
           <comment :is="item.cptName" :width="Math.round(containerScale * item.cptWidth)"
-                   :height="Math.round(containerScale * item.cptHeight)"
+                   :height="Math.round(containerScale * item.cptHeight)" @reload="loadCacheData"
                    :option="item.option"/>
         </div>
       </transition-group>
