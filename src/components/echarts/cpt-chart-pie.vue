@@ -89,8 +89,12 @@ export default {
             roseType: attribute.roseType==='false' ? false:attribute.roseType,
             radius: [attribute.radiusInside+'%',attribute.radiusOutside+'%'],
             label: {
+              position: attribute.labelPosition,
               fontSize: attribute.labelFontSize,
               color: attribute.labelColor
+            },
+            itemStyle: {
+              borderRadius: attribute.borderRadius
             },
             data: this.cptData,
             emphasis: {

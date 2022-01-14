@@ -30,7 +30,7 @@
           <el-color-picker v-model="attribute.xLabelColor" show-alpha/>
         </el-form-item>
         <el-form-item label="x轴字体倾斜">
-          <el-input-number v-model="attribute.xFontRotate" :min="-180" :max="180"/>
+          <el-slider v-model="attribute.xFontRotate" :min="-180" :max="180"/>
         </el-form-item>
       </div>
       <el-form-item label="y轴">

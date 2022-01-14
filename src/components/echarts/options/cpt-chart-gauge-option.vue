@@ -16,10 +16,10 @@
       <el-input-number v-model="attribute.max"/>
     </el-form-item>
     <el-form-item label="起始角度">
-      <el-input-number v-model="attribute.startAngle" :min="-360" :max="360" :step="1"/>
+      <el-slider v-model="attribute.startAngle" :min="-360" :max="360" :step="1"/>
     </el-form-item>
     <el-form-item label="结束角度">
-      <el-input-number v-model="attribute.endAngle" :min="-360" :max="360" :step="1"/>
+      <el-slider v-model="attribute.endAngle" :min="-360" :max="360" :step="1"/>
     </el-form-item>
     <el-form-item label="表盘宽度">
       <el-input-number v-model="attribute.lineWidth" :min="1" :max="100" :step="1"/>
