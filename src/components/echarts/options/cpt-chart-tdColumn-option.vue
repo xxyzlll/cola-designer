@@ -76,7 +76,7 @@
         <el-switch v-model="attribute.barBgShow" active-text="开" inactive-text="关"/>
       </el-form-item>
       <el-form-item label="柱体宽度">
-        <el-input-number v-model="attribute.barWidth" :min="10" :max="100"/>
+        <el-input-number v-model="attribute.barWidth" :min="1" :max="100"/>
       </el-form-item>
     </el-form>
   </div>
