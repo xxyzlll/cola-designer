@@ -9,8 +9,8 @@ export default {
   name: "cpt-chart-gauge",
   title: "仪表盘",
   icon: 'el-icon-stopwatch',
-  initWidth: 256,
-  initHeight: 191,
+  initWidth: 300,
+  initHeight: 200,
   group: 'chart',
   props:{
     width:Number,

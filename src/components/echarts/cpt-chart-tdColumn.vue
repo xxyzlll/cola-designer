@@ -9,8 +9,6 @@ export default {
   name: "cpt-chart-tdColumn",
   title: "立体柱图",
   icon: 'el-icon-s-data',
-  initWidth: 256,
-  initHeight: 191,
   group: 'chart',
   props:{
     width:Number,

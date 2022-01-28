@@ -15,7 +15,7 @@ export default {
   title: '文字框',
   icon: 'el-icon-chat-line-square',
   initWidth: 150,
-  initHeight: 30,
+  initHeight: 40,
   group:'basic',
   props: {
     option: Object

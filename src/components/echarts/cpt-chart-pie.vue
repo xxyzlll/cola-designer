@@ -9,8 +9,6 @@ export default {
   name: "cpt-chart-pie",
   title: "饼图",
   icon: 'el-icon-pie-chart',
-  initWidth: 256,
-  initHeight: 191,
   group: 'chart',
   props:{
     width:Number,
