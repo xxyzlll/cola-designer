@@ -1,8 +1,6 @@
 <template>
   <div class="login-container">
-    <div style="position: absolute;top: 10px;left: 10px;">
-      <img style="width: 300px;height: 100px;" :src="require('@/assets/logo2.png')">
-    </div>
+
     <el-form ref="loginForm" :model="loginForm" size="small" :rules="loginRules"
              class="login-form" auto-complete="on" label-position="left">
       <div style="position: relative;">
@@ -62,7 +60,7 @@ export default {
       }
     }
     return {
-      loginForm: { username: '',password: '',authCode:'' },
+      loginForm: { username: 'admin',password: '0000',authCode:'' },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
