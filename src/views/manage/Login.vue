@@ -1,6 +1,8 @@
 <template>
   <div class="login-container">
-
+<!--    <div style="position: absolute;top: 10px;left: 10px;">
+      <img style="width: 180px;height: 60px;" :src="require('@/assets/logo2.png')">
+    </div>-->
     <el-form ref="loginForm" :model="loginForm" size="small" :rules="loginRules"
              class="login-form" auto-complete="on" label-position="left">
       <div style="position: relative;">
