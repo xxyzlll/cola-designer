@@ -4,7 +4,7 @@
     <el-form ref="loginForm" :model="loginForm" size="small" :rules="loginRules"
              class="login-form" auto-complete="on" label-position="left">
       <div style="position: relative;">
-        <h3 class="title">数字孪生可视化平台</h3>
+        <h3 class="title">cola-designer</h3>
       </div>
       <el-form-item prop="username">
         <div class="formDiv">
