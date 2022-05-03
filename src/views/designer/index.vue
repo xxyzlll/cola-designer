@@ -71,21 +71,21 @@
               <i class="el-icon-copy-document" @click.stop="copyCpt(item)"/>
               <i style="margin-left: 4px" class="el-icon-delete" @click.stop="delCpt(item,index)"/>
             </div>
-            <div v-show="currentCptIndex === index" style="top: -3px;left: -3px;cursor: se-resize"
+            <div v-show="currentCptIndex === index" style="top: 0;left: 0;cursor: se-resize;transform: translate(-50%, -50%)"
                  class="resizeTag" v-resize="'lt'"  />
-            <div v-show="currentCptIndex === index" style="top: -3px;left: 48%;cursor: s-resize"
+            <div v-show="currentCptIndex === index" style="top: 0;left: 50%;cursor: s-resize;transform: translate(-50%, -50%)"
                  class="resizeTag" v-resize="'t'"  />
-            <div v-show="currentCptIndex === index" style="top: -3px;right: -4px;cursor: ne-resize"
+            <div v-show="currentCptIndex === index" style="top: 0;right: 0;cursor: ne-resize;transform: translate(50%, -50%)"
                  class="resizeTag" v-resize="'rt'"  />
-            <div v-show="currentCptIndex === index" style="top: 48%;right: -4px;cursor: w-resize"
+            <div v-show="currentCptIndex === index" style="top: 50%;right: 0;cursor: w-resize;transform: translate(50%, -50%)"
                  class="resizeTag" v-resize="'r'"  />
-            <div v-show="currentCptIndex === index" style="bottom: -4px;right: -4px;cursor: se-resize"
+            <div v-show="currentCptIndex === index" style="bottom: 0;right: 0;cursor: se-resize;transform: translate(50%, 50%)"
                  class="resizeTag" v-resize="'rb'"  />
-            <div v-show="currentCptIndex === index" style="bottom: -4px;left: 48%;cursor: s-resize"
+            <div v-show="currentCptIndex === index" style="bottom: 0;left: 50%;cursor: s-resize;transform: translate(-50%, 50%)"
                  class="resizeTag" v-resize="'b'"  />
-            <div v-show="currentCptIndex === index" style="bottom: -4px;left: -3px;cursor: ne-resize"
+            <div v-show="currentCptIndex === index" style="bottom: 0;left: 0;cursor: ne-resize;transform: translate(-50%, 50%)"
                  class="resizeTag" v-resize="'lb'"  />
-            <div v-show="currentCptIndex === index" style="top: 48%;left: -3px;cursor: w-resize"
+            <div v-show="currentCptIndex === index" style="top: 50%;left: 0;cursor: w-resize;transform: translate(-50%, -50%)"
                  class="resizeTag" v-resize="'l'"  />
           </div>
         </div>
