@@ -17,30 +17,25 @@
             <el-tab-pane label="坐标" name="basic">
               <div style="width: 200px;margin:0 auto">
                 <el-row style="padding: 10px 6px 0 6px;">
-                  宽度：<el-input-number :min="20" :max="2000"
-                                      v-model="currentPosition.cptWidth"  size="small" @change="changeConfig"/>
+                  宽度：<el-input-number :min="20" :max="2000" v-model="currentCpt.cptWidth"  size="small"/>
                 </el-row>
                 <el-row style="padding: 10px 6px 0 6px;">
-                  高度：<el-input-number :min="20" :max="1500"
-                                      v-model="currentPosition.cptHeight" size="small" @change="changeConfig"/>
+                  高度：<el-input-number :min="20" :max="1500" v-model="currentCpt.cptHeight" size="small"/>
                 </el-row>
                 <el-row style="padding: 10px 6px 0 6px;">
-                  X 轴：<el-input-number :min="-500" :max="2500"
-                                       v-model="currentPosition.cptX" size="small" @change="changeConfig"/>
+                  X 轴：<el-input-number :min="-500" :max="2500" v-model="currentCpt.cptX" size="small"/>
                 </el-row>
                 <el-row style="padding: 10px 6px 0 6px;">
-                  Y 轴：<el-input-number :min="-500"
-                                       v-model="currentPosition.cptY" size="small" @change="changeConfig"/>
+                  Y 轴：<el-input-number :min="-500" v-model="currentCpt.cptY" size="small"/>
                 </el-row>
                 <el-row style="padding: 10px 6px 0 6px;">
-                  Z 轴：<el-input-number :min="1" :max="1800"
-                                       v-model="currentPosition.cptZ" size="small" @change="changeConfig"/>
+                  Z 轴：<el-input-number :min="1" :max="1800" v-model="currentCpt.cptZ" size="small"/>
                 </el-row>
               </div>
             </el-tab-pane>
             <el-tab-pane label="属性" name="custom">
               <div class="customForm" v-if="currentCpt && currentCpt.option">
-                <comment :is="currentCpt.cptName+'-option'" :attribute="currentCpt.option.attribute"></comment>
+                <comment :is="currentCpt.cptName+'-option'" :attribute="currentCpt.option.attribute"/>
               </div>
             </el-tab-pane>
             <!--      展示数据表单需在option.js初始化cptDataForm-->
@@ -87,13 +82,13 @@ export default {
   watch:{
     currentCpt(newVal) {
       this.cptDataFormShow = false
-      if(!newVal){//清空时
+      if(!newVal || !newVal.option){//清空时
         this.configBarShow = false
       }else{
         if(this.currentCpt.option.cptDataForm){
           this.cptDataFormShow = true
         }else{
-          this.configTab = 'custom'//解決上一組件沒有数据表单导致tab栏未选中bug
+          this.configTab = 'basic'//解決上一組件沒有数据表单导致tab栏未选中bug
         }
       }
     },
@@ -120,9 +115,6 @@ export default {
     return{
       cptDataFormShow:false,
       configTab: 'custom',
-      currentPosition:{
-        cptWidth:30,cptHeight:30,cptX:0,cptY:0,cptZ:0
-      },
       dataLabels: ['数据','接口地址','sql'],
       configBarShow:false
     }
@@ -141,14 +133,6 @@ export default {
     },
     showConfigBar(){
       this.configBarShow = true;
-    },
-    updateData(currentPosition){
-      this.currentPosition = currentPosition
-    },
-    changeConfig(){
-      if(this.cptDataFormShow){
-        this.$emit('change',this.currentPosition);
-      }
     },
     closeBar(){
       this.configBarShow = false;

@@ -34,7 +34,7 @@
       <el-row v-for="(item,index) in selectedComponents" :key="item.keyId" class="selectedItem"
               :style="{background: currentCptIndex === index ? '#3F4B5F':'#353f50'}">
         <el-col :span="4" style="text-align: center"><i :class="item.icon"/></el-col>
-        <el-col :span="15" @click.native="showConfigBar(item,index)">{{item.cptTitle}}</el-col>
+        <el-col :span="15" @click.native="showConfigBar($event,item,index)">{{item.cptTitle}}</el-col>
         <el-col :span="5" style="text-align: center">
           <i class="el-icon-copy-document" @click="copyCpt(item)"/>
           <i style="margin-left: 4px;" class="el-icon-delete" @click="delCpt(item,index)"/>
@@ -76,8 +76,8 @@ export default {
       let copyDom = e.currentTarget.cloneNode(true);
       this.$emit('dragStart', copyDom);
     },
-    showConfigBar(item,index){
-      this.$emit('showConfigBar', item, index);
+    showConfigBar(e,item,index){
+      this.$emit('showConfigBar', e, item, index);
     },
     copyCpt(item){
       this.$emit('copyCpt', item);

@@ -54,15 +54,14 @@
              backgroundImage: designData.bgImg ? 'url('+fileUrl+designData.bgImg+')':'none',transform: 'scale('+containerScale+')' }"
              @dragover="allowDrop" @drop="drop" ref="webContainer"  @click.self="outBlur">
           <div v-for="(item,index) in cacheComponents" :key="item.keyId"
-               class="cptDiv" :style="{width:Math.round(item.cptWidth)+'px',
-                  height:Math.round(item.cptHeight)+'px',
+               class="cptDiv" :style="{width:Math.round(item.cptWidth)+'px', height:Math.round(item.cptHeight)+'px',
                   top:Math.round(item.cptY)+'px',left:Math.round(item.cptX)+'px',
-                  zIndex: currentCptIndex === index ? 1800 : item.cptZ}"
-               @mousedown="showConfigBar(item,index)">
+                  zIndex: currentCptIndex === index ? 1800 : item.cptZ}" :ref="'div'+item.cptName+index"
+               @mousedown="showConfigBar($event,item,index)" tabindex="0">
             <div v-show="currentCptIndex === index" style="position: fixed;border-top: 1px dashed #8A8A8A;width: 100%;left:0"/><!--顶部辅助线-->
             <div v-show="currentCptIndex === index" style="position: fixed;border-right: 1px dashed #8A8A8A;height:100%;top:0"/><!--左侧辅助线-->
             <!-- 2021-12-28新增iframe组件，防止焦点聚焦在iframe内部，添加此蒙版 -->
-            <div v-resize="'move'" class="activeMask" :style="currentCptIndex === index ? {border:'1px solid #B6BFCE'}:{}"/>
+            <div v-resize="'move'" class="activeMask" :style="cacheChoices[item.keyId] ? {border:'1px solid #B6BFCE'}:{}"/>
             <div style="width: 100%;height: 100%;">
               <comment :is="item.cptName" :ref="item.cptName+index" :width="Math.round(item.cptWidth)"
                        :height="Math.round(item.cptHeight)" :option="item.option"/>
@@ -91,8 +90,7 @@
         </div>
       </div>
     </div>
-    <config-bar ref="configBar" @change="changeCpt"
-                :currentCpt="currentCpt" @refreshCptData="refreshCptData"/><!--右侧属性栏-->
+    <config-bar ref="configBar" :currentCpt.sync="currentCpt" @refreshCptData="refreshCptData"/><!--右侧属性栏-->
     <sitting-form ref="sittingForm" :formData="designData" @saveSittingForm="saveSittingForm"
                  @cancel="cancelSittingForm" @updateScale="initContainerSize"/>
     <input v-show="false" type="file" id="files" ref="refFile" @change="fileLoad" accept=".cd">
@@ -132,7 +130,8 @@ export default {
       cacheComponents:[],
       currentCptIndex: -1,
       currentCpt: {option: undefined},
-      containerScale:1
+      containerScale:1,
+      cacheChoices:{}
     }
   },
   created() {
@@ -213,7 +212,7 @@ export default {
       }).then(() => {
         this.cacheComponents = [];
         this.designData.components = [];
-        this.currentCpt = undefined;
+        this.currentCpt = {};
         localStorage.removeItem('designCache');
         clearCptInterval(null, true);
         this.$message.success("清除成功");
@@ -275,8 +274,8 @@ export default {
     },
     outBlur(){//取消聚焦组件
       this.currentCptIndex = -1;
-      this.currentCpt = undefined;
-      //this.configBarShow = false;
+      this.currentCpt = {};
+      this.cacheChoices = {}
     },
     submitDesign() {//保存
       if ('preview'===env.active){
@@ -326,28 +325,22 @@ export default {
         type: 'warning'
       }).then(() => {
         //记录一个bug，v-for key值重复导致页面渲染数据错乱。在丢下组件时实用uuid作为key解决。
-        this.currentCpt = undefined;
+        this.currentCpt = {};
         this.cacheComponents.splice(index, 1);
         const childId = this.$refs[cpt.cptName+index][0].uuid
         clearCptInterval(childId);
       }).catch(() => {});
     },
-    changeCpt(position) {//基础属性修改
-      position.cptName = this.cacheComponents[this.currentCptIndex].cptName;
-      position.option = this.cacheComponents[this.currentCptIndex].option;//这俩句突然搞忘了为啥存在，空了再来看看
-      this.cacheComponents[this.currentCptIndex] = position
-      this.cacheComponents.splice(0, 1, this.cacheComponents[0])
-    },
-    showConfigBar(item, index) {//刷新属性栏数据，页面上拖动的组件执行click事件来更新组件的属性栏
+    showConfigBar(e, item, index) {//刷新属性栏数据，页面上拖动的组件执行click事件来更新组件的属性栏
       this.currentCpt = item;
       this.currentCptIndex = index;
-      let currentCptPosition = {
-        groupTag:item.groupTag, cptTitle:item.cptTitle, icon:item.icon,
-        cptWidth: item.cptWidth,
-        cptHeight: item.cptHeight,
-        cptX: item.cptX, cptY: item.cptY, cptZ: item.cptZ
+      if(this.$refs['div'+item.cptName+index]){
+        this.$refs['div'+item.cptName+index][0].focus();//聚焦 用于多选移动
       }
-      this.$refs['configBar'].updateData(currentCptPosition);
+      if(e && !e.ctrlKey){
+        this.cacheChoices = {}
+      }
+      this.cacheChoices[item.keyId]=item
     },
     dragStart(copyDom) {//从组件栏拿起组件
       this.copyDom = copyDom;
@@ -389,7 +382,8 @@ export default {
         return;
       }
       this.cacheComponents.push(cpt);
-      this.showConfigBar(cpt, this.cacheComponents.length - 1)//丢下组件后刷新组件属性栏
+      this.cacheChoices = {}//多选清空
+      this.showConfigBar(null, cpt, this.cacheComponents.length - 1)//丢下组件后刷新组件属性栏
       this.$refs['configBar'].showConfigBar();
     },
     showSittingForm() {
@@ -416,8 +410,12 @@ export default {
           if (binding.value === 'move'){
             cptX = meScaleClientX - disX;
             cptY = meScaleClientY - disY;
-            el.parentNode.style.left = cptX + 'px';
-            el.parentNode.style.top = cptY + 'px';
+            that.currentCpt.cptX = Math.round(cptX);
+            that.currentCpt.cptY = Math.round(cptY);
+            // for (let key in that.cacheChoices) {
+            //   that.cacheChoices[key].cptX += Math.round(me.offsetX-e.offsetX)
+            //   that.cacheChoices[key].cptY += Math.round(me.offsetY-e.offsetY)
+            // }
           }else{
             switch (binding.value) {
               case 'lt':
@@ -425,19 +423,19 @@ export default {
                 cptHeight = ltY - meScaleClientY;
                 cptX = meScaleClientX - disX;
                 cptY = meScaleClientY - disY;
-                el.parentNode.style.left = cptX + 'px';
-                el.parentNode.style.top = cptY + 'px';
+                that.currentCpt.cptX = Math.round(cptX);
+                that.currentCpt.cptY = Math.round(cptY);
                 break;
               case 't':
                 cptHeight = ltY - meScaleClientY;
                 cptY = meScaleClientY - disY;
-                el.parentNode.style.top = cptY + 'px';
+                that.currentCpt.cptY = Math.round(cptY);
                 break;
               case 'rt':
                 cptWidth = meScaleClientX - rbX;
                 cptHeight = ltY - meScaleClientY;
                 cptY = meScaleClientY - disY;
-                el.parentNode.style.top = cptY + 'px';
+                that.currentCpt.cptY = Math.round(cptY);
                 break;
               case 'r':
                 cptWidth = meScaleClientX - rbX;
@@ -453,28 +451,22 @@ export default {
                 cptWidth = ltX - meScaleClientX;
                 cptHeight = meScaleClientY - rbY;
                 cptX = meScaleClientX - disX;
-                el.parentNode.style.left = cptX + 'px';
+                that.currentCpt.cptX = Math.round(cptX);
                 break;
               case 'l':
                 cptWidth = ltX - meScaleClientX;
                 cptX = meScaleClientX - disX;
-                el.parentNode.style.left = cptX + 'px';
+                that.currentCpt.cptX = Math.round(cptX);
                 break;
             }
             cptWidth = cptWidth < 40 ? 40:cptWidth;//限制最小缩放
             cptHeight = cptHeight < 20 ? 20:cptHeight;
-            el.parentNode.style.width = cptWidth + 'px';
-            el.parentNode.style.height = cptHeight+ 'px';
+            if (cptWidth) that.currentCpt.cptWidth = Math.round(cptWidth);
+            if (cptHeight) that.currentCpt.cptHeight = Math.round(cptHeight);
           }
         }
         document.onmouseup = function () {
           document.onmousemove = document.onmouseup = null;
-          //拉伸适应不同屏幕，在容器显示时会重新*缩放比例
-          if (cptWidth) that.currentCpt.cptWidth = Math.round(cptWidth);
-          if (cptHeight) that.currentCpt.cptHeight = Math.round(cptHeight);
-          if (cptX) that.currentCpt.cptX = Math.round(cptX);
-          if (cptY) that.currentCpt.cptY = Math.round(cptY);
-          that.$refs['configBar'].updateData(that.currentCpt);//解决缩放组件被遮挡时 配置栏数据不更新
         }
         return false;
       }
@@ -491,9 +483,9 @@ export default {
   position: absolute;top: 0;right: 0;text-align: center;display: none;cursor: pointer
 }
 .activeMask{width: 100%;height: 100%;position: absolute;z-index: 1801}
-.cptDiv{position: absolute;}
+.cptDiv{position: absolute;outline:none}
 .cptDiv:hover .delTag {display: block}
-.resizeTag{width: 6px;height: 6px;position: absolute;background-color: #B6BFCE;z-index: 2000;border-radius: 50%;}
+.resizeTag{width: 8px;height: 8px;position: absolute;background-color: #B6BFCE;z-index: 2000;border-radius: 50%;}
 .configBtn:hover{cursor: pointer;color: #B6BFCE}
 .el-dropdown-link { cursor: pointer; color: #fff;}
 </style>
