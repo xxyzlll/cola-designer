@@ -131,7 +131,8 @@ export default {
       currentCptIndex: -1,
       currentCpt: {option: undefined},
       containerScale:1,
-      cacheChoices:{}
+      cacheChoices:{},
+      cacheChoicesFixed:{}//记录移动前选中组件的位置 自定义事件内部无法处理，放在了外面。
     }
   },
   created() {
@@ -337,10 +338,11 @@ export default {
       if(this.$refs['div'+item.cptName+index]){
         this.$refs['div'+item.cptName+index][0].focus();//聚焦 用于多选移动
       }
-      if(e && !e.ctrlKey){
+      if(!e.ctrlKey){//未按住ctrl键
         this.cacheChoices = {}
       }
       this.cacheChoices[item.keyId]=item
+      this.cacheChoicesFixed[item.keyId]=JSON.parse(JSON.stringify(item))
     },
     dragStart(copyDom) {//从组件栏拿起组件
       this.copyDom = copyDom;
@@ -383,7 +385,7 @@ export default {
       }
       this.cacheComponents.push(cpt);
       this.cacheChoices = {}//多选清空
-      this.showConfigBar(null, cpt, this.cacheComponents.length - 1)//丢下组件后刷新组件属性栏
+      this.showConfigBar({}, cpt, this.cacheComponents.length - 1)//丢下组件后刷新组件属性栏
       this.$refs['configBar'].showConfigBar();
     },
     showSittingForm() {
@@ -393,8 +395,8 @@ export default {
   },
   directives: {
     resize(el, binding, vNode) {//组件拉伸，移动位置
-      const that = vNode.context;
       el.onmousedown = function (e) {
+        const that = vNode.context;
         const scaleClientX = e.clientX / that.containerScale;
         const scaleClientY = e.clientY / that.containerScale;
         const rbX = scaleClientX - el.parentNode.offsetWidth;
@@ -404,18 +406,17 @@ export default {
         const disX = scaleClientX - el.parentNode.offsetLeft;
         const disY = scaleClientY - el.parentNode.offsetTop;
         let cptWidth, cptHeight, cptX, cptY;
+
         document.onmousemove = function (me) {
           const meScaleClientX = me.clientX/that.containerScale
           const meScaleClientY = me.clientY/that.containerScale
           if (binding.value === 'move'){
             cptX = meScaleClientX - disX;
             cptY = meScaleClientY - disY;
-            that.currentCpt.cptX = Math.round(cptX);
-            that.currentCpt.cptY = Math.round(cptY);
-            // for (let key in that.cacheChoices) {
-            //   that.cacheChoices[key].cptX += Math.round(me.offsetX-e.offsetX)
-            //   that.cacheChoices[key].cptY += Math.round(me.offsetY-e.offsetY)
-            // }
+            Object.keys(that.cacheChoices).forEach((key)=>{
+              that.cacheChoices[key].cptX = that.cacheChoicesFixed[key].cptX + Math.round(meScaleClientX-scaleClientX)
+              that.cacheChoices[key].cptY = that.cacheChoicesFixed[key].cptY + Math.round(meScaleClientY-scaleClientY)
+            })
           }else{
             switch (binding.value) {
               case 'lt':
@@ -467,6 +468,7 @@ export default {
         }
         document.onmouseup = function () {
           document.onmousemove = document.onmouseup = null;
+          that.cacheChoicesFixed = JSON.parse(JSON.stringify(that.cacheChoices));//解决多选移动未松开ctrl键第二次以后拖动定位还原
         }
         return false;
       }
