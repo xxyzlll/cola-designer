@@ -17,7 +17,7 @@ module.exports = {
         },
         proxy: {
             '/design': {
-                target: 'http://127.0.0.1:6882',
+                target: 'http://42.194.179.235:6880',
                 ws: false,
                 changeOrigin: true,
                 pathRewrite: {
@@ -25,7 +25,7 @@ module.exports = {
                 },
             },
             '/file': {
-                target: 'http://127.0.0.1/',
+                target: 'http://42.194.179.235/',
                 ws: false,
                 changeOrigin: true,
             },
