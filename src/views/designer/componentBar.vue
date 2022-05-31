@@ -20,7 +20,9 @@
         <el-col :span="12" v-for="(item,index) in cptGroups[group.key]" :key="item.title+'c'+index">
           <div draggable="true" :config="JSON.stringify(item)" @dragstart="dragStart"
                style="background-color: #3F4B5F;height: 70px;text-align: center;margin-top: 2px;">
-            <div style="font-size: 20px;line-height: 40px;"><i :class="item.icon?item.icon:'el-icon-question'"></i>
+            <div style="line-height: 40px;">
+              <embed v-if="item.icon" style="width: 20px;" :src="require('@/assets/icon/'+item.icon+'.svg')" type="image/svg+xml" />
+              <i v-else style="font-size: 20px;" class="el-icon-question"></i>
             </div>
             <div style="font-size: 13px">{{ item.title }}</div>
           </div>
