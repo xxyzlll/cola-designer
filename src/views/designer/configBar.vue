@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;height:100%;background: #e3e5ec">
+  <div style="width: 100%;height:100%;background: #e3e5ec;overflow: hidden">
       <el-row style="background: rgba(228, 230, 236, 0.9);">
         <el-row class="cptTitle">
           <el-col :span="24"><div>{{configBarShow ? '组件配置':'大屏配置'}}</div></el-col>
@@ -25,13 +25,13 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="属性" name="custom">
-            <div class="customForm" v-if="currentCpt && currentCpt.option">
+            <div class="customForm" :style="{height:(height-140)+'px'}" v-if="currentCpt && currentCpt.option">
               <comment :is="currentCpt.cptName + '-option'" :attribute="currentCpt.option.attribute"/>
             </div>
           </el-tab-pane>
           <!--      展示数据表单需在option.js初始化cptDataForm-->
           <el-tab-pane label="数据" name="data" v-if="cptDataFormShow">
-            <div class="customForm">
+            <div class="customForm" :style="{height:(height-140)+'px'}">
               <el-form size="mini" label-position="top">
                 <el-form-item label="数据类型">
                   <el-radio-group v-model="currentCpt.option.cptDataForm.dataSource" @change="changeDataSource">
@@ -118,7 +118,8 @@ export default {
   name: 'configBar',
   props: {
     currentCpt: Object,
-    designData: Object
+    designData: Object,
+    height:Number
   },
   components: {
     Gallery,
@@ -129,8 +130,7 @@ export default {
     currentCpt(newVal) {
       this.cptDataFormShow = false;
       if (!newVal || !newVal.option) {
-        //清空时
-        this.configBarShow = false;
+        this.configBarShow = false;//清空时
       } else {
         if (this.currentCpt.option.cptDataForm) {
           this.cptDataFormShow = true;
@@ -223,7 +223,7 @@ export default {
     refreshCptData() {
       this.$emit('refreshCptData');
     },
-    showConfigBar() {
+    showCptConfig() {
       this.configBarShow = true;
     },
   }
@@ -233,6 +233,6 @@ export default {
 <style scoped>
 .cptTitle {line-height: 35px;text-align: center;background: #3f4b5f;color: #fff;}
 .closeItem:hover {cursor: pointer;background: #2b3340;}
-.customForm {padding: 0 6px 0 4px;height: 350px;overflow: auto;}
+.customForm {padding: 0 6px 0 4px;overflow-y: scroll}
 .uploadItem{width: 120px;height: 120px;text-align: center;line-height: 120px;border: 1px solid #ddd;cursor: pointer}
 </style>

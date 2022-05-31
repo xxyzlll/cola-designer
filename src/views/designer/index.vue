@@ -16,9 +16,6 @@
         <el-button size="mini" @click="preview" style="margin: 10px 10px;
             background: #49586e;color: #fff;float: right">预览</el-button>
         <el-button size="mini" @click="submitDesign" style="margin: 10px 5px;background: #d5d9e2;float: right">保存</el-button>
-        <div style="float: right;margin: 1px 10px;" class="configBtn" @click="showSittingForm">
-          <i style="font-size: 22px;" class="el-icon-setting"/>
-        </div>
         <div style="float: right;margin: 1px 10px;" class="configBtn" @click="clearDesign">
           <i style="font-size: 22px;" class="el-icon-delete"/>
         </div>
@@ -50,7 +47,7 @@
         <div style="position: absolute;width: 10px;" :style="{height:1920*containerScale / designData.scaleX * designData.scaleY+'px'}">
           <ScaleMarkY/><!--左侧刻度线-->
         </div>
-        <div class="webContainer" :style="{width:'1920px',height:1920 / designData.scaleX * designData.scaleY+'px', backgroundColor: designData.bgColor,
+        <div class="webContainer" :style="{width:designData.scaleX+'px',height: designData.scaleY+'px', backgroundColor: designData.bgColor,
              backgroundImage: designData.bgImg ? 'url('+fileUrl+designData.bgImg+')':'none',transform: 'scale('+containerScale+')' }"
              @dragover="allowDrop" @drop="drop" ref="webContainer"  @click.self="outBlur">
           <div v-for="(item,index) in cacheComponents" :key="item.keyId"
@@ -88,13 +85,14 @@
                  class="resizeTag" v-resize="'l'"  />
           </div>
         </div>
+        <div style="position: absolute;width: 120px;height: 30px;bottom: 10px;left: 10px;">
+          <el-slider v-model="containerScale" :min="0.3" :max="2" :step="0.01"/>
+        </div>
       </div>
       <div style="float: right;height: 100%;overflow: hidden" :style="{width:configBarWidth-6+'px'}">
-        <config-bar ref="configBar" :currentCpt.sync="currentCpt" :designData="designData" @refreshCptData="refreshCptData" :height="conHeight"/><!--右侧属性栏-->
+        <config-bar ref="configBar" :currentCpt.sync="currentCpt" :designData.sync="designData" @refreshCptData="refreshCptData" :height="windowHeight"/><!--右侧属性栏-->
       </div>
     </div>
-    <sitting-form ref="sittingForm" :formData="designData" @saveSittingForm="saveSittingForm"
-                 @cancel="cancelSittingForm" @updateScale="initContainerSize"/>
     <input v-show="false" type="file" id="files" ref="refFile" @change="fileLoad" accept=".cd">
   </div>
 </template>
@@ -103,7 +101,6 @@
 import ComponentBar from "@/views/designer/componentBar";
 import ConfigBar from "@/views/designer/configBar";
 import cptOptions from "@/components/options"
-import SittingForm from "@/views/designer/sittingForm";
 import html2canvas from 'html2canvas';
 import {fileDownload, base64toFile} from '@/utils/FileUtil'
 import env from "/env";
@@ -114,7 +111,7 @@ import ScaleMarkY from "@/views/designer/scaleMark/ScaleMarkY";
 
 export default {
   name: 'design-index',
-  components: {ScaleMarkY, ScaleMarkX, SittingForm, ConfigBar, ComponentBar},
+  components: {ScaleMarkY, ScaleMarkX, ConfigBar, ComponentBar},
   data() {
     return {
       windowWidth:0,
@@ -122,14 +119,11 @@ export default {
       fileUrl:env.fileUrl,
       cptBarWidth:200,
       configBarWidth:300,
-      conWidth: 0,
-      conHeight: 0,
       copyDom: '',
       designData:{
         id:'',title:'我的大屏', scaleX:1920, scaleY:1080, version:'',
         bgColor:'#2B3340',simpleDesc:'',bgImg:'',viewCode:'',components:[]
       },
-      oldDesignData:'',//大屏参数表单未保存时还原
       cacheComponents:[],
       currentCptIndex: -1,
       currentCpt: {option: undefined},
@@ -344,20 +338,13 @@ export default {
       if(!e.ctrlKey){//未按住ctrl键
         this.cacheChoices = {}
       }
+      this.$refs['configBar'].showCptConfig(item);
       this.cacheChoices[item.keyId]=item
       this.cacheChoicesFixed[item.keyId]=JSON.parse(JSON.stringify(item))
     },
     dragStart(copyDom) {//从组件栏拿起组件
       this.copyDom = copyDom;
       copyDom.draggable = false;
-    },
-    saveSittingForm(formData){
-      this.designData = formData;
-      this.submitDesign();
-    },
-    cancelSittingForm(){//设置表单关闭
-      this.designData = JSON.parse(this.oldDesignData);
-      this.initContainerSize();//待优化
     },
     allowDrop(e) {e.preventDefault()},
     drop(e) {//从组件栏丢下组件
@@ -389,12 +376,8 @@ export default {
       this.cacheComponents.push(cpt);
       this.cacheChoices = {}//多选清空
       this.showConfigBar({}, cpt, this.cacheComponents.length - 1)//丢下组件后刷新组件属性栏
-      this.$refs['configBar'].showConfigBar();
+      this.$refs['configBar'].showCptConfig();
     },
-    showSittingForm() {
-      this.oldDesignData = JSON.stringify(this.designData)//保存原有数据，点击取消时还原
-      this.$refs['sittingForm'].opened();
-    }
   },
   directives: {
     resize(el, binding, vNode) {//组件拉伸，移动位置
