@@ -1,161 +1,104 @@
 <template>
-  <div>
-    <div style="position: fixed; z-index: 1801; bottom: 40px; right: 30px">
-      <el-button
-        style="background-color: #3f4b5f; color: white"
-        icon="el-icon-s-operation"
-        circle
-        @click="configBarShow = !configBarShow"
-      ></el-button>
-    </div>
-    <transition appear name="configTs">
-      <div v-show="configBarShow">
-        <el-row
-          style="
-            position: fixed;
-            width: 260px;
-            height: 450px;
-            z-index: 1802;
-            bottom: 84px;
-            right: 30px;
-            border-radius: 6px;
-            background: rgba(228, 230, 236, 0.9);
-            border: 1px solid #3f4b5f;
-          "
-        >
-          <el-row v-drag class="cptTitle">
-            <el-col :span="21"><div>组件属性</div></el-col>
-            <el-col :span="3">
-              <div class="closeItem" @click="closeBar">
-                <i class="el-icon-close" />
-              </div>
-            </el-col>
-          </el-row>
-          <el-tabs v-model="configTab" :stretch="true">
-            <el-tab-pane label="坐标" name="basic">
-              <div style="width: 200px; margin: 0 auto">
-                <el-row style="padding: 10px 6px 0 6px">
-                  宽度：<el-input-number
-                    :min="20"
-                    :max="2000"
-                    v-model="currentCpt.cptWidth"
-                    size="small"
-                  />
-                </el-row>
-                <el-row style="padding: 10px 6px 0 6px">
-                  高度：<el-input-number
-                    :min="20"
-                    :max="1500"
-                    v-model="currentCpt.cptHeight"
-                    size="small"
-                  />
-                </el-row>
-                <el-row style="padding: 10px 6px 0 6px">
-                  X 轴：<el-input-number
-                    :min="-500"
-                    :max="2500"
-                    v-model="currentCpt.cptX"
-                    size="small"
-                  />
-                </el-row>
-                <el-row style="padding: 10px 6px 0 6px">
-                  Y 轴：<el-input-number
-                    :min="-500"
-                    v-model="currentCpt.cptY"
-                    size="small"
-                  />
-                </el-row>
-                <el-row style="padding: 10px 6px 0 6px">
-                  Z 轴：<el-input-number
-                    :min="1"
-                    :max="1800"
-                    v-model="currentCpt.cptZ"
-                    size="small"
-                  />
-                </el-row>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="属性" name="custom">
-              <div class="customForm" v-if="currentCpt && currentCpt.option">
-                <comment
-                  :is="currentCpt.cptName + '-option'"
-                  :attribute="currentCpt.option.attribute"
-                />
-              </div>
-            </el-tab-pane>
-            <!--      展示数据表单需在option.js初始化cptDataForm-->
-            <el-tab-pane label="数据" name="data" v-if="cptDataFormShow">
-              <div class="customForm">
-                <el-form size="mini" label-position="top">
-                  <el-form-item label="数据类型">
-                    <el-radio-group
-                      v-model="currentCpt.option.cptDataForm.dataSource"
-                      @change="changeDataSource"
-                    >
-                      <el-radio :label="1">静态数据</el-radio>
-                      <el-radio :label="2">接口</el-radio>
-                      <el-radio :label="3">sql</el-radio>
-                    </el-radio-group>
-                  </el-form-item>
-                  <el-form-item
-                    label="轮询"
-                    v-show="currentCpt.option.cptDataForm.dataSource !== 1"
-                  >
-                    <el-switch
-                      v-model="dataPollEnable"
-                      active-text="开启"
-                      inactive-text="关闭"
-                    />
-                  </el-form-item>
-                  <el-form-item label="轮询时间(s)" v-show="dataPollEnable">
-                    <el-input-number
-                      v-model="currentCpt.option.cptDataForm.pollTime"
-                      :min="0"
-                      :max="100"
-                      label="描述文字"
-                    />
-                  </el-form-item>
-                  <el-form-item
-                    :label="
-                      dataLabels[currentCpt.option.cptDataForm.dataSource - 1]
-                    "
-                  >
-                    <vue-json-editor
-                      v-show="currentCpt.option.cptDataForm.dataSource === 1"
-                      v-model="dataJson"
-                      :show-btns="false"
-                      :expandedOnStart="true"
-                      :mode="'code'"
-                      @json-change="onJsonChange"
-                    ></vue-json-editor>
-                    <el-input
-                      v-show="currentCpt.option.cptDataForm.dataSource === 2"
-                      type="textarea"
-                      :rows="5"
-                      v-model="currentCpt.option.cptDataForm.apiUrl"
-                    />
-                    <codemirror
-                      class="code"
-                      v-show="currentCpt.option.cptDataForm.dataSource === 3"
-                      v-model="currentCpt.option.cptDataForm.sql"
-                      :options="cmOptions"
-                    ></codemirror>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-button
-                      type="primary"
-                      style="width: 100%"
-                      @click="refreshCptData"
-                      >刷新数据</el-button
-                    >
-                  </el-form-item>
-                </el-form>
-              </div>
-            </el-tab-pane>
-          </el-tabs>
+  <div style="width: 100%;height:100%;background: #e3e5ec">
+      <el-row style="background: rgba(228, 230, 236, 0.9);">
+        <el-row class="cptTitle">
+          <el-col :span="24"><div>{{configBarShow ? '组件配置':'大屏配置'}}</div></el-col>
         </el-row>
-      </div>
-    </transition>
+        <el-tabs v-show="configBarShow" v-model="configTab" :stretch="true">
+          <el-tab-pane label="坐标" name="basic">
+            <div style="width: 200px; margin: 0 auto">
+              <el-row style="padding: 10px 6px 0 6px">
+                宽度：<el-input-number :min="20" :max="2000" v-model="currentCpt.cptWidth" size="small" />
+              </el-row>
+              <el-row style="padding: 10px 6px 0 6px">
+                高度：<el-input-number :min="20" :max="1500" v-model="currentCpt.cptHeight" size="small"/>
+              </el-row>
+              <el-row style="padding: 10px 6px 0 6px">
+                X 轴：<el-input-number :min="-500" :max="2500" v-model="currentCpt.cptX" size="small"/>
+              </el-row>
+              <el-row style="padding: 10px 6px 0 6px">
+                Y 轴：<el-input-number :min="-500" v-model="currentCpt.cptY" size="small"/>
+              </el-row>
+              <el-row style="padding: 10px 6px 0 6px">
+                Z 轴：<el-input-number :min="1" :max="1800" v-model="currentCpt.cptZ" size="small"/>
+              </el-row>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="属性" name="custom">
+            <div class="customForm" v-if="currentCpt && currentCpt.option">
+              <comment :is="currentCpt.cptName + '-option'" :attribute="currentCpt.option.attribute"/>
+            </div>
+          </el-tab-pane>
+          <!--      展示数据表单需在option.js初始化cptDataForm-->
+          <el-tab-pane label="数据" name="data" v-if="cptDataFormShow">
+            <div class="customForm">
+              <el-form size="mini" label-position="top">
+                <el-form-item label="数据类型">
+                  <el-radio-group v-model="currentCpt.option.cptDataForm.dataSource" @change="changeDataSource">
+                    <el-radio :label="1">静态数据</el-radio>
+                    <el-radio :label="2">接口</el-radio>
+                    <el-radio :label="3">sql</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+                <el-form-item label="轮询" v-show="currentCpt.option.cptDataForm.dataSource !== 1">
+                  <el-switch v-model="dataPollEnable" active-text="开启" inactive-text="关闭"/>
+                </el-form-item>
+                <el-form-item label="轮询时间(s)" v-show="dataPollEnable">
+                  <el-input-number v-model="currentCpt.option.cptDataForm.pollTime" :min="0" :max="100" label="描述文字"/>
+                </el-form-item>
+                <el-form-item :label="dataLabels[currentCpt.option.cptDataForm.dataSource - 1]">
+                  <vue-json-editor
+                      v-show="currentCpt.option.cptDataForm.dataSource === 1"
+                      v-model="dataJson" :show-btns="false" :expandedOnStart="true" :mode="'code'"/>
+                  <el-input v-show="currentCpt.option.cptDataForm.dataSource === 2"
+                      type="textarea" :rows="5" v-model="currentCpt.option.cptDataForm.apiUrl"/>
+                  <codemirror class="code" v-show="currentCpt.option.cptDataForm.dataSource === 3"
+                      v-model="currentCpt.option.cptDataForm.sql" :options="cmOptions"/>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" style="width: 100%" @click="refreshCptData">刷新数据</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+        <div v-show="!configBarShow" style="margin-top: 10px;">
+          <el-form :model="designData" label-width="100px" size="small">
+            <el-form-item label="网站标题">
+              <el-input v-model="designData.title" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="网站描述">
+              <el-input type="textarea" v-model="designData.simpleDesc"></el-input>
+            </el-form-item>
+            <el-form-item label="分辨率X">
+              <el-input-number v-model="designData.scaleX" :min="640" :max="10240" style="width: 100%"/>
+            </el-form-item>
+            <el-form-item label="分辨率Y">
+              <el-input-number v-model="designData.scaleY" :min="320" :max="10240" style="width: 100%"/>
+            </el-form-item>
+            <el-form-item label="背景颜色">
+              <el-color-picker v-model="designData.bgColor" show-alpha/>
+            </el-form-item>
+            <el-form-item label="背景图片">
+              <div v-if="designData.bgImg" style="width: 100%;height: 100%;position: relative">
+                <img :src="fileUrl+designData.bgImg" style="width: 100%;height: 100%;"/>
+                <i style="position: absolute;z-index: 6;right: 0;font-size: 20px;color: #FFCCCC"
+                   class="el-icon-delete" @click.stop="handleRemove"></i>
+              </div>
+              <div v-else class="uploadItem" @click="showGallery">
+                <i style="font-size: 40px;color: #aaa" class="el-icon-plus"></i>
+              </div>
+            </el-form-item>
+            <el-form-item label="个性链接">
+              <el-input disabled v-model="designData.id" autocomplete="off"/>
+            </el-form-item>
+            <el-form-item label="访问码">
+              <el-input v-model="designData.viewCode" autocomplete="off"/>
+            </el-form-item>
+          </el-form>
+        </div>
+      </el-row>
+    <gallery ref="gallery" @confirmCheck="confirmCheck"/>
   </div>
 </template>
 
@@ -167,14 +110,18 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/keymap/sublime'; //sublime编辑器效果
 import 'codemirror/theme/dracula.css'; // 配置里面也需要theme设置为monokai
 import 'codemirror/mode/sql/sql.js'; // 配置里面也需要mode设置为vue
-import 'codemirror/addon/selection/active-line'; //光标行背景高亮，配置里面也需要styleActiveLine设置为true
+import 'codemirror/addon/selection/active-line';
+import {fileUrl} from "/env";
+import Gallery from "@/components/gallery"; //光标行背景高亮，配置里面也需要styleActiveLine设置为true
 
 export default {
   name: 'configBar',
   props: {
     currentCpt: Object,
+    designData: Object
   },
   components: {
+    Gallery,
     vueJsonEditor,
     codemirror,
   },
@@ -227,6 +174,7 @@ export default {
   },
   data() {
     return {
+      fileUrl:fileUrl,
       cptDataFormShow: false,
       configTab: 'custom',
       dataLabels: ['数据', '接口地址', 'sql'],
@@ -254,6 +202,15 @@ export default {
     };
   },
   methods: {
+    confirmCheck(fileUrl){
+      this.designData.bgImg = fileUrl;
+    },
+    showGallery(){
+      this.$refs.gallery.opened();
+    },
+    handleRemove(){
+      this.designData.bgImg = ''
+    },
     changeDataSource(val) {
       //静态数据不显示轮询按钮
       if (val === 1) {
@@ -269,56 +226,13 @@ export default {
     showConfigBar() {
       this.configBarShow = true;
     },
-    closeBar() {
-      this.configBarShow = false;
-    },
-  },
-  directives: {
-    drag(el) {
-      el.onmousedown = function (e) {
-        const disX = e.clientX - el.parentNode.offsetLeft;
-        const disY = e.clientY - el.parentNode.offsetTop;
-        document.onmousemove = function (e) {
-          el.parentNode.style.left = e.clientX - disX + 'px';
-          el.parentNode.style.top = e.clientY - disY + 'px';
-        };
-        document.onmouseup = function () {
-          document.onmousemove = document.onmouseup = null;
-        };
-        return false;
-      };
-    },
-  },
+  }
 };
 </script>
 
 <style scoped>
-.cptTitle {
-  line-height: 35px;
-  text-align: center;
-  background: #3f4b5f;
-  color: #fff;
-}
-.cptTitle:hover {
-  cursor: move;
-}
-.closeItem:hover {
-  cursor: pointer;
-  background: #2b3340;
-}
-.customForm {
-  padding: 0 6px 0 4px;
-  height: 350px;
-  overflow: auto;
-}
-.configTs-enter-active,
-.configTs-leave-active {
-  transition: all 0.3s;
-}
-.configTs-enter,
-.configTs-leave-to {
-  opacity: 0;
-  transform: scale(0.3);
-  transform-origin: right bottom;
-}
+.cptTitle {line-height: 35px;text-align: center;background: #3f4b5f;color: #fff;}
+.closeItem:hover {cursor: pointer;background: #2b3340;}
+.customForm {padding: 0 6px 0 4px;height: 350px;overflow: auto;}
+.uploadItem{width: 120px;height: 120px;text-align: center;line-height: 120px;border: 1px solid #ddd;cursor: pointer}
 </style>

@@ -9,7 +9,6 @@ import '@/permission'; // permission control
 import { registerOption } from '@/components/registerOption';
 import '@/assets/font/custom-font.css';
 import '@/utils/RegisterMap';
-import './svg-index';
 
 Vue.prototype.$echarts = echarts;
 Vue.config.productionTip = false;

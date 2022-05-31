@@ -39,11 +39,11 @@
       </el-col>
     </el-row>
     <div :style="{height: (windowHeight-45)+'px',background: 'url('+require('@/assets/port.png')+') repeat'}" @click.self="outBlur">
-      <div style="float: left;height: 100%;" :style="{width:cptBarWidth+'px'}">
+      <div style="float: left;height: 100%;overflow: hidden;" :style="{width:cptBarWidth+'px'}">
         <component-bar @dragStart="dragStart" :selectedComponents="cacheComponents" :currentCptIndex="currentCptIndex"
                        @showConfigBar="showConfigBar" @copyCpt="copyCpt" @delCpt="delCpt"/><!--左侧组件栏-->
       </div>
-      <div style="float: right;position: relative;overflow: auto;height: 100%" :style="{width:(windowWidth-cptBarWidth-4)+'px'}" @click.self="outBlur">
+      <div style="float: left;position: relative;overflow: hidden;height: 100%" :style="{width:(windowWidth-cptBarWidth-configBarWidth)+'px'}" @click.self="outBlur">
         <div style="height: 10px;margin-left: 10px" :style="{width:1920*containerScale+'px'}">
           <ScaleMarkX/><!--顶部刻度线-->
         </div>
@@ -89,8 +89,10 @@
           </div>
         </div>
       </div>
+      <div style="float: right;height: 100%;overflow: hidden" :style="{width:configBarWidth-6+'px'}">
+        <config-bar ref="configBar" :currentCpt.sync="currentCpt" :designData="designData" @refreshCptData="refreshCptData" :height="conHeight"/><!--右侧属性栏-->
+      </div>
     </div>
-    <config-bar ref="configBar" :currentCpt.sync="currentCpt" @refreshCptData="refreshCptData"/><!--右侧属性栏-->
     <sitting-form ref="sittingForm" :formData="designData" @saveSittingForm="saveSittingForm"
                  @cancel="cancelSittingForm" @updateScale="initContainerSize"/>
     <input v-show="false" type="file" id="files" ref="refFile" @change="fileLoad" accept=".cd">
@@ -119,6 +121,7 @@ export default {
       windowHeight:0,
       fileUrl:env.fileUrl,
       cptBarWidth:200,
+      configBarWidth:300,
       conWidth: 0,
       conHeight: 0,
       copyDom: '',
@@ -169,7 +172,7 @@ export default {
     initContainerSize(){
       this.windowWidth = document.documentElement.clientWidth
       this.windowHeight = document.documentElement.clientHeight
-      let tempWidth = this.windowWidth - this.cptBarWidth - 140;//40=两边空隙
+      let tempWidth = this.windowWidth - this.cptBarWidth - this.configBarWidth;
       this.containerScale = Math.round(tempWidth / this.designData.scaleX * 100) / 100
     },
     exportCommand(command) {
