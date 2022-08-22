@@ -67,10 +67,10 @@ export default {
   },
   methods:{
     toView(item){
-      window.open( '/#/view?id='+item.id);
+      window.open( '/view?id='+item.id);
     },
     toDesign(item){
-      window.open('/#/design?id='+item.id);
+      window.open('/design?id='+item.id);
     },
     deleteItem(item){
       this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
@@ -83,7 +83,7 @@ export default {
       }).catch(() => {});
     },
     toShare(item){
-      let text = window.location.host+'/#/view?id='+item.id
+      let text = window.location.host+'/view?id='+item.id
       this.$alert(text, '分享链接').catch(() => {});
     },
     onSearch(){
