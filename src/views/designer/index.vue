@@ -196,6 +196,7 @@ export default {
         if (!fileJson.version || fileJson.version !== env.version){
           that.$message.error('导入失败，与当前版本不一致');
         }else{
+          fileJson.id = that.designData.id
           that.designData = fileJson;
           that.cacheComponents = fileJson.components;
           that.designData.components = [];
