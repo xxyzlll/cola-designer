@@ -2,8 +2,7 @@
 Cola-Designer 是一个 基于VUE，实现拖拽 + 配置方式生成数据大屏，为简化开发、提高效率而生。
 ![](src/assets/logo.svg)
 
-在线体验地址：<a href="http://colaiven.gitee.io/cola-designer/#/design" target="_blank">cola-designer/#/design</a>   
-（没钱买服务器暂时只能体验前端，联合后端可自行拉取代码运行体验）   
+设计器在线体验地址：<a href="http://colaiven.gitee.io/cola-designer/#/design" target="_blank">cola-designer/#/design</a>    
 
 文档地址：<a href="https://colaiven.gitee.io/cola-designer-doc/" target="_blank">cola-designer-doc</a>   
 
@@ -29,7 +28,9 @@ Cola-Designer 是一个 基于VUE，实现拖拽 + 配置方式生成数据大�
 
 注意事项：项目默认使用接口模式，完整功能需要连接后端程序，若只想体验设计器部分可将env.js中active改为preview（本地缓存模式），然后访问http://localhost:8009/#/design  ，本地缓存模式暂时不能使用图片上传
 
-PS:由于种种原因，本人将不再提交开源版本新功能代码，有兴趣加入协同开发贡献代码的大佬可以滴滴我，QQ群：    
+PS:现已推出商业版，在线体验链接：http://43.139.19.214/
+
+QQ群：    
 <img src="src/assets/readme/82b643cfe31b4fa93844df3b8fe5e5c.jpg"  width="240px" />
 
 
