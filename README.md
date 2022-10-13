@@ -3,7 +3,7 @@ Cola-Designer 是一个 基于VUE，实现拖拽 + 配置方式生成数据大�
 
 ![](src/assets/logo.svg)
 
-AD:现已推出商业版，在线体验链接：http://43.139.19.214/
+AD:现已推出商业版，在线体验链接：http://cola.icelery.fun/
 
 用户名：demo
 
