@@ -11,9 +11,9 @@ AD:现已推出商业版，在线体验链接：[http://cdesign.fun/login](http:
 
 #
 
-开源版设计器在线体验地址：<a href="http://colaiven.gitee.io/cola-designer/#/design" target="_blank">cola-designer/#/design</a>    
+开源版设计器在线体验地址：<a href="http://colaiven.github.io/cola-designer/#/design" target="_blank">cola-designer/#/design</a>    
 
-文档地址：<a href="https://colaiven.gitee.io/cola-designer-doc/" target="_blank">cola-designer-doc</a>   
+文档地址：<a href="https://colaiven.github.io/cola-designer-doc/" target="_blank">cola-designer-doc</a>   
 
 前端仓库：<a href="https://gitee.com/colaiven/cola-designer" target="_blank">cola-designer</a>   
 
