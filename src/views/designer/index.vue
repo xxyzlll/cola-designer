@@ -40,7 +40,7 @@
         <component-bar @dragStart="dragStart" :selectedComponents="cacheComponents" :currentCptIndex="currentCptIndex"
                        @showConfigBar="showConfigBar" @copyCpt="copyCpt" @delCpt="delCpt"/><!--左侧组件栏-->
       </div>
-      <div style="float: left;position: relative;overflow: hidden;height: 100%" :style="{width:(windowWidth-cptBarWidth-configBarWidth)+'px'}" @click.self="outBlur">
+      <div style="float: left;position: relative;overflow: auto;height: 100%" :style="{width:(windowWidth-cptBarWidth-configBarWidth)+'px'}" @click.self="outBlur">
         <div style="height: 10px;margin-left: 10px" :style="{width:1920*containerScale+'px'}">
           <ScaleMarkX/><!--顶部刻度线-->
         </div>
