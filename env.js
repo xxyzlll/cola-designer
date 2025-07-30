@@ -1,5 +1,5 @@
 const env = {
-    active: 'dev',//preview,dev
+    active: 'preview',//preview,dev
     baseUrl: '/design',
     fileUrl: '/file',
     version: '0.9.1',
